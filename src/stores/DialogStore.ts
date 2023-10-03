@@ -13,6 +13,7 @@ export class DialogStore {
         descriptionText: "",
         agreeButtonText: "",
         disagreeButtonText: "",
+        confirmHandle: () => {}
     }
 
     @observable
@@ -23,6 +24,7 @@ export class DialogStore {
             descriptionText: "",
             agreeButtonText: "",
             disagreeButtonText: "",
+            confirmHandle: () => {}
         }
     }
 
@@ -42,8 +44,17 @@ export class DialogStore {
         }
     }
 
+    @action actionHandleByName(name: DialogType) {
+        return async () => {
+            const handle = this.controller[name].confirmHandle;
+            if (handle)
+                await handle();
+            this.closeHandleByName(name)();
+        }
+    }
+
     @action
-    openDialog(name: DialogType, question: string, description: string, confirmHandle: Function,  options?: Object) {
+    openDialog(name: DialogType, question: string, description: string, confirmHandle: Function, options?: Object) {
         const current = this.controller[name];
         if (!current) {
             enqueueSnackbar(MESSAGE_TERMS.NO_DIALOG_EXISTED, { variant: "error" });
@@ -52,6 +63,7 @@ export class DialogStore {
         current.questionText = question;
         current.descriptionText = description;
         current.isOpen = true;
+        current.confirmHandle = confirmHandle;
 
         for (const key in options) {
             current[key] = options[key];

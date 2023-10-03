@@ -1,7 +1,7 @@
-import { routerConfig } from "./config/router";
+import { RouteModel, routerConfig } from "./config/router";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@mui/material";
-import { theme } from "./utils";
+import { setTitle, theme } from "./utils";
 
 import { Provider } from "mobx-react";
 
@@ -15,20 +15,8 @@ import { ConfirmDialog } from "./components/Dialog";
 
 
 export const App: FC = () => {
-    function isAuth(isPrivate: Boolean, element: any, isAdmin: Boolean) {
-        if (!isPrivate) return element;
-        return <Protected isAdmin={isAdmin}>{element}</Protected>;
-    }
-
     useEffect(() => {
         store.checkLogin();
-        // Service.getAll().then(([err, data]) => {
-        // 	if (!err) {
-        // 		store.set_services(data);
-        // 		return;
-        // 	}
-        // 	window.alert(err.message);
-        // });
     });
 
     return (
@@ -40,24 +28,9 @@ export const App: FC = () => {
                             <BrowserRouter>
                                 <ConfirmDialog />
                                 <Routes>
-                                    {routerConfig.map(
-                                        ({
-                                             path,
-                                             component,
-                                             isPrivate = false,
-                                             isAdmin = false,
-                                         }) => (
-                                            <Route
-                                                key={path}
-                                                path={path}
-                                                element={isAuth(
-                                                    isPrivate,
-                                                    component,
-                                                    isAdmin
-                                                )}
-                                            />
-                                        )
-                                    )}
+                                    {
+                                        routerConfig.map((route) => <Route key={route.path} path={route.path} element={route.component} />)
+                                    }
                                 </Routes>
                             </BrowserRouter>
                         </LocalizationProvider>
@@ -67,3 +40,5 @@ export const App: FC = () => {
         </ThemeProvider>
     );
 };
+
+

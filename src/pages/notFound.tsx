@@ -3,13 +3,10 @@ import { FC, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Box, Typography, Button} from "@mui/material";
 import { blue } from "@mui/material/colors";
-import { setTitle, theme } from "../utils";
+import { goBack, setTitle, theme } from "../utils";
 import { ArrowBack } from "@mui/icons-material";
 
 export const NotFound: FC = observer(() => {
-    useEffect(() => {
-        setTitle("NOT FOUND");
-    }, [])
     return (
         <div className="App">
             <header className="App-header">
@@ -32,7 +29,7 @@ export const NotFound: FC = observer(() => {
 
                     <Button variant="contained" onClick={(event) => {
                         event.preventDefault();
-                        window.history.go(-1);
+                        goBack();
                     }} startIcon={<ArrowBack />}>Back</Button>
                 </Box>
             </header>

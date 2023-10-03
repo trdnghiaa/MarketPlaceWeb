@@ -4,7 +4,7 @@ export enum UserRole {
     SENSOR = "SENSOR"
 }
 
-export const roles: string[] = ["ADMIN", "USER", "PARTNER"];
+export const roles: string[] = ["ADMIN", "SENSOR", "USER"];
 
 export interface MenuLink{
     title: string,

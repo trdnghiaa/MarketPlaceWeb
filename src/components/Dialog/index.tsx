@@ -26,7 +26,7 @@ export const ConfirmDialog: FC<{}> = observer(({}) => {
         <DialogActions>
             <Button
                 onClick={sDialog.closeHandleByName(DialogType.confirm)}>{sDialog.controller["confirm"].disagreeButtonText || "Hủy"}</Button>
-            <Button onClick={sDialog.closeHandleByName(DialogType.confirm)} autoFocus>
+            <Button onClick={sDialog.actionHandleByName(DialogType.confirm)} autoFocus>
                 {sDialog.controller["confirm"].agreeButtonText || "Đồng Ý"}
             </Button>
         </DialogActions>

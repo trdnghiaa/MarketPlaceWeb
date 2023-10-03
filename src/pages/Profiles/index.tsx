@@ -21,6 +21,7 @@ import { Order } from "../../models/Order";
 import { Voucher } from "../../models/Voucher";
 import { MyVoucher } from "../User/MyVoucher";
 import { MESSAGE_TERMS } from "../../utils/messageTerms";
+import { setTitle } from "../../utils";
 
 export const Profile: FC = observer(() => {
     const { sProfile, role } = useStore();

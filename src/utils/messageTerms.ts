@@ -1,4 +1,8 @@
 export const MESSAGE_TERMS = {
+    // TERM
+    NOT_ALLOW_ACCESS_PAGE: "User Role Not Allowed Access Page!",
+    DELETED_USER_SUCCESS: "Xóa người dùng thành công",
+    // VALIDATE
     LOGIN_INVALID: "Please Enter Info!",
     USER_PASS_NOT_CORRECT: "Tài khoản, mật khẩu không đúng!",
     UPDATE_USER_SUCCESS: "Cập nhật tài khoản thành công",

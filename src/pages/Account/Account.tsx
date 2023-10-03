@@ -30,8 +30,12 @@ export const Account: FC<{}> = observer(({}) => {
         setTitle("Quản lý tài khoản");
     }, [])
 
-    useEffect(() => {
+    function load() {
         sAccount.init();
+    }
+
+    useEffect(() => {
+        load();
     }, [sAccount.page, sAccount.size, sAccount.queryText]);
 
 
@@ -53,8 +57,21 @@ export const Account: FC<{}> = observer(({}) => {
         },
     ], []);
 
-    const handleClose = useCallback(() => {}, []);
+    const deleteHandle = useCallback((_id: string, username: string) => {
+        return () => {
+            sDialog.openDialog(DialogType.confirm, MESSAGE_TERMS.DELETE_USER_QUESTION.replace("{user}", `@${username}`), MESSAGE_TERMS.DELETE_USER_DESCRIPTION, async () => {
+                User.delete(_id).then(([err, data]) => {
+                    if (err) {
+                        return enqueueSnackbar(MESSAGE_TERMS.get(err.message), { variant: "error" });
+                    }
+                    load();
+                    enqueueSnackbar(MESSAGE_TERMS.get(data.message), { variant: "success" });
+                });
+            }, { agreeButtonText: "Xóa" });
+        }
+    }, []);
 
+    useCallback(() => {}, []);
     return <BasicLayout>
         <MaterialReactTable
             columns={columns}
@@ -82,13 +99,15 @@ export const Account: FC<{}> = observer(({}) => {
             positionActionsColumn="last"
             enableRowActions
             displayColumnDefOptions={{ 'mrt-row-actions': { size: 100 } }}
-            renderRowActions={({ row, table }) => (
-                <Box sx={{ display: 'flex', flexWrap: 'nowrap', marginRight: "10rem", gap: '2px' }}>
+            renderRowActions={({ row, table }) => {
+                const user = row.original;
+
+                return <Box sx={{ display: 'flex', flexWrap: 'nowrap', marginRight: "10rem", gap: '2px' }}>
                     <Tooltip title="Impersonate User">
                         <IconButton
 
                             onClick={() => {
-                                navigate(`/accounts/${row.original._id}/edit`)
+                                navigate(`/accounts/${user._id}/edit`)
                             }}
                         >
                             <Visibility />
@@ -98,7 +117,7 @@ export const Account: FC<{}> = observer(({}) => {
                         <IconButton
                             sx={{ color: yellow[600] }}
                             onClick={() => {
-                                navigate(`/accounts/${row.original._id}/edit`)
+                                navigate(`/accounts/${user._id}/edit`)
                             }}
                         >
                             <EditIcon />
@@ -106,17 +125,13 @@ export const Account: FC<{}> = observer(({}) => {
                     <Tooltip title="Delete User">
                         <IconButton
                             color="error"
-                            onClick={() => {
-                                sDialog.openDialog(DialogType.confirm, MESSAGE_TERMS.DELETE_USER_QUESTION.replace("{user}",`@${ row.original.username}`), MESSAGE_TERMS.DELETE_USER_DESCRIPTION, () => {
-                                    window.alert("delete");
-                                }, {agreeButtonText: "Xóa"});
-                            }}
+                            onClick={deleteHandle(user._id, user.username)}
                         >
                             <DeleteIcon />
                         </IconButton>
                     </Tooltip>
                 </Box>
-            )}
+            }}
             muiTableProps={{
                 sx: {
                     tableLayout: "fixed"

@@ -27,6 +27,7 @@ export const ADMIN_SETTINGS: MenuItem[] = [
 
 // u can add new item in menu here
 export const MENU_SENSOR = [
+    { name: "Bài Đăng", path: "/post" },
     { name: "vouchers", path: "/vouchers" },
     { name: "orders", path: "/orders" },
 ];

@@ -24,7 +24,7 @@ export class Store extends AuthorizedStore {
 	@observable
 	sOrderDetail = new OrderDetailStore();
 	@observable
-	sNewAccount = new NewAccountStore();
+	sNewAccount = new NewAccountStore(this);
 	@observable
 	sDialog = new DialogStore();
 }
