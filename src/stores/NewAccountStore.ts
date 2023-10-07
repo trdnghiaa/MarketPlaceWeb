@@ -3,6 +3,7 @@ import { User } from "../models/User";
 import { MIN_YEAR_OLD_USER } from "../utils";
 import { FetchAPI, Method } from "../service/fetchAPI";
 import { Store } from "./Store";
+import { MESSAGE_TERMS } from "../utils/messageTerms";
 
 export class NewAccountStore {
     @observable
@@ -11,9 +12,12 @@ export class NewAccountStore {
     username: string = "";
     @observable
     password: string = "";
-    @observable
-    confirm: string = "";
 
+    @action init() {
+        this.user = new User();
+        this.set_username("");
+        this.set_username("");
+    }
 
     @action set_username(v: string) {
         if (v)
@@ -23,11 +27,6 @@ export class NewAccountStore {
     @action set_password(v: string) {
         if (v)
             this.password = v || "";
-    }
-
-    @action set_confirm(v: string) {
-        if (v)
-            this.confirm = v;
     }
 
 
@@ -48,51 +47,48 @@ export class NewAccountStore {
         }
 
         if (!user.last_name) {
-            throw new Error("Vui lòng điền họ và tên đệm");
+            throw new Error(MESSAGE_TERMS.MISS_LAST_NAME);
         }
 
         if (!user.first_name) {
-            throw new Error("Vui lòng điền tên");
+            throw new Error(MESSAGE_TERMS.MISS_FIRST_NAME);
         }
 
         if (user.dob.getFullYear() >= MIN_YEAR_OLD_USER) {
-            throw new Error("Bạn phải lớn hơn 16 tuổi");
+            throw new Error(MESSAGE_TERMS.WRONG_BIRTHDAY);
         }
 
         if (!user.address) {
-            throw new Error("Vui lòng điền địa chỉ của bạn");
+            throw new Error(MESSAGE_TERMS.MISS_ADDRESS);
         }
 
         if (!user.email) {
-            throw new Error("Vui lòng điền số email của bạn");
+            throw new Error(MESSAGE_TERMS.MISS_EMAIL);
         }
 
         if (!user.phone) {
-            throw new Error("Vui lòng điền số điện thoại của bạn");
+            throw new Error(MESSAGE_TERMS.MISS_PHONE);
         }
 
         if (!regexs.phone.test(user.phone)) {
-            throw new Error("Số Điện thoại của bạn không đúng. Vui lòng thử lại");
+            throw new Error(MESSAGE_TERMS.WRONG_PHONE);
         }
 
         if (!regexs.email.test(user.email)) {
-            throw new Error("Email của bạn không đúng. Vui lòng thử lại");
+            throw new Error(MESSAGE_TERMS.WRONG_EMAIL);
         }
 
-        if (!this.username || !this.password || !this.confirm) {
-            throw new Error("Vui lòng nhập đủ tên đăng nhập và mật khẩu")
+        if (!this.username || !this.password) {
+            throw new Error(MESSAGE_TERMS.MISS_USER_N_PASS)
         }
 
         if (this.password.length < 8) {
-            throw new Error("Mật khẩu phải tối thiểu 8 ký tự");
+            throw new Error(MESSAGE_TERMS.WRONG_PASS_LENGTH);
         }
 
-        if (this.password !== this.confirm) {
-            throw new Error("Mật khẩu không khớp");
-        }
-        const [err, data] = await FetchAPI<User>(
+        const [err, data] = await FetchAPI<{message: string, data: User}>(
             Method.POST,
-            "/auth/signup",
+            "/users/create",
             {
                 ...this.user,
                 username: this.username,

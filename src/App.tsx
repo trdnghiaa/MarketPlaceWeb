@@ -1,29 +1,35 @@
-import { RouteModel, routerConfig } from "./config/router";
+import { routerConfig } from "./config/router";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@mui/material";
-import { setTitle, theme } from "./utils";
-
-import { Provider } from "mobx-react";
+import { theme } from "./utils";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { store, StoreContext } from "./stores";
 import { FC, useEffect } from "react";
-import { Protected } from "./components/Protected";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ConfirmDialog } from "./components/Dialog";
 
-
+/**
+ * App is a React Component initialize:
+ * - ThemeProvider is a controller theme color, style, component for MUI5.
+ * - MobxStore Context is a controller Global Store.
+ * - Localization define Adapter format Date.
+ * - Router define control path, location, params and corresponding Component.
+ * - Snackbar Provider is a controller toast message.
+ * @constructor
+ */
 export const App: FC = () => {
+
     useEffect(() => {
         store.checkLogin();
-    });
+    },  []);
 
     return (
         <ThemeProvider theme={theme}>
             <StoreContext.Provider value={store}>
-                <Provider store={store}>
-                    <SnackbarProvider maxSnack={3} autoHideDuration={5000} preventDuplicate>
+                {/*<Provider store={store}>*/}
+                    <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <BrowserRouter>
                                 <ConfirmDialog />
@@ -35,7 +41,7 @@ export const App: FC = () => {
                             </BrowserRouter>
                         </LocalizationProvider>
                     </SnackbarProvider>
-                </Provider>
+                {/*</Provider>*/}
             </StoreContext.Provider>
         </ThemeProvider>
     );

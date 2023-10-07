@@ -8,3 +8,4 @@ export * from "./services";
 export * from "./set_title";
 
 export * from "./utils"
+export * from "./messageTerms"

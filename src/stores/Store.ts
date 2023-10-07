@@ -8,6 +8,8 @@ import { OrderStore } from "./OrderStore";
 import { OrderDetailStore } from "./OrderDetailStore";
 import { NewAccountStore } from "./NewAccountStore";
 import { DialogStore } from "./DialogStore";
+import { NotificationWebStore } from "./NotificationWebStore";
+import { NewPostStore } from "./NewPostStore";
 
 
 export class Store extends AuthorizedStore {
@@ -27,4 +29,8 @@ export class Store extends AuthorizedStore {
 	sNewAccount = new NewAccountStore(this);
 	@observable
 	sDialog = new DialogStore();
+	@observable
+	sNotificationWeb = new NotificationWebStore();
+	@observable
+	sNewPost = new NewPostStore();
 }

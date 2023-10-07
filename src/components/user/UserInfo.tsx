@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { User } from "../../models/User";
 import { observer } from "mobx-react";
-import { roles, UserRole } from "../../models/types";
+import { UserRole } from "../../models/types";
 import { useStore } from "../../stores";
 import { useParams } from "react-router-dom";
 
@@ -37,7 +37,7 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
         };
 
         const hasChangeRole = (): boolean => {
-            return (role == UserRole.ADMIN && Boolean(account) && currentUser && currentUser._id != user._id) as boolean;
+            return (role == UserRole.ADMIN && currentUser && currentUser._id != user._id) as boolean;
         }
 
         return (

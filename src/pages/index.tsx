@@ -1,10 +1,11 @@
-import { Account, CreateAccount, Profile, NewAccount } from "./Account";
+import { Account, CreateAccount, NewAccount, Profile } from "./Account";
 import { Login } from "./Login";
 import { NotFound } from "./notFound";
 import { Voucher } from "./voucher";
 import { Home } from "./Home";
 import { Order } from "./Orders/Order";
 import { CreateCompany } from "./CreateCompany";
+import { MyPost, NewPost, SavedPost } from "./Post";
 
 export {
     Account,
@@ -16,5 +17,5 @@ export {
     CreateAccount,
     Profile,
     CreateCompany,
-    NewAccount
+    NewAccount, NewPost, MyPost, SavedPost
 };

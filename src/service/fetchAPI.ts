@@ -1,10 +1,9 @@
 import {IErrorData} from "../models/types";
 
-const headers: { [key: string]: string } = {
+export const headers: { [key: string]: string } = {
     "Content-Type": "application/json",
     'Access-Control-Allow-Origin': '*',
     Accept: "application/json",
-    "appId": "vy03"
 };
 
 const HOST = process.env?.REACT_APP_API;
@@ -18,6 +17,8 @@ export function setAuthorizationToken(token: string) {
         headers.Authorization = `Bearer ${token}`;
     }
 }
+
+export const UPLOAD_URL = HOST + "/api/storages"
 
 export enum Method {
     GET = "GET",

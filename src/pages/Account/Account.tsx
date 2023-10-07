@@ -52,8 +52,6 @@ export const Account: FC<{}> = observer(({}) => {
         {
             accessorKey: "role", header: "Quyền",
             enableHiding: true
-            // size: 40,
-            // enableResizing: true
         },
     ], []);
 

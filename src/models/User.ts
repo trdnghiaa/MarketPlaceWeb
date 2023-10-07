@@ -26,8 +26,6 @@ export class User {
     @observable
     reward: number;
     @observable
-    companyName: string;
-    @observable
     access_token: string;
 
     constructor(data?: any) {
@@ -42,7 +40,6 @@ export class User {
         this.address = "";
         this.role = UserRole.USER;
         this.reward = 0;
-        this.companyName = "";
         this.access_token = "";
         if (data != null) {
             const {
@@ -57,7 +54,6 @@ export class User {
                 address,
                 role,
                 reward,
-                companyName
             } = data;
             this._id = _id;
             this.email = email;
@@ -70,7 +66,7 @@ export class User {
             this.address = address;
             this.role = role;
             this.reward = reward;
-            this.companyName = companyName;
+
         }
         makeObservable(this);
     }
@@ -106,7 +102,6 @@ export class User {
             Method.GET,
             "/users/types"
         );
-
         return [err, data] as const;
     }
 

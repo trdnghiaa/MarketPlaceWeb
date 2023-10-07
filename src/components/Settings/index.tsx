@@ -1,29 +1,22 @@
-import {FC, useEffect} from "react";
-import {MenuItem as MenuItemType, UserRole} from "../../models/types";
-import { MenuItem, Typography} from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {useSnackbar} from "notistack";
-import { useStore } from "../../stores";
-import { User } from "../../models/User";
+import { FC } from "react";
+import { MenuItem as MenuItemType } from "../../models/types";
+import { MenuItem, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
-export const DropdownSetting: FC<{ menu: MenuItemType[], closeHandle: Function }> = ({menu, closeHandle}) => {
+export const DropdownSetting: FC<{menu: MenuItemType[], closeHandle: Function}> = ({ menu, closeHandle }) => {
     const navigator = useNavigate();
-    const {enqueueSnackbar} = useSnackbar();
-    const {currentUser, token} = useStore();
-    const {REACT_APP_VOUCHER_HOST} = process.env;
-
-    return <>{menu.map(({title, handle, link, icon}, index) => (
+    const { enqueueSnackbar } = useSnackbar();
+    return <>{menu.map(({ title, handle, link, icon }) => (
         <MenuItem
             key={title}
             onClick={() => {
                 if (handle) handle((err: {message: string}) => {
-                    enqueueSnackbar(err.message, {variant: "error"});
+                    enqueueSnackbar(err.message, { variant: "error" });
                 });
-                else if(link)
-                {
+                else if (link) {
                     navigator(link)
-                }
-                else
+                } else
                     closeHandle()
             }}
         >
@@ -35,7 +28,7 @@ export const DropdownSetting: FC<{ menu: MenuItemType[], closeHandle: Function }
                     justifyContent: "center",
                 }}
             >
-                {icon && <img src={icon} style={{marginRight: "1rem"}} alt={""}/>}
+                {icon && <img src={icon} style={{ marginRight: "1rem" }} alt={""} />}
                 {title}
             </Typography>
         </MenuItem>

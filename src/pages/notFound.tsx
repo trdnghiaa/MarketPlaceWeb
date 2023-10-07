@@ -1,9 +1,9 @@
 import * as React from "react";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { observer } from "mobx-react-lite";
-import { Box, Typography, Button} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import { goBack, setTitle, theme } from "../utils";
+import { goBack, theme } from "../utils";
 import { ArrowBack } from "@mui/icons-material";
 
 export const NotFound: FC = observer(() => {
@@ -24,7 +24,7 @@ export const NotFound: FC = observer(() => {
                                 sx={{ color: 'white', fontSize: "20rem", fontStyle: "italic", fontWeight: "bold" }}>404</Typography>
 
                     <Typography variant="h6" style={{ color: 'white' }} sx={{ marginBottom: theme.spacing(2) }}>
-                        The page you’re looking for doesn’t exist.
+                         Trang này không có đâu thằng GAY ạ!
                     </Typography>
 
                     <Button variant="contained" onClick={(event) => {

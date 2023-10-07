@@ -1,18 +1,15 @@
 import { FC, useEffect, useState } from "react";
 import { BasicLayout } from "../../layouts/common";
-import { UserInfo } from "../../components/user/UserInfo";
-import { CompanyInfo } from "../../components/CompanyInfo";
+import { UserInfo } from "../../components/user";
 import { CreateAccount } from "../../components/CreateAccount";
-import { Paper, Button, Typography, Grid, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { Button, Grid, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useStore } from "../../stores";
-import { useNavigate, useMatch } from "react-router-dom";
-import { LOGO_TRAVELOKA, MIN_YEAR_OLD_USER, regexes } from "../../utils/constraint";
+import { useNavigate } from "react-router-dom";
+import { LOGO_TRAVELOKA, MESSAGE_TERMS } from "../../utils";
 import { observer } from "mobx-react-lite";
 import { UserRole } from "../../models/types";
 import { Oops } from "../../components/Error/Oops";
-import { useLocation } from "react-router";
-import { goBack } from "../../utils";
 import { styled } from "@mui/system";
 
 const PREFIX = "REGISTER-";
@@ -32,7 +29,7 @@ const Root = styled("div")({
 
 export const Register: FC = observer(() => {
     const [submitting, setSubmitting] = useState(false);
-    const { sSignUp, isLoggedIn, currentUser, role, Logout } = useStore();
+    const { sSignUp, currentUser, role, Logout } = useStore();
     const { enqueueSnackbar } = useSnackbar();
     const navigator = useNavigate();
 
@@ -49,10 +46,10 @@ export const Register: FC = observer(() => {
         sSignUp.doSignUp().then(([err, data]) => {
             setSubmitting(false);
             if (err)
-                return enqueueSnackbar(err.message, { variant: "error" });
-            goBack();
+                return enqueueSnackbar(MESSAGE_TERMS.get(err.message), { variant: "error" });
+            navigator("/login");
         }).catch((e) => {
-            enqueueSnackbar(e.message, { variant: "error" });
+            enqueueSnackbar(MESSAGE_TERMS.get(e.message), { variant: "error" });
         })
     }
 
@@ -71,7 +68,7 @@ export const Register: FC = observer(() => {
                             </Grid>
 
                             <Typography variant={"h4"} align={"center"}>
-                                "Đăng kí tài khoản người dùng"
+                                Đăng kí tài khoản người dùng
                             </Typography>
 
                             <UserInfo setUser={sSignUp.get_User()} isView={false} user={sSignUp.user} />

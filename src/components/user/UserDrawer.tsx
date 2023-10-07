@@ -1,20 +1,10 @@
-import {useState, KeyboardEvent, MouseEvent, Fragment} from "react";
+import { Fragment, KeyboardEvent, MouseEvent, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-    Divider,
-    ListItemText,
-    ListItemIcon,
-    ListItem,
-    List,
-    Drawer,
-    Box,
-} from "@mui/material";
+import { Box, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, } from "@mui/material";
 
-import {
-    DRAWER_ITEMS,
-    DRAWER_ICONS,
-} from "../../utils/constraint";
-import {Link} from "react-router-dom";
+import { DRAWER_ITEMS } from "../../utils";
+import { Link } from "react-router-dom";
+import { blue } from "@mui/material/colors";
 
 type Anchor = "left";
 
@@ -34,7 +24,7 @@ export const UserDrawer = () => {
                     return;
                 }
 
-                setState({...state, [anchor]: open});
+                setState({ ...state, [anchor]: open });
             };
 
     const list = (anchor: Anchor) => (
@@ -44,18 +34,18 @@ export const UserDrawer = () => {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {DRAWER_ITEMS.map(({title, link}, index) => (
-                    <Link to={link ? link : "/"} key={title}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <img src={DRAWER_ICONS[index]}/>
+                {DRAWER_ITEMS.map(({ title, link, Icon, isDrawer },) => (
+                    isDrawer && <Link to={link ? link : "/"} key={title}>
+                        <ListItem sx={{ color: blue[800] }}>
+                            <ListItemIcon sx={{ color: blue[300] }}>
+                                <Icon />
                             </ListItemIcon>
-                            <ListItemText primary={title}/>
+                            <ListItemText primary={title} />
                         </ListItem>
                     </Link>
                 ))}
             </List>
-            <Divider/>
+            <Divider />
             <List>
                 {/*{SERVICES.map(({code, name, icon}, index) => (*/}
                 {/*    <ListItem button key={code}>*/}
@@ -73,7 +63,7 @@ export const UserDrawer = () => {
         <Fragment key="left">
             <MenuIcon
                 onClick={toggleDrawer("left", true)}
-                style={{cursor: "pointer", marginRight: "1rem"}}
+                style={{ cursor: "pointer", marginRight: "1rem" }}
             ></MenuIcon>
 
             <Drawer

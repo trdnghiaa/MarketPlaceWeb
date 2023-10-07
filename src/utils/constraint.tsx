@@ -1,12 +1,14 @@
 import { store } from "../stores";
-import { MenuItem, MenuLink } from "../models/types";
+import { MenuItem, MenuItemIcon } from "../models/types";
+import { AddCircleOutlineSharp, DnsRounded, FavoriteRounded, HomeRounded, NotificationsRounded } from "@mui/icons-material";
 
 
 export const srcIcon = "./favicon.ico";
 
 export const PRIMARY_COLOR = "#1976d2";
 
-export const APP_NAME = "ChoToi";
+export const APP_NAME = "Amazin Place";
+export const APP_LOGO_URL = "./images/logo.png";
 
 export const ADVERTISEMENTS = [
     "https://ik.imagekit.io/tvlk/image/imageResource/2022/04/05/1649154913787-703cafe0bf9fed04d9937ba931cf5866.jpeg?tr=h-230,q-75,w-472",
@@ -93,11 +95,11 @@ export const MENU_ICONS = [
     "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/6/6464840154eb190d10525ea67e77648a.svg",
 ];
 
-export const DRAWER_ITEMS: MenuLink[] = [
-    { title: "Trang chủ", link: "/" },
-    { title: "Hợp tác với chúng tôi", link: "/partnership" },
-    { title: "Đã Lưu" },
-    { title: "Đặt chỗ của tôi" },
+export const DRAWER_ITEMS: MenuItemIcon[] = [
+    { title: "Trang chủ", link: "/", Icon: HomeRounded, isDrawer: true },
+    { title: "Quản lý tin", link: "/my-post", Icon: DnsRounded, isDrawer: true },
+    { title: "Đã Lưu", link: "/saved-post", Icon: FavoriteRounded, isDrawer: true },
+    { title: "Đăng tin", link: "/new-post", Icon: AddCircleOutlineSharp, isDrawer: true },
 ];
 
 export const DRAWER_ICONS = [

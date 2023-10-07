@@ -1,6 +1,3 @@
-import { Container } from "@mui/material";
-import { ADVERTISEMENTS } from "../../utils/constraint";
-
 export const AdsSlider = () => {
 	return (
 		<div

@@ -4,21 +4,22 @@ import { BasicLayout } from "../../layouts/common";
 import { UserInfo } from "../../components/user";
 import { useStore } from "../../stores";
 import { Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, Typography } from "@mui/material";
-import { randomStringWithLength, theme } from "../../utils";
+import { goBack, randomStringWithLength, theme } from "../../utils";
 import { Cached, Save, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import { CreateAccount } from "../../components/CreateAccount";
+import { MESSAGE_TERMS } from "../../utils/messageTerms";
 
 export const NewAccount: FC<{}> = observer(({}) => {
     const { sNewAccount } = useStore();
     const { enqueueSnackbar } = useSnackbar();
     const [submitting, setSubmitting] = useState(false);
-    const navigator = useNavigate();
-
+    useNavigate();
     const [values, setValues] = useState({
         showPassword: false,
     });
+
+    useEffect(() => {}, [sNewAccount.password]);
 
     const handleClickShowPassword = () => {
         setValues({
@@ -40,10 +41,13 @@ export const NewAccount: FC<{}> = observer(({}) => {
         sNewAccount.createAccount().then(([err, data]) => {
             setSubmitting(false);
             if (err)
-                return enqueueSnackbar(err.message, { variant: "error" });
-            navigator("/Login");
+                return enqueueSnackbar(MESSAGE_TERMS.get(err.message), { variant: "error" });
+            sNewAccount.init();
+            console.log(MESSAGE_TERMS.get(data.message));
+            enqueueSnackbar(MESSAGE_TERMS.get(data.message), { variant: "success" });
+            goBack();
         }).catch((e) => {
-            enqueueSnackbar(e.message, { variant: "error" });
+            enqueueSnackbar(MESSAGE_TERMS.get(e.message), { variant: "error" });
         })
     };
 
@@ -65,6 +69,7 @@ export const NewAccount: FC<{}> = observer(({}) => {
                             id="username"
                             label="Tên đăng nhập"
                             name="username"
+                            defaultValue={sNewAccount.username}
                             onChange={(event) =>
                                 sNewAccount.set_username(event.target.value)
                             }
@@ -112,7 +117,8 @@ export const NewAccount: FC<{}> = observer(({}) => {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <Button variant={"contained"} startIcon={<Cached />} onClick={handleRandomPassword} >Tạo mật khẩu</Button>
+                        <Button variant={"contained"} startIcon={<Cached />} onClick={handleRandomPassword}>Tạo mật
+                            khẩu</Button>
                     </Grid>
                 </Grid>
             </Grid>

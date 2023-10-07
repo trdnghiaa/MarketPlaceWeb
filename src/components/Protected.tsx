@@ -8,41 +8,9 @@ import { UserRole } from "../models/types";
 import { useSnackbar } from "notistack";
 import { MESSAGE_TERMS } from "../utils/messageTerms";
 
-export const Protected: FC<{isAdmin: Boolean; children: ReactElement}> =
-    observer(({ isAdmin, children }) => {
-        const { isLoggedIn, isDone, isLoading, role } = store;
-        const { enqueueSnackbar } = useSnackbar();
-
-        useEffect(() => {
-            store.checkLogin();
-        }, []);
-
-        function isAdminPage(children: ReactElement) {
-            if (isAdmin) {
-                if (role == UserRole.ADMIN) return children;
-
-                enqueueSnackbar("User Role Not Allowed Access Page!", {
-                    variant: "error",
-                });
-                return <Navigate to="/" />;
-            } else return children;
-        }
-
-        return (
-            <>
-                {isLoading || !isDone ? (
-                    <Loading />
-                ) : !isLoggedIn ? (
-                    <Navigate to="/login" replace={true}/>
-                ) : (
-                    isAdminPage(children)
-                )}
-            </>
-        );
-    });
-
 export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> =
-    observer(({ allowRole, children }) => {
+    observer(({ allowRole,
+                  children }) => {
         const { isLoggedIn, isDone, isLoading, role } = store;
         const { enqueueSnackbar } = useSnackbar();
 

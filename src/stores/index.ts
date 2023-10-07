@@ -11,6 +11,6 @@ export function useStore() {
     return useContext(StoreContext);
 }
 
-if (process.env.NODE_ENV == "development")
+// if (process.env.NODE_ENV == "development")
     // @ts-ignore
     window.store = store;
