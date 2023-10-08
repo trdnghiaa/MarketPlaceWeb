@@ -19,35 +19,45 @@ export class NotificationWebStore {
     async syncCount() {
         const [err, data] = await NotificationWeb.getCount();
 
-        if(err) throw err;
+        if (err) throw err;
 
-        this.count = data.count;
+        this.set_count(data.count);
     }
 
-    @action init() {
-        if(this.isLoading) return;
+    @action
+    async init() {
+        if (this.isLoading) return;
         this.set_isLoading(true);
-        this.getSync();
-        this.syncCount();
+        await this.getSync();
+        await this.syncCount();
         this.set_isLoading(false);
 
     }
 
-    @action async getSync() {
+    @action
+    async getSync() {
         const [err, data] = await NotificationWeb.getSync();
 
-        if(err) throw err;
+        if (err) throw err;
 
-        this.list = data;
+        this.set_list(data);
     }
 
-    @action async seen(notification: NotificationWeb) {
+    @action
+    async seen(notification: NotificationWeb) {
         const [err, data] = await NotificationWeb.seen(notification._id);
 
-        if(err) throw err;
-
+        if (err) throw err;
         notification.is_seen = true;
-
-
     }
+
+    @action set_list(v: NotificationWeb[]) {
+        this.list = v;
+    }
+
+    @action set_count(v: number) {
+        this.count = v;
+    }
+
+
 }

@@ -6,15 +6,15 @@ import { useStore } from "../../stores";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { Button, FormControl, Grid, InputLabel, OutlinedInput, Paper, Typography } from "@mui/material";
-import { theme } from "../../utils";
+import { MESSAGE_TERMS, theme, TRANSLATE_TERMS } from "../../utils";
 import { Dropzone, ExtFile, FileItem, ValidateFileResponse } from "@dropzone-ui/react";
 import { headers, UPLOAD_URL } from "../../service/fetchAPI";
-import { MESSAGE_TERMS } from "../../utils/messageTerms";
 
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from "react-quill";
 import { PostAdd } from "@mui/icons-material";
-import { Attachment } from "../../models/Attachment";
+import { Attachment } from "../../models";
+import { EDITOR_CONFIG } from "../../config";
 
 const PREFIX = "NewPost-";
 
@@ -37,23 +37,6 @@ export const NewPost: FC<{}> = observer(({}) => {
     const { enqueueSnackbar } = useSnackbar();
     const navigator = useNavigate();
 
-    const modules = {
-        toolbar: [
-            [{ 'header': [1, 2, false] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-            ['link', 'code-block'],
-            ['clean']
-        ],
-    };
-
-    const formats = [
-        'header',
-        'bold', 'italic', 'underline', 'strike', 'blockquote',
-        'list', 'bullet', 'indent',
-        'link', 'image', 'code-block'
-    ];
-
     const isView = false;
 
     const [syntheticFiles, setSyntheticFiles] = useState<ExtFile[]>([]);
@@ -68,8 +51,6 @@ export const NewPost: FC<{}> = observer(({}) => {
         const file: ExtFile | undefined = sNewPost.file.find((x) => x.id == id);
 
         if (!file?.serverResponse) return;
-
-        console.log(file, file.serverResponse.payload);
 
         Attachment.dropFileTemp(file.serverResponse.payload._id).then(([err, data]) => {
             if (err) {
@@ -116,9 +97,9 @@ export const NewPost: FC<{}> = observer(({}) => {
                 className={classes.root}
             >
                 <Grid xs={12}>
-                    <Typography variant={"h2"}>Tạo Tin</Typography>
+                    <Typography variant={"h2"}>{TRANSLATE_TERMS.CREATE_POST}</Typography>
                 </Grid>
-                <Grid xs={12} spacing={2}>
+                <Grid xs={12} sx={{mt: 3}}>
                     <FormControl fullWidth disabled={isView}>
                         <InputLabel htmlFor="title_post">
                             Tiêu đề bài đăng
@@ -140,7 +121,7 @@ export const NewPost: FC<{}> = observer(({}) => {
                     <Typography variant={"h6"}>Mô tả tin</Typography>
                     <ReactQuill theme="snow" value={sNewPost.post.description}
                                 onChange={(value) => {sNewPost.post.set_description(value)}} style={{ height: "70%" }}
-                                placeholder={"Viết mô tả bài đăng tại đây..."} modules={modules} formats={formats} />
+                                placeholder={TRANSLATE_TERMS.DESCRIPTION_PLACEHOLDER} modules={EDITOR_CONFIG.modules} formats={EDITOR_CONFIG.formats} />
                 </Grid>
 
 
@@ -148,7 +129,7 @@ export const NewPost: FC<{}> = observer(({}) => {
                     <Dropzone onChange={updateFiles} value={sNewPost.file} maxFiles={6}
                               disabled={syntheticFiles.length >= 6}
                               accept="image/*, video/*"
-                              label="Đẩy hoặc kéo thả file vào đây"
+                              label={TRANSLATE_TERMS.DROPZONE_PLACEHOLDER}
                               onUploadStart={(file) => {
                                   console.log(file);
                               }}

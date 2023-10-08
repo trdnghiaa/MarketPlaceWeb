@@ -48,5 +48,9 @@ export const TRANSLATE_TERMS = {
     OPEN_SETTINGS: "Mở cài đặt",
     NOTIFICATION: "Thông báo",
     NOTIFICATION_PAGE: "Đi tới trang thông báo",
-    SEEN_ALL_NOTIFICATION: "Đánh dấu đã đọc tất cả"
+    SEEN_ALL_NOTIFICATION: "Đánh dấu đã đọc tất cả",
+
+    CREATE_POST: "Tạo Tin",
+    DESCRIPTION_PLACEHOLDER: "Viết mô tả bài đăng tại đây...",
+    DROPZONE_PLACEHOLDER: "Đẩy hoặc kéo thả file vào đây",
 }

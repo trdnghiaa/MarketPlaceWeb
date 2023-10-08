@@ -1,55 +1,48 @@
 import { FC, ReactElement, useEffect } from "react";
-
 import { observer } from "mobx-react-lite";
-import { store } from "../stores";
-import { Navigate } from "react-router-dom";
-import { Loading } from "./Loading";
-import { UserRole } from "../models/types";
 import { useSnackbar } from "notistack";
-import { MESSAGE_TERMS } from "../utils/messageTerms";
+import { Navigate } from "react-router-dom";
 
-export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> =
-    observer(({ allowRole,
-                  children }) => {
-        const { isLoggedIn, isDone, isLoading, role } = store;
-        const { enqueueSnackbar } = useSnackbar();
+import { store } from "../stores";
+import { Loading } from "./Loading";
+import { UserRole } from "../models";
+import { MESSAGE_TERMS } from "../utils";
 
-        useEffect(() => {
-            store.checkLogin();
-        }, []);
 
-        function hasRole(): boolean{
-            if(role == UserRole.ADMIN) return true;
+export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> = observer(({ allowRole, children }) => {
+    const { isLoggedIn, isDone, isLoading, role } = store;
+    const { enqueueSnackbar } = useSnackbar();
 
-            if(allowRole == UserRole.SENSOR) {
-                return role == UserRole.SENSOR;
-            }
+    useEffect(() => {
+        store.checkLogin();
+    }, []);
 
-            if(allowRole == UserRole.USER) {
-                return !!role;
-            }
+    function hasRole(): boolean {
+        if (role == UserRole.ADMIN) return true;
 
-            return false;
+        if (allowRole == UserRole.SENSOR) {
+            return role == UserRole.SENSOR;
         }
 
-        function isAdminPage() {
-            if (hasRole()) return children;
-
-            enqueueSnackbar(MESSAGE_TERMS.NOT_ALLOW_ACCESS_PAGE, {
-                variant: "error",
-            });
-            return <Navigate to="/" />;
+        if (allowRole == UserRole.USER) {
+            return !!role;
         }
 
-        return (
-            <>
-                {isLoading || !isDone ? (
-                    <Loading />
-                ) : !isLoggedIn ? (
-                    <Navigate to="/login" />
-                ) : (
-                    isAdminPage()
-                )}
-            </>
-        );
-    });
+        return false;
+    }
+
+    function AdminRouteControl() {
+        if (hasRole()) return children;
+
+        enqueueSnackbar(MESSAGE_TERMS.NOT_ALLOW_ACCESS_PAGE, {
+            variant: "error",
+        });
+        return <Navigate to="/" />;
+    }
+
+    return (
+        <>
+            {isLoading || !isDone ? <Loading /> : !isLoggedIn ? <Navigate to="/login" replace={true} /> : (<AdminRouteControl />)}
+        </>
+    );
+});
