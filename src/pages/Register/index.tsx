@@ -63,9 +63,9 @@ export const Register: FC = observer(() => {
                 >
 
                     {role == UserRole.USER ? <>
-                            <Grid container justifyContent={"center"} pt={2}>
+                            {/* <Grid container justifyContent={"center"} pt={2}>
                                 <img src={LOGO_TRAVELOKA} alt="Logo" />
-                            </Grid>
+                            </Grid> */}
 
                             <Typography variant={"h4"} align={"center"}>
                                 Đăng kí tài khoản người dùng

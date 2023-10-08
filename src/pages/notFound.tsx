@@ -22,15 +22,14 @@ export const NotFound: FC = observer(() => {
                 >
                     <Typography variant="h1"
                                 sx={{ color: 'white', fontSize: "20rem", fontStyle: "italic", fontWeight: "bold" }}>404</Typography>
-
                     <Typography variant="h6" style={{ color: 'white' }} sx={{ marginBottom: theme.spacing(2) }}>
-                         Trang này không có đâu thằng GAY ạ!
+                        Trang này không tồn tại!
                     </Typography>
 
                     <Button variant="contained" onClick={(event) => {
                         event.preventDefault();
                         goBack();
-                    }} startIcon={<ArrowBack />}>Back</Button>
+                    }} startIcon={<ArrowBack />}>Quay lại</Button>
                 </Box>
             </header>
         </div>

@@ -99,12 +99,12 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                             <FormControlLabel
                                 value={0}
                                 control={<Radio />}
-                                label="Female"
+                                label="Nữ"
                             />
                             <FormControlLabel
                                 value={1}
                                 control={<Radio />}
-                                label="Male"
+                                label="Nam"
                             />
                         </RadioGroup>
                     </FormControl>

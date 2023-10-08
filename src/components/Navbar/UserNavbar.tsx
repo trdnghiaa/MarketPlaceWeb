@@ -102,6 +102,7 @@ export const UserNavbar: FC = observer(() => {
                         <UserDrawer />
                         <Grid style={styles.gridRoot}>
                             {/*<img src={APP_LOGO_URL} width={64} alt="Logo"/>*/}
+                            <Link style={{color:"black"}} to={"/"} >
                             <Typography
                                 variant="h4"
                                 noWrap
@@ -118,6 +119,7 @@ export const UserNavbar: FC = observer(() => {
                                     {APP_NAME.split(" ")[1]}
                                 </Typography>
                             </Typography>
+                            </Link>
                         </Grid>
                         <Box
                             sx={{
@@ -153,7 +155,7 @@ export const UserNavbar: FC = observer(() => {
                                         <IconButton onClick={handleOpenUserMenu("notify")}>
                                             <Badge badgeContent={sNotificationWeb.count} color="error">
                                                 <NotificationsRounded color="action"
-                                                                      sx={{ minWidth: "2rem", color: blue[300] }} />
+                                                                    sx={{ minWidth: "2rem", color: blue[300] }} />
                                             </Badge>
                                         </IconButton>
                                     </ListItem>
@@ -184,7 +186,7 @@ export const UserNavbar: FC = observer(() => {
                                     onClose={handleCloseUserMenu("notify")}>
                                     <Container>
                                         <Grid container justifyContent="space-between" alignItems="center"
-                                              className={classes.notification}>
+                                            className={classes.notification}>
                                             <Typography variant="h6">{TRANSLATE_TERMS.NOTIFICATION}</Typography>
                                             <Link to={"/notifications"}>
                                                 <Typography
@@ -197,7 +199,7 @@ export const UserNavbar: FC = observer(() => {
                                     </Container>
                                     <Grid container sx={{ position: "sticky", bottom: 0, width: "100%", backgroundColor: grey[50], py: "4px", alignItems: "center" }}>
                                         <Link style={styles.notificationLink}
-                                              to={"/notifications"}>{TRANSLATE_TERMS.NOTIFICATION_PAGE}</Link>
+                                            to={"/notifications"}>{TRANSLATE_TERMS.NOTIFICATION_PAGE}</Link>
                                     </Grid>
                                 </Menu>
                             </Box>
@@ -231,11 +233,11 @@ export const UserNavbar: FC = observer(() => {
                         ) : (
                             <>
                                 <Link to="/Login">
-                                    <Button>Login</Button>
+                                    <Button>Đăng Nhập</Button>
                                 </Link>
                                 <Typography sx={{ m: 1 }}>/</Typography>
                                 <Link to="/signup">
-                                    <Button>Sign Up</Button>
+                                    <Button>Đăng Ký</Button>
                                 </Link>
                             </>
                         )}

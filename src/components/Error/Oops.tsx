@@ -12,7 +12,7 @@ export const Oops: FC<{children: ReactElement}> = ({ children }) => {
             <ErrorIcon fontSize={"large"} style={{ margin: theme.spacing(1) }} />
             {children}
             <Link to={"/"} style={{ margin: theme.spacing(1) }}>
-                <Button variant="contained">Back Home</Button>
+                <Button variant="contained">Quay lại</Button>
             </Link>
         </Grid>
     </Backdrop>

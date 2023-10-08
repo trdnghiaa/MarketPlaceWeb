@@ -55,7 +55,7 @@ const Root = styled.div((theme: Theme) => ({
 const Copyright: FC = () => {
 	return (
 		<Typography variant="body2" align="center">
-			Copyright © Traveloka {new Date().getFullYear()}.
+			Copyright © {APP_NAME} {new Date().getFullYear()}.
 		</Typography>
 	);
 };
