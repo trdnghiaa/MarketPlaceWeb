@@ -8,7 +8,7 @@ import { goBack, randomStringWithLength, theme } from "../../utils";
 import { Cached, Save, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import { TRANSLATE_TERMS } from "../../utils/messageTerms";
+import { MESSAGE_TERMS } from "../../utils/messageTerms";
 
 export const NewAccount: FC<{}> = observer(({}) => {
     const { sNewAccount } = useStore();
@@ -41,13 +41,13 @@ export const NewAccount: FC<{}> = observer(({}) => {
         sNewAccount.createAccount().then(([err, data]) => {
             setSubmitting(false);
             if (err)
-                return enqueueSnackbar(TRANSLATE_TERMS.get(err.message), { variant: "error" });
+                return enqueueSnackbar(MESSAGE_TERMS.get(err.message), { variant: "error" });
             sNewAccount.init();
-            console.log(TRANSLATE_TERMS.get(data.message));
-            enqueueSnackbar(TRANSLATE_TERMS.get(data.message), { variant: "success" });
+            console.log(MESSAGE_TERMS.get(data.message));
+            enqueueSnackbar(MESSAGE_TERMS.get(data.message), { variant: "success" });
             goBack();
         }).catch((e) => {
-            enqueueSnackbar(TRANSLATE_TERMS.get(e.message), { variant: "error" });
+            enqueueSnackbar(MESSAGE_TERMS.get(e.message), { variant: "error" });
         })
     };
 

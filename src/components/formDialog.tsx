@@ -12,6 +12,7 @@ import {
 	TextField,
 	Button,
 } from "@mui/material";
+import { TRANSLATE_TERMS } from "../utils";
 
 export const FormDialog = () => {
 	const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ export const FormDialog = () => {
 				Add
 			</Button>
 			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle>Create new user</DialogTitle>
+				<DialogTitle>{TRANSLATE_TERMS.CREATE_NEW_ACCOUNT}</DialogTitle>
 				<DialogContent>
 					<TextField
 						autoFocus

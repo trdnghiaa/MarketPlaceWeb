@@ -6,7 +6,7 @@ import { Button, Grid, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useStore } from "../../stores";
 import { useNavigate } from "react-router-dom";
-import { LOGO_TRAVELOKA, TRANSLATE_TERMS } from "../../utils";
+import { LOGO_TRAVELOKA, MESSAGE_TERMS } from "../../utils";
 import { observer } from "mobx-react-lite";
 import { UserRole } from "../../models/types";
 import { Oops } from "../../components/Error/Oops";
@@ -46,10 +46,10 @@ export const Register: FC = observer(() => {
         sSignUp.doSignUp().then(([err, data]) => {
             setSubmitting(false);
             if (err)
-                return enqueueSnackbar(TRANSLATE_TERMS.get(err.message), { variant: "error" });
+                return enqueueSnackbar(MESSAGE_TERMS.get(err.message), { variant: "error" });
             navigator("/login");
         }).catch((e) => {
-            enqueueSnackbar(TRANSLATE_TERMS.get(e.message), { variant: "error" });
+            enqueueSnackbar(MESSAGE_TERMS.get(e.message), { variant: "error" });
         })
     }
 

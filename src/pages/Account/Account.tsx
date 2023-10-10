@@ -17,7 +17,7 @@ import { PAGINATION_SIZE_LIST } from "../../config";
 import { Tooltip } from "@mui/material/";
 import { yellow } from "@mui/material/colors";
 import { DialogType } from "../../stores/DialogStore";
-import { TRANSLATE_TERMS } from "../../utils/messageTerms";
+import { MESSAGE_TERMS } from "../../utils/messageTerms";
 
 
 export const Account: FC<{}> = observer(({}) => {
@@ -57,13 +57,13 @@ export const Account: FC<{}> = observer(({}) => {
 
     const deleteHandle = useCallback((_id: string, username: string) => {
         return () => {
-            sDialog.openDialog(DialogType.confirm, TRANSLATE_TERMS.DELETE_USER_QUESTION.replace("{user}", `@${username}`), TRANSLATE_TERMS.DELETE_USER_DESCRIPTION, async () => {
+            sDialog.openDialog(DialogType.confirm, MESSAGE_TERMS.DELETE_USER_QUESTION.replace("{user}", `@${username}`), MESSAGE_TERMS.DELETE_USER_DESCRIPTION, async () => {
                 User.delete(_id).then(([err, data]) => {
                     if (err) {
-                        return enqueueSnackbar(TRANSLATE_TERMS.get(err.message), { variant: "error" });
+                        return enqueueSnackbar(MESSAGE_TERMS.get(err.message), { variant: "error" });
                     }
                     load();
-                    enqueueSnackbar(TRANSLATE_TERMS.get(data.message), { variant: "success" });
+                    enqueueSnackbar(MESSAGE_TERMS.get(data.message), { variant: "success" });
                 });
             }, { agreeButtonText: "Xóa" });
         }

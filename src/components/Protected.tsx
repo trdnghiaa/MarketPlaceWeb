@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 import { store } from "../stores";
 import { Loading } from "./Loading";
 import { UserRole } from "../models";
-import { TRANSLATE_TERMS } from "../utils";
+import { MESSAGE_TERMS } from "../utils";
 
 
 export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> = observer(({ allowRole, children }) => {
@@ -34,7 +34,7 @@ export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> = obs
     function AdminRouteControl() {
         if (hasRole()) return children;
 
-        enqueueSnackbar(TRANSLATE_TERMS.NOT_ALLOW_ACCESS_PAGE, {
+        enqueueSnackbar(MESSAGE_TERMS.NOT_ALLOW_ACCESS_PAGE, {
             variant: "error",
         });
         return <Navigate to="/" />;

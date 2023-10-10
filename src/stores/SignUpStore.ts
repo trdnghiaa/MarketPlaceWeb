@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from "mobx";
 import { FetchAPI, Method } from "../service/fetchAPI";
 import { User } from "../models/User";
-import { MIN_YEAR_OLD_USER, TRANSLATE_TERMS } from "../utils";
+import { MIN_YEAR_OLD_USER, MESSAGE_TERMS } from "../utils";
 
 export class SignUpStore {
     constructor() {
@@ -47,43 +47,43 @@ export class SignUpStore {
         }
 
         if (!user.last_name) {
-            throw new Error(TRANSLATE_TERMS.MISS_LAST_NAME);
+            throw new Error(MESSAGE_TERMS.MISS_LAST_NAME);
         }
 
         if (!user.first_name) {
-            throw new Error(TRANSLATE_TERMS.MISS_FIRST_NAME);
+            throw new Error(MESSAGE_TERMS.MISS_FIRST_NAME);
         }
 
         if (user.dob.getFullYear() >= MIN_YEAR_OLD_USER) {
-            throw new Error(TRANSLATE_TERMS.WRONG_BIRTHDAY);
+            throw new Error(MESSAGE_TERMS.WRONG_BIRTHDAY);
         }
 
         if (!user.address) {
-            throw new Error(TRANSLATE_TERMS.MISS_ADDRESS);
+            throw new Error(MESSAGE_TERMS.MISS_ADDRESS);
         }
 
         if (!user.email) {
-            throw new Error(TRANSLATE_TERMS.MISS_EMAIL);
+            throw new Error(MESSAGE_TERMS.MISS_EMAIL);
         }
 
         if (!user.phone) {
-            throw new Error(TRANSLATE_TERMS.MISS_PHONE);
+            throw new Error(MESSAGE_TERMS.MISS_PHONE);
         }
 
         if (!regexs.phone.test(user.phone)) {
-            throw new Error(TRANSLATE_TERMS.WRONG_PHONE);
+            throw new Error(MESSAGE_TERMS.WRONG_PHONE);
         }
 
         if (!regexs.email.test(user.email)) {
-            throw new Error(TRANSLATE_TERMS.WRONG_EMAIL);
+            throw new Error(MESSAGE_TERMS.WRONG_EMAIL);
         }
 
         if (this.username === "" || this.password === "" || this.confirm === "") {
-            throw new Error(TRANSLATE_TERMS.MISS_USER_N_PASS)
+            throw new Error(MESSAGE_TERMS.MISS_USER_N_PASS)
         }
 
         if (this.password.length < 8) {
-            throw new Error(TRANSLATE_TERMS.WRONG_PASS_LENGTH);
+            throw new Error(MESSAGE_TERMS.WRONG_PASS_LENGTH);
         }
 
         const [err, data] = await FetchAPI<User>(

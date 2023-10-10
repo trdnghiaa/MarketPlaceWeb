@@ -20,7 +20,7 @@ import { ChangePassword } from "../User/ChangePassword";
 import { Order } from "../../models/Order";
 import { Voucher } from "../../models/Voucher";
 import { MyVoucher } from "../User/MyVoucher";
-import { TRANSLATE_TERMS } from "../../utils/messageTerms";
+import { MESSAGE_TERMS } from "../../utils/messageTerms";
 import { setTitle } from "../../utils";
 
 export const Profile: FC = observer(() => {
@@ -69,7 +69,7 @@ export const Profile: FC = observer(() => {
                     setSubmitting(false);
                     return enqueueSnackbar(err.message, { variant: "error" });
                 }
-                enqueueSnackbar(TRANSLATE_TERMS.get(data.message), { variant: "success" });
+                enqueueSnackbar(MESSAGE_TERMS.get(data.message), { variant: "success" });
                 setSubmitting(false);
                 navigator(href);
             });

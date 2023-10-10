@@ -13,7 +13,7 @@ import { APP_NAME, PRIMARY_COLOR, srcIcon } from "../utils/constraint";
 import { setTitle } from "../utils/set_title";
 import { useStore } from "../stores";
 import { useSnackbar } from "notistack";
-import { TRANSLATE_TERMS } from "../utils/messageTerms";
+import { MESSAGE_TERMS, TRANSLATE_TERMS } from "../utils/messageTerms";
 import { observer } from "mobx-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { theme } from "../utils/theme";
@@ -90,7 +90,7 @@ export const Login: FC<{}> = observer(() => {
 
 	const handleLogin = () => {
 		if (!sSignIn.username || !sSignIn.password) {
-			enqueueSnackbar(TRANSLATE_TERMS.LOGIN_INVALID, {
+			enqueueSnackbar(MESSAGE_TERMS.LOGIN_INVALID, {
 				variant: "error",
 			});
 			return;
@@ -101,7 +101,7 @@ export const Login: FC<{}> = observer(() => {
 			.doLogin(redirect)
 			.then((err) => {
 				if (err)
-					return enqueueSnackbar(TRANSLATE_TERMS.get(err), {
+					return enqueueSnackbar(MESSAGE_TERMS.get(err), {
 						variant: "error",
 					});
 			})
@@ -128,7 +128,7 @@ export const Login: FC<{}> = observer(() => {
 						<TextField
 							fullWidth={true}
 							id="username"
-							label="Tên Đăng Nhập"
+							label={TRANSLATE_TERMS.USERNAME_TEXT}
 							variant="outlined"
 							className={classes.marginTop}
 							defaultValue={sSignIn.username}
@@ -139,7 +139,7 @@ export const Login: FC<{}> = observer(() => {
 						<TextField
 							fullWidth={true}
 							id="password"
-							label="Mật Khẩu"
+							label={TRANSLATE_TERMS.PASSWORD_TEXT}
 							type="password"
 							variant="outlined"
 							className={classes.marginTop}
@@ -155,7 +155,7 @@ export const Login: FC<{}> = observer(() => {
 							onClick={handleLogin}
 							disabled={submitting}
 						>
-							Đăng nhập
+							{TRANSLATE_TERMS.LOGIN_TEXT}
 						</Button>
 
 						<NotHaveAccount />
