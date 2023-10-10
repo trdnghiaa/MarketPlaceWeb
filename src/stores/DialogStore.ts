@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { enqueueSnackbar } from "notistack";
-import { MESSAGE_TERMS } from "../utils/messageTerms";
+import { TRANSLATE_TERMS } from "../utils/messageTerms";
 
 export enum DialogType {
     confirm = "confirm",
@@ -57,7 +57,7 @@ export class DialogStore {
     openDialog(name: DialogType, question: string, description: string, confirmHandle: Function, options?: Object) {
         const current = this.controller[name];
         if (!current) {
-            enqueueSnackbar(MESSAGE_TERMS.NO_DIALOG_EXISTED, { variant: "error" });
+            enqueueSnackbar(TRANSLATE_TERMS.NO_DIALOG_EXISTED, { variant: "error" });
         }
 
         current.questionText = question;

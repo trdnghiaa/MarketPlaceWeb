@@ -1,4 +1,14 @@
-export const MESSAGE_TERMS = {
+
+export const TRANSLATE_TERMS = {
+    OPEN_NOTIFICATION: "Mở thông báo",
+    OPEN_SETTINGS: "Mở cài đặt",
+    NOTIFICATION: "Thông báo",
+    NOTIFICATION_PAGE: "Đi tới trang thông báo",
+    SEEN_ALL_NOTIFICATION: "Đánh dấu đã đọc tất cả",
+
+    CREATE_POST: "Tạo Tin",
+    DESCRIPTION_PLACEHOLDER: "Viết mô tả bài đăng tại đây...",
+    DROPZONE_PLACEHOLDER: "Đẩy hoặc kéo thả file vào đây",
     // TERM
     NOT_ALLOW_ACCESS_PAGE: "User Role Not Allowed Access Page!",
     DELETED_USER_SUCCESS: "Xóa người dùng thành công",
@@ -40,17 +50,4 @@ export const MESSAGE_TERMS = {
     get: function (err: string) {
         return this[err] ? this[err] : err;
     }
-};
-
-
-export const TRANSLATE_TERMS = {
-    OPEN_NOTIFICATION: "Mở thông báo",
-    OPEN_SETTINGS: "Mở cài đặt",
-    NOTIFICATION: "Thông báo",
-    NOTIFICATION_PAGE: "Đi tới trang thông báo",
-    SEEN_ALL_NOTIFICATION: "Đánh dấu đã đọc tất cả",
-
-    CREATE_POST: "Tạo Tin",
-    DESCRIPTION_PLACEHOLDER: "Viết mô tả bài đăng tại đây...",
-    DROPZONE_PLACEHOLDER: "Đẩy hoặc kéo thả file vào đây",
 }

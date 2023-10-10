@@ -13,7 +13,7 @@ import { APP_NAME, PRIMARY_COLOR, srcIcon } from "../utils/constraint";
 import { setTitle } from "../utils/set_title";
 import { useStore } from "../stores";
 import { useSnackbar } from "notistack";
-import { MESSAGE_TERMS } from "../utils/messageTerms";
+import { TRANSLATE_TERMS } from "../utils/messageTerms";
 import { observer } from "mobx-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { theme } from "../utils/theme";
@@ -90,7 +90,7 @@ export const Login: FC<{}> = observer(() => {
 
 	const handleLogin = () => {
 		if (!sSignIn.username || !sSignIn.password) {
-			enqueueSnackbar(MESSAGE_TERMS.LOGIN_INVALID, {
+			enqueueSnackbar(TRANSLATE_TERMS.LOGIN_INVALID, {
 				variant: "error",
 			});
 			return;
@@ -101,7 +101,7 @@ export const Login: FC<{}> = observer(() => {
 			.doLogin(redirect)
 			.then((err) => {
 				if (err)
-					return enqueueSnackbar(MESSAGE_TERMS.get(err), {
+					return enqueueSnackbar(TRANSLATE_TERMS.get(err), {
 						variant: "error",
 					});
 			})

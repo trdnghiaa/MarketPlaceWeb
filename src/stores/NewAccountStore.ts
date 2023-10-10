@@ -3,7 +3,7 @@ import { User } from "../models/User";
 import { MIN_YEAR_OLD_USER } from "../utils";
 import { FetchAPI, Method } from "../service/fetchAPI";
 import { Store } from "./Store";
-import { MESSAGE_TERMS } from "../utils/messageTerms";
+import { TRANSLATE_TERMS } from "../utils/messageTerms";
 
 export class NewAccountStore {
     @observable
@@ -47,43 +47,43 @@ export class NewAccountStore {
         }
 
         if (!user.last_name) {
-            throw new Error(MESSAGE_TERMS.MISS_LAST_NAME);
+            throw new Error(TRANSLATE_TERMS.MISS_LAST_NAME);
         }
 
         if (!user.first_name) {
-            throw new Error(MESSAGE_TERMS.MISS_FIRST_NAME);
+            throw new Error(TRANSLATE_TERMS.MISS_FIRST_NAME);
         }
 
         if (user.dob.getFullYear() >= MIN_YEAR_OLD_USER) {
-            throw new Error(MESSAGE_TERMS.WRONG_BIRTHDAY);
+            throw new Error(TRANSLATE_TERMS.WRONG_BIRTHDAY);
         }
 
         if (!user.address) {
-            throw new Error(MESSAGE_TERMS.MISS_ADDRESS);
+            throw new Error(TRANSLATE_TERMS.MISS_ADDRESS);
         }
 
         if (!user.email) {
-            throw new Error(MESSAGE_TERMS.MISS_EMAIL);
+            throw new Error(TRANSLATE_TERMS.MISS_EMAIL);
         }
 
         if (!user.phone) {
-            throw new Error(MESSAGE_TERMS.MISS_PHONE);
+            throw new Error(TRANSLATE_TERMS.MISS_PHONE);
         }
 
         if (!regexs.phone.test(user.phone)) {
-            throw new Error(MESSAGE_TERMS.WRONG_PHONE);
+            throw new Error(TRANSLATE_TERMS.WRONG_PHONE);
         }
 
         if (!regexs.email.test(user.email)) {
-            throw new Error(MESSAGE_TERMS.WRONG_EMAIL);
+            throw new Error(TRANSLATE_TERMS.WRONG_EMAIL);
         }
 
         if (!this.username || !this.password) {
-            throw new Error(MESSAGE_TERMS.MISS_USER_N_PASS)
+            throw new Error(TRANSLATE_TERMS.MISS_USER_N_PASS)
         }
 
         if (this.password.length < 8) {
-            throw new Error(MESSAGE_TERMS.WRONG_PASS_LENGTH);
+            throw new Error(TRANSLATE_TERMS.WRONG_PASS_LENGTH);
         }
 
         const [err, data] = await FetchAPI<{message: string, data: User}>(
