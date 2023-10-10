@@ -3,6 +3,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { Backdrop, Button, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { theme } from "../../utils";
+import { TRANSLATE_TERMS } from "../../utils";
 
 export const Oops: FC<{children: ReactElement}> = ({ children }) => {
 
@@ -12,7 +13,7 @@ export const Oops: FC<{children: ReactElement}> = ({ children }) => {
             <ErrorIcon fontSize={"large"} style={{ margin: theme.spacing(1) }} />
             {children}
             <Link to={"/"} style={{ margin: theme.spacing(1) }}>
-                <Button variant="contained">Quay lại</Button>
+                <Button variant="contained">{TRANSLATE_TERMS.BACK_BUTTON}</Button>
             </Link>
         </Grid>
     </Backdrop>

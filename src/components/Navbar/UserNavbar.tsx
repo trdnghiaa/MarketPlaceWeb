@@ -23,7 +23,10 @@ import { TRANSLATE_TERMS } from "../../utils/messageTerms";
 import { NotificationMenu } from "../NotificationWeb";
 import { NotificationWeb } from "../../models/NotificationWeb";
 
+
 const pages = DRAWER_ITEMS.slice(1);
+
+
 
 const PREFIX = "UNB-"
 
@@ -190,8 +193,8 @@ export const UserNavbar: FC = observer(() => {
                                             <Typography variant="h6">{TRANSLATE_TERMS.NOTIFICATION}</Typography>
                                             <Link to={"/notifications"}>
                                                 <Typography
-                                                    variant="subtitle1">{TRANSLATE_TERMS.SEEN_ALL_NOTIFICATION}</Typography>
-
+                                                    variant="subtitle1">{TRANSLATE_TERMS.SEEN_ALL_NOTIFICATION}
+                                                </Typography>
                                             </Link>
                                         </Grid>
                                         <Divider />
@@ -233,11 +236,11 @@ export const UserNavbar: FC = observer(() => {
                         ) : (
                             <>
                                 <Link to="/Login">
-                                    <Button>Đăng Nhập</Button>
+                                    <Button>{TRANSLATE_TERMS.LOGIN_TEXT}</Button>
                                 </Link>
                                 <Typography sx={{ m: 1 }}>/</Typography>
                                 <Link to="/signup">
-                                    <Button>Đăng Ký</Button>
+                                    <Button>{TRANSLATE_TERMS.SIGNUP_TEXT}</Button>
                                 </Link>
                             </>
                         )}

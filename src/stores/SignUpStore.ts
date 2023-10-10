@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from "mobx";
 import { FetchAPI, Method } from "../service/fetchAPI";
 import { User } from "../models/User";
-import { MESSAGE_TERMS, MIN_YEAR_OLD_USER } from "../utils";
+import { MIN_YEAR_OLD_USER, MESSAGE_TERMS } from "../utils";
 
 export class SignUpStore {
     constructor() {

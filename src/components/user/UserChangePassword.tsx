@@ -9,6 +9,7 @@ import {
 	FormControl, Grid,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { TRANSLATE_TERMS } from "../../utils";
 
 export const UserChangePassword = () => {
 	interface State {
@@ -44,10 +45,10 @@ export const UserChangePassword = () => {
 
 	return (
 		<Grid container>
-			<h2 style={{ margin: "1rem" }}>Đổi mật khẩu</h2>
+			<h2 style={{ margin: "1rem" }}>{TRANSLATE_TERMS.CHANGE_PASSWORD_TEXT}</h2>
 			<FormControl sx={{ m: 1, width: 1 }}>
 				<InputLabel htmlFor="outlined-adornment-password">
-					Mật khẩu cũ
+					{TRANSLATE_TERMS.OLD_PASSWORD_TEXT}
 				</InputLabel>
 				<OutlinedInput
 					id="outlined-adornment-password"
@@ -70,12 +71,12 @@ export const UserChangePassword = () => {
 							</IconButton>
 						</InputAdornment>
 					}
-					label="Mật khẩu cũ"
+					label={TRANSLATE_TERMS.OLD_PASSWORD_TEXT}
 				/>
 			</FormControl>
 			<FormControl sx={{ m: 1, width: 1 }} variant="outlined">
 				<InputLabel htmlFor="outlined-adornment-password">
-					Mật khẩu mới
+					{TRANSLATE_TERMS.NEW_PASSWORD_TEXT}
 				</InputLabel>
 				<OutlinedInput
 					id="outlined-adornment-password"
@@ -103,7 +104,7 @@ export const UserChangePassword = () => {
 			</FormControl>
 			<FormControl sx={{ m: 1, width: 1 }} variant="outlined">
 				<InputLabel htmlFor="outlined-adornment-password">
-					Xác nhận mật khẩu
+					{TRANSLATE_TERMS.CONFIRM_PASSWORD_TEXT}
 				</InputLabel>
 				<OutlinedInput
 					id="outlined-adornment-password"
@@ -126,15 +127,15 @@ export const UserChangePassword = () => {
 							</IconButton>
 						</InputAdornment>
 					}
-					label="Xác nhận mật khẩu"
+					label={TRANSLATE_TERMS.CHANGE_PASSWORD_TEXT}
 				/>
 			</FormControl>
 			<FormControl sx={{ m: 1 }}>
-				<Button variant="contained">Lưu</Button>
+				<Button variant="contained">{TRANSLATE_TERMS.SAVE_BUTTON}</Button>
 			</FormControl>
 			<FormControl sx={{ m: 1 }}>
 				<Button variant="contained" style={{ background: "red" }}>
-					Hủy
+					{TRANSLATE_TERMS.CANCEL}
 				</Button>
 			</FormControl>
 		</Grid>

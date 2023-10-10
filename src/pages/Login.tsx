@@ -13,7 +13,7 @@ import { APP_NAME, PRIMARY_COLOR, srcIcon } from "../utils/constraint";
 import { setTitle } from "../utils/set_title";
 import { useStore } from "../stores";
 import { useSnackbar } from "notistack";
-import { MESSAGE_TERMS } from "../utils/messageTerms";
+import { MESSAGE_TERMS, TRANSLATE_TERMS } from "../utils/messageTerms";
 import { observer } from "mobx-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { theme } from "../utils/theme";
@@ -128,7 +128,7 @@ export const Login: FC<{}> = observer(() => {
 						<TextField
 							fullWidth={true}
 							id="username"
-							label="Tên Đăng Nhập"
+							label={TRANSLATE_TERMS.USERNAME_TEXT}
 							variant="outlined"
 							className={classes.marginTop}
 							defaultValue={sSignIn.username}
@@ -139,7 +139,7 @@ export const Login: FC<{}> = observer(() => {
 						<TextField
 							fullWidth={true}
 							id="password"
-							label="Mật Khẩu"
+							label={TRANSLATE_TERMS.PASSWORD_TEXT}
 							type="password"
 							variant="outlined"
 							className={classes.marginTop}
@@ -155,7 +155,7 @@ export const Login: FC<{}> = observer(() => {
 							onClick={handleLogin}
 							disabled={submitting}
 						>
-							Đăng nhập
+							{TRANSLATE_TERMS.LOGIN_TEXT}
 						</Button>
 
 						<NotHaveAccount />

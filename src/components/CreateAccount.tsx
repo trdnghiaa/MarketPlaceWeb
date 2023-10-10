@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useStore } from "../stores";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { TRANSLATE_TERMS } from "../utils";
 
 export const CreateAccount: FC = () => {
 	const { sSignUp } = useStore();
@@ -28,16 +29,16 @@ export const CreateAccount: FC = () => {
 
 	return (
 		<div>
-			<h2 style={{ width: "100%" }}>Tạo tài khoản</h2>
+			<h2 style={{ width: "100%" }}>{TRANSLATE_TERMS.CREATE_NEW_ACCOUNT}</h2>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<FormControl fullWidth sx={{ width: 1 }}>
 						<InputLabel htmlFor="username">
-							Tên đăng nhập
+							{TRANSLATE_TERMS.USERNAME_TEXT}
 						</InputLabel>
 						<OutlinedInput
 							id="username"
-							label="Tên đăng nhập"
+							label={TRANSLATE_TERMS.USERNAME_TEXT}
 							name="username"
 							onChange={(event) =>
 								sSignUp.set_username(event.target.value)
@@ -49,7 +50,7 @@ export const CreateAccount: FC = () => {
 				<Grid item xs={12}>
 					<FormControl sx={{ width: 1 }}>
 						<InputLabel htmlFor="password">
-							Mật khẩu
+						{TRANSLATE_TERMS.PASSWORD_TEXT}
 						</InputLabel>
 						<OutlinedInput
 							id="password"
@@ -77,7 +78,7 @@ export const CreateAccount: FC = () => {
 									</IconButton>
 								</InputAdornment>
 							}
-							label="Mật khẩu"
+							label={TRANSLATE_TERMS.PASSWORD_TEXT}
 							name="password"
 							required
 						/>
@@ -86,7 +87,7 @@ export const CreateAccount: FC = () => {
 				<Grid item xs={12}>
 					<FormControl sx={{ width: 1 }}>
 						<InputLabel htmlFor="password-confirm">
-							Xác nhận mật khẩu
+							{TRANSLATE_TERMS.CONFIRM_PASSWORD_TEXT}
 						</InputLabel>
 						<OutlinedInput
 							id="password-confirm"
@@ -114,7 +115,7 @@ export const CreateAccount: FC = () => {
 									</IconButton>
 								</InputAdornment>
 							}
-							label="Xác nhận mật khẩu"
+							label= {TRANSLATE_TERMS.CONFIRM_PASSWORD_TEXT}
 							name="confirmPassword"
 							required
 						/>

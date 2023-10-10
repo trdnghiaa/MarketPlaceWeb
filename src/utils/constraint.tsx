@@ -1,6 +1,7 @@
 import { store } from "../stores";
 import { MenuItem, MenuItemIcon } from "../models/types";
 import { AddCircleOutlineSharp, DnsRounded, FavoriteRounded, HomeRounded, NotificationsRounded } from "@mui/icons-material";
+import { TRANSLATE_TERMS } from "./messageTerms";
 
 
 export const srcIcon = "./favicon.ico";
@@ -43,7 +44,7 @@ export const MENU_ADMIN = [
 
 export const USER_SETTINGS: MenuItem[] = [
     {
-        title: "Chỉnh sửa hồ sơ",
+        title: TRANSLATE_TERMS.EDIT_PROFILE,
         link: "/profile/view",
         icon: "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/5/57c03b6d35b76670f2d701310cc18b26.svg",
     },
@@ -78,7 +79,7 @@ export const USER_SETTINGS: MenuItem[] = [
         icon: "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/c/cef9778118bdd85e1062cdd0b6196362.svg",
     },
     {
-        title: "Đăng xuất",
+        title: TRANSLATE_TERMS.LOG_OUT,
         handle: store.Logout,
         icon: "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/6/6464840154eb190d10525ea67e77648a.svg",
     },

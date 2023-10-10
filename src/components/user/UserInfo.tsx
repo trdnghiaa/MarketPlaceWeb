@@ -18,6 +18,7 @@ import { observer } from "mobx-react";
 import { UserRole } from "../../models/types";
 import { useStore } from "../../stores";
 import { useParams } from "react-router-dom";
+import { TRANSLATE_TERMS } from "../../utils";
 
 export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
     observer(({ user, setUser, isView }) => {
@@ -43,13 +44,13 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
         return (
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <h2>Thông tin cá nhân</h2>
+                    <h2>{TRANSLATE_TERMS.PERSONAL_INFORMATION}</h2>
                 </Grid>
                 <Grid container item xs={12} spacing={2}>
                     <Grid item xs={6}>
                         <FormControl fullWidth disabled={isView}>
                             <InputLabel htmlFor="last_name">
-                                Họ và tên đệm
+                                {TRANSLATE_TERMS.FRIST_NAME}
                             </InputLabel>
                             <OutlinedInput
                                 id="last_name"
@@ -57,7 +58,7 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                                 onChange={(event,) => {
                                     user.last_name = event.target.value;
                                 }}
-                                label="Họ và tên"
+                                label= {TRANSLATE_TERMS.FRIST_NAME}
                                 name="first_name"
                                 required
                             />
@@ -66,7 +67,7 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                     <Grid item xs={6}>
                         <FormControl fullWidth disabled={isView}>
                             <InputLabel htmlFor="first_name">
-                                Tên
+                                {TRANSLATE_TERMS.LAST_NAME}
                             </InputLabel>
                             <OutlinedInput
                                 id="first_name"
@@ -74,7 +75,7 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                                 onChange={(event) => {
                                     user.first_name = event.target.value;
                                 }}
-                                label="Tên"
+                                label={TRANSLATE_TERMS.LAST_NAME}
                                 name="last_name"
                                 required
                             />
@@ -88,7 +89,7 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                 >
                     <FormControl disabled={isView}>
                         <FormLabel id="radio-buttons-group">
-                            Giới tính
+                            {TRANSLATE_TERMS.GENDER}
                         </FormLabel>
                         <RadioGroup
                             row
@@ -99,19 +100,19 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                             <FormControlLabel
                                 value={0}
                                 control={<Radio />}
-                                label="Nữ"
+                                label={TRANSLATE_TERMS.FEMALE}
                             />
                             <FormControlLabel
                                 value={1}
                                 control={<Radio />}
-                                label="Nam"
+                                label={TRANSLATE_TERMS.MALE}
                             />
                         </RadioGroup>
                     </FormControl>
                     {hasChangeRole() && (
                         <FormControl disabled={isView}>
                             <InputLabel id="demo-simple-select-label">
-                                Quyền
+                                {TRANSLATE_TERMS.ROLE}
                             </InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -132,7 +133,7 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                 <Grid item xs={6}>
                     <FormControl variant="outlined" fullWidth>
                         <DesktopDatePicker
-                            label="Ngày sinh"
+                            label={TRANSLATE_TERMS.DATETIME}
                             format="dd/MM/yyyy"
                             value={user.dob}
                             onChange={handleDateChange}
@@ -142,7 +143,7 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                 </Grid>
                 <Grid item xs={12}>
                     <FormControl fullWidth disabled={isView}>
-                        <InputLabel htmlFor="address">Địa chỉ</InputLabel>
+                        <InputLabel htmlFor="address">{TRANSLATE_TERMS.ADDRESS}</InputLabel>
                         <OutlinedInput
                             id="address"
                             label="Địa chỉ"
@@ -175,11 +176,11 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                 <Grid item xs={6}>
                     <FormControl fullWidth disabled={isView}>
                         <InputLabel htmlFor="phone">
-                            Số điện thoại
+                            {TRANSLATE_TERMS.PHONE_TEXT}
                         </InputLabel>
                         <OutlinedInput
                             id="phone"
-                            label="Số điện thoại"
+                            label={TRANSLATE_TERMS.PHONE_TEXT}
                             name="phone"
                             value={user.phone}
                             onChange={(event) => {

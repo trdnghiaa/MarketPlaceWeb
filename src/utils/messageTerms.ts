@@ -1,3 +1,4 @@
+
 export const MESSAGE_TERMS = {
     // TERM
     NOT_ALLOW_ACCESS_PAGE: "User Role Not Allowed Access Page!",
@@ -40,17 +41,46 @@ export const MESSAGE_TERMS = {
     get: function (err: string) {
         return this[err] ? this[err] : err;
     }
-};
-
+}
 
 export const TRANSLATE_TERMS = {
-    OPEN_NOTIFICATION: "Mở thông báo",
-    OPEN_SETTINGS: "Mở cài đặt",
-    NOTIFICATION: "Thông báo",
-    NOTIFICATION_PAGE: "Đi tới trang thông báo",
-    SEEN_ALL_NOTIFICATION: "Đánh dấu đã đọc tất cả",
+        OPEN_NOTIFICATION: "Mở thông báo",
+        OPEN_SETTINGS: "Mở cài đặt",
+        NOTIFICATION: "Thông báo",
+        NOTIFICATION_PAGE: "Đi tới trang thông báo",
+        SEEN_ALL_NOTIFICATION: "Đánh dấu đã đọc tất cả",
 
-    CREATE_POST: "Tạo Tin",
-    DESCRIPTION_PLACEHOLDER: "Viết mô tả bài đăng tại đây...",
-    DROPZONE_PLACEHOLDER: "Đẩy hoặc kéo thả file vào đây",
+        CREATE_POST: "Tạo Tin",
+        DESCRIPTION_PLACEHOLDER: "Viết mô tả bài đăng tại đây...",
+        DROPZONE_PLACEHOLDER: "Đẩy hoặc kéo thả file vào đây",
+
+        LOGIN_TEXT: "Đăng Nhập",
+        SIGNUP_TEXT: "Đăng Ký",
+        TITLE_POST_TEXT: "Tiêu đề bài đăng",
+        DESCRIPTION_POST_TEXT: "Mô tả bài đăng",
+        POST_TEXT: "ĐĂNG TIN",
+        EDIT_PROFILE:"Chỉnh sử hồ sơ",
+        LOG_OUT:"Đăng xuất",
+        BACK_BUTTON: "Quay lại",
+        CHANGE_PASSWORD_TEXT:"Đổi mật khẩu",
+        OLD_PASSWORD_TEXT:"Mật khẩu cũ",
+        NEW_PASSWORD_TEXT:"Mật khẩu mới",
+        CONFIRM_PASSWORD_TEXT:"Xác nhận lại mật khẩu",
+        PERSONAL_INFORMATION:"Thông tin cá nhân",
+        FRIST_NAME:"Họ và tên đệm",
+        LAST_NAME:"Tên",
+        GENDER:"Giới Tính",
+        FEMALE:"Nữ",
+        MALE:"Nam",
+        ROLE:"Quyền",
+        DATETIME:"Ngày Sinh",
+        ADDRESS:"Địa chỉ",
+        PHONE_TEXT:"Số điện thoại",
+        SAVE_BUTTON:"Lưu",
+        CANCEL:"Hủy",
+        CREATE_NEW_ACCOUNT:"Tạo tài khoản mới",
+        USERNAME_TEXT:"Tên đăng nhập",
+        PASSWORD_TEXT:"Mật khẩu",
+        NOT_FOUND_PAGE:"Trang này không tồn tại!",
+        OOPS_SOMETHING_WRONG:"Oops Xảy Ra Lỗi Rồi"
 }
