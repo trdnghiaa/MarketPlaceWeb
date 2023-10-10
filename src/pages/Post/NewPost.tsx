@@ -6,7 +6,7 @@ import { useStore } from "../../stores";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { Button, FormControl, Grid, InputLabel, OutlinedInput, Paper, Typography } from "@mui/material";
-import { MESSAGE_TERMS, theme, TRANSLATE_TERMS } from "../../utils";
+import { theme, MESSAGE_TERMS, TRANSLATE_TERMS } from "../../utils";
 import { Dropzone, ExtFile, FileItem, ValidateFileResponse } from "@dropzone-ui/react";
 import { headers, UPLOAD_URL } from "../../service/fetchAPI";
 
@@ -102,7 +102,7 @@ export const NewPost: FC<{}> = observer(({}) => {
                 <Grid xs={12} sx={{mt: 3}}>
                     <FormControl fullWidth disabled={isView}>
                         <InputLabel htmlFor="title_post">
-                            Tiêu đề bài đăng
+                            {TRANSLATE_TERMS.TITLE_POST_TEXT}
                         </InputLabel>
                         <OutlinedInput
                             id="title_post"
@@ -110,7 +110,7 @@ export const NewPost: FC<{}> = observer(({}) => {
                             onChange={(event) => {
                                 sNewPost.post.set_title(event.target.value);
                             }}
-                            label="Tiêu đề bài đăng"
+                            label={TRANSLATE_TERMS.TITLE_POST_TEXT}
                             name="title"
                             required
                         />
@@ -118,7 +118,7 @@ export const NewPost: FC<{}> = observer(({}) => {
                 </Grid>
 
                 <Grid item xs={12} sx={{ my: 2, height: "300px" }}>
-                    <Typography variant={"h6"}>Mô tả tin</Typography>
+                    <Typography variant={"h6"}>{TRANSLATE_TERMS.DESCRIPTION_POST_TEXT}</Typography>
                     <ReactQuill theme="snow" value={sNewPost.post.description}
                                 onChange={(value) => {sNewPost.post.set_description(value)}} style={{ height: "70%" }}
                                 placeholder={TRANSLATE_TERMS.DESCRIPTION_PLACEHOLDER} modules={EDITOR_CONFIG.modules} formats={EDITOR_CONFIG.formats} />
@@ -167,7 +167,7 @@ export const NewPost: FC<{}> = observer(({}) => {
                         onClick={() => {}}
                         startIcon={<PostAdd />}
                     >
-                        Đăng tin
+                        {TRANSLATE_TERMS.POST_TEXT}
                     </Button>
                 </Grid>
                 {/*    <Grid*/}

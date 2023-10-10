@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 import { UserRole } from "../models/types";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../components/Loading";
+import { TRANSLATE_TERMS } from "../utils";
 
 const { REACT_APP_VOUCHER_HOST } = process.env;
 
@@ -26,7 +27,7 @@ export const Voucher: FC = observer(() => {
     return (
         <>
             {done ? <BasicLayout>
-                <Oops children={<Typography>Oops Xảy Ra Lỗi Rồi</Typography>} />
+                <Oops children={<Typography>{TRANSLATE_TERMS.OOPS_SOMETHING_WRONG}</Typography>} />
             </BasicLayout> : <Loading />}
         </>
 
