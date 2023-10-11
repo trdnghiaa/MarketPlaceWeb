@@ -1,6 +1,6 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import { enqueueSnackbar } from "notistack";
-import { MESSAGE_TERMS } from "../utils/messageTerms";
+import { MESSAGE_TERMS } from "../utils";
 
 export enum DialogType {
     confirm = "confirm",

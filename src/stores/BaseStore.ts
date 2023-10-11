@@ -1,10 +1,10 @@
-import {action, makeObservable, observable} from "mobx";
+import { makeObservable, observable } from "mobx";
 
 export class BaseStore {
-	constructor() {
-		makeObservable(this);
-	}
+    constructor() {
+        makeObservable(this);
+    }
 
-	@observable
-	types: string[] = new Array<string>();
+    @observable
+    types: string[] = new Array<string>();
 }

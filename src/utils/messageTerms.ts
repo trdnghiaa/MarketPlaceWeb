@@ -1,4 +1,3 @@
-
 export const MESSAGE_TERMS = {
     // TERM
     NOT_ALLOW_ACCESS_PAGE: "User Role Not Allowed Access Page!",
@@ -38,10 +37,15 @@ export const MESSAGE_TERMS = {
     DELETE_USER_QUESTION: "Bạn có chắc muốn xóa tài khoản {user}?",
     DELETE_USER_DESCRIPTION: "Hãy cân nhắc trước khi muốn xóa tài khoản để tránh nhầm lẫn. Xin cảm ơn",
     USER_CREATED_SUCCESSFUL: "Tạo người dùng thành công",
+
+    //
+    CATEGORY_INVALID: "Vui lòng nhập đầy đủ thông tin!",
+    CREATED_CATEGORY_SUCCESSFUL: "Tạo danh mục thành công",
     get: function (err: string) {
         return this[err] ? this[err] : err;
     }
-}
+};
+
 
 export const TRANSLATE_TERMS = {
         OPEN_NOTIFICATION: "Mở thông báo",
@@ -77,10 +81,15 @@ export const TRANSLATE_TERMS = {
         ADDRESS:"Địa chỉ",
         PHONE_TEXT:"Số điện thoại",
         SAVE_BUTTON:"Lưu",
-        CANCEL:"Hủy",
+        CANCEL: "Hủy",
         CREATE_NEW_ACCOUNT:"Tạo tài khoản mới",
         USERNAME_TEXT:"Tên đăng nhập",
         PASSWORD_TEXT:"Mật khẩu",
         NOT_FOUND_PAGE:"Trang này không tồn tại!",
-        OOPS_SOMETHING_WRONG:"Oops Xảy Ra Lỗi Rồi"
+        OOPS_SOMETHING_WRONG:"Oops Xảy Ra Lỗi Rồi",
+
+        ADD_CATEGORY_PREFIX: (name: string) => `Thêm vào "${name}"`,
+        ADD: "Thêm",
+        ENTER_CATEGORY_NAME: "Tên Danh Mục...",
+        FILTER_ICON: "Lọc Biểu Tượng..."
 }

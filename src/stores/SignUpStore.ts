@@ -42,8 +42,8 @@ export class SignUpStore {
     async doSignUp() {
         const { user } = this;
         const regexs = {
-            phone: /^[0-9\-\+]{10,12}$/g,
-            email: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+            phone: /^[0-9\-+]{10,12}$/g,
+            email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g
         }
 
         if (!user.last_name) {
@@ -97,10 +97,5 @@ export class SignUpStore {
         );
 
         return [err, data] as const;
-    }
-
-    @action
-    async convertToPartnerAccount() {
-        const [err, data] = await FetchAPI<{message: string}>(Method.POST, "/users/")
     }
 }

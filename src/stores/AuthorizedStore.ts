@@ -64,7 +64,7 @@ export class AuthorizedStore extends BaseStore {
         this.set_token(token);
         this.set_isLoggedIn(true);
 
-        if (data.role == UserRole.ADMIN)
+        if (data.role === UserRole.ADMIN)
             User.getTypes().then(([err, data]) => {
                 if (!err) {
                     store.types = data;

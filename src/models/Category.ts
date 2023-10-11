@@ -9,37 +9,44 @@ export class Category {
     @observable
     name: string;
     @observable
-    description: string;
-    @observable
     parent: string;
 
     constructor(data?: any) {
         this.icon = "";
         this.name = "";
         this._id = "";
-        this.description = "";
         this.parent = "ROOT";
 
         if (data) {
-            const { _id, icon, name, description, parent } = data;
+            const { _id, icon, name, parent } = data;
 
             this.icon = icon;
             this._id = _id;
             this.name = name;
-            this.description = description;
             this.parent = parent;
         }
 
         makeAutoObservable(this);
     }
 
-    static async getList(page: number, size: number, query?: string) {
-        // @ts-ignore
-        const searchParams: string = new URLSearchParams({ page, size, ...(query ? { query } : {}) }).toString();
-
-        const [err, data] = await FetchAPI<{data: Category[], count: number, totalPages: number}>(Method.GET, `/categories?` + searchParams);
+    static async getList() {
+        const [err, data] = await FetchAPI<Category[]>(Method.GET, `/categories`);
 
         return [err, data] as const;
     }
 
+    async save() {
+        const [err, data] = await FetchAPI(Method.POST, "/categories", this.toJSON());
+
+        return [err, data] as const;
+    }
+
+    toJSON() {
+        return {
+            _id: this._id,
+            icon: this.icon,
+            name: this.name,
+            parent: this.parent
+        }
+    }
 }

@@ -49,6 +49,7 @@ export class NotificationWebStore {
 
         if (err) throw err;
         notification.is_seen = true;
+        return data;
     }
 
     @action set_list(v: NotificationWeb[]) {
