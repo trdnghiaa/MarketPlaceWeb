@@ -1,38 +1,65 @@
 import { observer } from "mobx-react-lite";
-import React, { FC, MouseEvent, useState } from "react";
-import { Divider, Grid, IconButton, InputBase, Paper, Tooltip } from "@mui/material";
-import { MESSAGE_TERMS, TRANSLATE_TERMS } from "../../utils";
+import React, { FC, useState } from "react";
+import { Divider, dividerClasses, Grid, IconButton, iconButtonClasses, InputBase, inputBaseClasses, Paper, paperClasses, Tooltip } from "@mui/material";
+import { MESSAGE_TERMS, theme, TRANSLATE_TERMS } from "../../utils";
 import { Add, HighlightOff } from "@mui/icons-material";
-import { TreeViewData } from "../../stores/CategoryStore";
 import { IconPopoverSelect } from "../IconPopoverSelect";
 import { useSnackbar } from "notistack";
 import { useStore } from "../../stores";
+import { TreeViewData } from "../../models";
+import styled from "@emotion/styled";
 
-export const CategoryEditor: FC<{data: TreeViewData}> = observer(({ data }) => {
+const Root = styled(Grid)({
+    "&": {
+        width: "100%"
+    },
+    [`& .${paperClasses.root}`]: {
+        p: '2px 4px', display: 'flex', alignItems: 'center', width: "100%",
+        [`& .${inputBaseClasses.root}`]: {
+            marginLeft: 1, fontSize: theme.typography.subtitle1.fontSize, flexGrow: 1,
+        },
+        [`& .${iconButtonClasses.root}`]: { padding: '10px' },
+        [`& .${dividerClasses.root}`]: { height: 28, m: 0.5 }
+    },
+
+
+})
+
+
+export const CategoryEditor: FC<{data: TreeViewData, props: any}> = observer(({ data, props }) => {
     const [submitting, setSubmitting] = useState(false);
 
     const { enqueueSnackbar } = useSnackbar();
 
     const { sCategories } = useStore();
 
-    const cancelHandle = (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        data.removeInTree();
 
+    const cancelHandle = () => {
+        if (data._id) {
+            data.isView = true;
+        } else {
+            console.log("remove")
+            data.removeInTree();
+        }
     }
 
     const createHandle = async () => {
         setSubmitting(true);
 
-        data.save().then(([err, data]) => {
-            if (err) throw err;
+        try {
+            data.save().then(([err, data]) => {
+                if (err) throw err;
 
-            enqueueSnackbar(MESSAGE_TERMS.get(data.message), { variant: "success" });
-            sCategories.init();
-        }).catch((e) => {
-            setSubmitting(true);
-            enqueueSnackbar(MESSAGE_TERMS.get(e.message), { variant: "error" });
-        });
+                enqueueSnackbar(MESSAGE_TERMS.get(data.message), { variant: "success" });
+                sCategories.init();
+                setSubmitting(false);
+            }).catch((e) => {
+                throw e;
+            });
+        } catch (e) {
+            setSubmitting(false);
+            enqueueSnackbar(MESSAGE_TERMS.get((e instanceof Error ? e.message : e) as string), { variant: "error" });
+        }
 
     }
 
@@ -40,11 +67,10 @@ export const CategoryEditor: FC<{data: TreeViewData}> = observer(({ data }) => {
         data.icon = e;
     };
 
-    return <Grid direction={"column"} sx={{ width: "100%", maxHeight: "50vh" }}>
-        <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}>
+    return <Root container>
+        <Paper component="form">
             <IconPopoverSelect setIcon={setIcon} icon={data.icon} />
             <InputBase
-                sx={{ ml: 1, flex: 1 }}
                 placeholder={TRANSLATE_TERMS.ENTER_CATEGORY_NAME}
                 inputProps={{ 'aria-label': TRANSLATE_TERMS.ENTER_CATEGORY_NAME }}
                 value={data.name}
@@ -53,17 +79,17 @@ export const CategoryEditor: FC<{data: TreeViewData}> = observer(({ data }) => {
                 }}
             />
             <Tooltip title={TRANSLATE_TERMS.ADD}>
-                <IconButton disabled={submitting} color="success" type="button" sx={{ p: '10px' }} aria-label="add"
+                <IconButton disabled={submitting} color="success" type="button" aria-label="add"
                             onClick={createHandle}>
                     <Add />
                 </IconButton>
             </Tooltip>
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+            <Divider orientation="vertical" />
             <Tooltip title={TRANSLATE_TERMS.CANCEL}>
-                <IconButton color="error" sx={{ p: '10px' }} aria-label="cancel" onClick={cancelHandle}>
+                <IconButton color="error" aria-label="cancel" onClick={cancelHandle}>
                     <HighlightOff />
                 </IconButton>
             </Tooltip>
         </Paper>
-    </Grid>
+    </Root>
 })

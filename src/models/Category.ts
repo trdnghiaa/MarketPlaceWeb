@@ -29,14 +29,25 @@ export class Category {
         makeAutoObservable(this);
     }
 
+    async save() {
+        const uri = "/categories/";
+        const method: Method = this._id ? Method.PUT : Method.POST;
+
+        const path: string = uri + (this._id && this._id) || "";
+
+        const [err, data] = await FetchAPI(method, path, this.toJSON());
+
+        return [err, data] as const;
+    }
+
     static async getList() {
         const [err, data] = await FetchAPI<Category[]>(Method.GET, `/categories`);
 
         return [err, data] as const;
     }
 
-    async save() {
-        const [err, data] = await FetchAPI(Method.POST, "/categories", this.toJSON());
+    static async delete(id: string) {
+        const [err, data] = await FetchAPI(Method.DELETE, "/categories/" + id);
 
         return [err, data] as const;
     }
