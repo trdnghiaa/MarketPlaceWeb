@@ -77,7 +77,7 @@ export const Appbar = () => {
                                 display: { xs: "block", md: "none" },
                             }}
                         >
-                            {(role == UserRole.ADMIN ? MENU_ADMIN : MENU_SENSOR).map(({ name, path }) => (
+                            {(role === UserRole.ADMIN ? MENU_ADMIN : MENU_SENSOR).map(({ name, path }) => (
                                 <MenuItem key={name}>
                                     <Link to={path}>
                                         <Typography textAlign="center">

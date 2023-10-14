@@ -44,8 +44,8 @@ export class NotificationWeb {
         return [err, data] as const;
     }
 
-    static async seenAll(_id: string[]) {
-        const [err, data] = await FetchAPI<{message: string}>(Method.PUT, "/notification", { _id })
+    static async seenAll() {
+        const [err, data] = await FetchAPI<{message: string}>(Method.PUT, "/notification/all", )
 
         return [err, data] as const;
     }

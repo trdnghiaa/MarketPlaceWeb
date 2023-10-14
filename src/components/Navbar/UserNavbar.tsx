@@ -19,12 +19,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { DropdownSetting } from "../Settings";
 import { blue, grey } from "@mui/material/colors";
 import { NotificationsRounded } from "@mui/icons-material";
-import { NotificationMenu } from "../NotificationWeb";
+import { NotificationList, NotificationMenu } from "../NotificationWeb";
 import { NotificationWeb } from "../../models";
 
 
 const pages = DRAWER_ITEMS.slice(1);
-
 
 
 const PREFIX = "UNB-"
@@ -150,63 +149,7 @@ export const UserNavbar: FC = observer(() => {
                                 </Link>
                             ))}
                         </Box>
-                        {isLoggedIn &&
-                            <Box sx={{ flexGrow: 0 }}>
-                                <Tooltip title={TRANSLATE_TERMS.OPEN_NOTIFICATION}>
-                                    <ListItem sx={{ width: "fit-content" }}>
-                                        <IconButton onClick={handleOpenUserMenu("notify")}>
-                                            <Badge badgeContent={sNotificationWeb.count} color="error">
-                                                <NotificationsRounded color="action"
-                                                                      sx={{ minWidth: "2rem", color: blue[300] }} />
-                                            </Badge>
-                                        </IconButton>
-                                    </ListItem>
-                                </Tooltip>
-                                <Menu
-                                    className={classes.notification}
-                                    sx={{ mt: "45px" }}
-                                    slotProps={{
-                                        paper: {
-                                            sx: { padding: 0, "ul": { paddingBottom: 0 } }
-                                        },
-                                        root: {
-                                            sx: { padding: 0 }
-                                        }
-                                    }}
-                                    id="menu-appbar"
-                                    anchorEl={anchorElUser.notify}
-                                    anchorOrigin={{
-                                        vertical: "top",
-                                        horizontal: "right",
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: "top",
-                                        horizontal: "right",
-                                    }}
-                                    open={Boolean(anchorElUser.notify)}
-                                    onClose={handleCloseUserMenu("notify")}>
-                                    <Container>
-                                        <Grid container justifyContent="space-between" alignItems="center"
-                                              className={classes.notification}>
-                                            <Typography variant="h6">{TRANSLATE_TERMS.NOTIFICATION}</Typography>
-                                            <Link to={"/notifications"}>
-                                                <Typography
-                                                    variant="subtitle1">{TRANSLATE_TERMS.SEEN_ALL_NOTIFICATION}
-                                                </Typography>
-                                            </Link>
-                                        </Grid>
-                                        <Divider />
-                                        <NotificationMenu goto={gotoPage} />
-                                    </Container>
-                                    <Grid container
-                                          sx={{ position: "sticky", bottom: 0, width: "100%", backgroundColor: grey[50], py: "4px", alignItems: "center" }}>
-                                        <Link style={styles.notificationLink}
-                                              to={"/notifications"}>{TRANSLATE_TERMS.NOTIFICATION_PAGE}</Link>
-                                    </Grid>
-                                </Menu>
-                            </Box>
-                        }
+                        {isLoggedIn && <NotificationMenu />}
                         {isLoggedIn ? (
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title={TRANSLATE_TERMS.OPEN_SETTINGS}>
