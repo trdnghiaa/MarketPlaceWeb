@@ -1,8 +1,7 @@
 import { action, observable } from "mobx";
-import { User } from "../models/User";
-import { clearAll, clearJwtToken, getJwtToken, getRole, setRole, } from "../utils/LoginUtils";
+import { clearAll, clearJwtToken, getJwtToken, getRole, setRole, } from "../utils";
 import { setAuthorizationToken } from "../service/fetchAPI";
-import { UserRole } from "../models/types";
+import { UserRole, User} from "../models";
 import { BaseStore } from "./BaseStore";
 import { store } from "./index";
 
@@ -25,8 +24,8 @@ export class AuthorizedStore extends BaseStore {
         }
         // this.set_isDone(false);
 
-        this.set_isLoggedIn(true);
-        const role = getRole();
+        this.set_isLoggedIn(true); // da dang nhap
+        const role = getRole(); // ADMIN
         if (role) this.set_role(role);
 
         if (!this.isLoading) {
@@ -64,7 +63,7 @@ export class AuthorizedStore extends BaseStore {
         this.set_token(token);
         this.set_isLoggedIn(true);
 
-        if (data.role == UserRole.ADMIN)
+        if (data.role === UserRole.ADMIN)
             User.getTypes().then(([err, data]) => {
                 if (!err) {
                     store.types = data;

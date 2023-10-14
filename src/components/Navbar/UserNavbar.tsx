@@ -10,7 +10,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Tooltip from "@mui/material/Tooltip";
 import { UserDrawer } from "../user";
-import { APP_NAME, DRAWER_ITEMS, theme, USER_SETTINGS } from "../../utils";
+import { APP_NAME, DRAWER_ITEMS, theme, TRANSLATE_TERMS, USER_SETTINGS } from "../../utils";
 import { useStore } from "../../stores";
 import { observer } from "mobx-react-lite";
 import { Badge, Button, Container, Divider, Grid, IconButton } from "@mui/material";
@@ -19,9 +19,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { DropdownSetting } from "../Settings";
 import { blue, grey } from "@mui/material/colors";
 import { NotificationsRounded } from "@mui/icons-material";
-import { TRANSLATE_TERMS } from "../../utils/messageTerms";
 import { NotificationMenu } from "../NotificationWeb";
-import { NotificationWeb } from "../../models/NotificationWeb";
+import { NotificationWeb } from "../../models";
 
 
 const pages = DRAWER_ITEMS.slice(1);
@@ -105,23 +104,23 @@ export const UserNavbar: FC = observer(() => {
                         <UserDrawer />
                         <Grid style={styles.gridRoot}>
                             {/*<img src={APP_LOGO_URL} width={64} alt="Logo"/>*/}
-                            <Link style={{color:"black"}} to={"/"} >
-                            <Typography
-                                variant="h4"
-                                noWrap
-                                component="div"
-                                sx={{
-                                    mr: 2,
-                                    display: { xs: "none", md: "flex" },
-                                }}
-                            >
-                                <Typography sx={{ fontWeight: 900 }} variant="h4">
-                                    {APP_NAME.split(" ")[0]}
+                            <Link style={{ color: "black" }} to={"/"}>
+                                <Typography
+                                    variant="h4"
+                                    noWrap
+                                    component="div"
+                                    sx={{
+                                        mr: 2,
+                                        display: { xs: "none", md: "flex" },
+                                    }}
+                                >
+                                    <Typography sx={{ fontWeight: 900 }} variant="h4">
+                                        {APP_NAME.split(" ")[0]}
+                                    </Typography>
+                                    <Typography variant="h4" sx={{ fontWeight: 100, textDecoration: "underline" }}>
+                                        {APP_NAME.split(" ")[1]}
+                                    </Typography>
                                 </Typography>
-                                <Typography variant="h4" sx={{ fontWeight: 100, textDecoration: "underline" }}>
-                                    {APP_NAME.split(" ")[1]}
-                                </Typography>
-                            </Typography>
                             </Link>
                         </Grid>
                         <Box
@@ -158,7 +157,7 @@ export const UserNavbar: FC = observer(() => {
                                         <IconButton onClick={handleOpenUserMenu("notify")}>
                                             <Badge badgeContent={sNotificationWeb.count} color="error">
                                                 <NotificationsRounded color="action"
-                                                                    sx={{ minWidth: "2rem", color: blue[300] }} />
+                                                                      sx={{ minWidth: "2rem", color: blue[300] }} />
                                             </Badge>
                                         </IconButton>
                                     </ListItem>
@@ -168,7 +167,7 @@ export const UserNavbar: FC = observer(() => {
                                     sx={{ mt: "45px" }}
                                     slotProps={{
                                         paper: {
-                                            sx: { padding: 0, "ul": { paddingBottom: 0} }
+                                            sx: { padding: 0, "ul": { paddingBottom: 0 } }
                                         },
                                         root: {
                                             sx: { padding: 0 }
@@ -189,7 +188,7 @@ export const UserNavbar: FC = observer(() => {
                                     onClose={handleCloseUserMenu("notify")}>
                                     <Container>
                                         <Grid container justifyContent="space-between" alignItems="center"
-                                            className={classes.notification}>
+                                              className={classes.notification}>
                                             <Typography variant="h6">{TRANSLATE_TERMS.NOTIFICATION}</Typography>
                                             <Link to={"/notifications"}>
                                                 <Typography
@@ -200,9 +199,10 @@ export const UserNavbar: FC = observer(() => {
                                         <Divider />
                                         <NotificationMenu goto={gotoPage} />
                                     </Container>
-                                    <Grid container sx={{ position: "sticky", bottom: 0, width: "100%", backgroundColor: grey[50], py: "4px", alignItems: "center" }}>
+                                    <Grid container
+                                          sx={{ position: "sticky", bottom: 0, width: "100%", backgroundColor: grey[50], py: "4px", alignItems: "center" }}>
                                         <Link style={styles.notificationLink}
-                                            to={"/notifications"}>{TRANSLATE_TERMS.NOTIFICATION_PAGE}</Link>
+                                              to={"/notifications"}>{TRANSLATE_TERMS.NOTIFICATION_PAGE}</Link>
                                     </Grid>
                                 </Menu>
                             </Box>

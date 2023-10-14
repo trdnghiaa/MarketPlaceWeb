@@ -1,9 +1,9 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import { User } from "../models/User";
-import { MIN_YEAR_OLD_USER } from "../utils";
+import { User } from "../models";
+import { MESSAGE_TERMS, MIN_YEAR_OLD_USER } from "../utils";
 import { FetchAPI, Method } from "../service/fetchAPI";
 import { Store } from "./Store";
-import { MESSAGE_TERMS } from "../utils/messageTerms";
+
 
 export class NewAccountStore {
     @observable
@@ -42,8 +42,8 @@ export class NewAccountStore {
     async createAccount() {
         const { user } = this;
         const regexs = {
-            phone: /^[0-9\-\+]{10,12}$/g,
-            email: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+            phone: /^[0-9\-+]{10,12}$/g,
+            email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g
         }
 
         if (!user.last_name) {

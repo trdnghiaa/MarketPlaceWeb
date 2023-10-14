@@ -1,8 +1,7 @@
 import { store } from "../stores";
-import { MenuItem, MenuItemIcon } from "../models/types";
-import { AddCircleOutlineSharp, DnsRounded, FavoriteRounded, HomeRounded, NotificationsRounded } from "@mui/icons-material";
+import { MenuItem, MenuItemIcon } from "../models";
+import { AddCircleOutlineSharp, DnsRounded, FavoriteRounded, HomeRounded} from "@mui/icons-material";
 import { TRANSLATE_TERMS } from "./messageTerms";
-
 
 export const srcIcon = "./favicon.ico";
 
@@ -37,7 +36,7 @@ export const MENU_SENSOR = [
 
 export const MENU_ADMIN = [
     { name: "Tài Khoản", path: "/accounts" },
-    { name: "Thể Loại", path: "/categories" },
+    { name: "Danh Mục", path: "/categories" },
     { name: "Bài Đăng", path: "/post" },
     { name: "vouchers", path: "/vouchers" },
 ]
@@ -115,6 +114,6 @@ export const LOGO_TRAVELOKA =
 
 
 export const regexes = {
-    phone: /^[0-9\-\+]{10,12}$/g,
-    email: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+    phone: /^[0-9\-+]{10,12}$/g,
+    email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g
 }

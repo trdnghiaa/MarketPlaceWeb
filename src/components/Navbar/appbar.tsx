@@ -1,24 +1,11 @@
-import { useState, MouseEvent } from "react";
-import {
-    AppBar,
-    Box,
-    Toolbar,
-    IconButton,
-    Typography,
-    Menu,
-    Container,
-    Avatar,
-    Button,
-    Tooltip,
-    MenuItem,
-} from "@mui/material/";
+import { MouseEvent, useState } from "react";
+import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, } from "@mui/material/";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import { ADMIN_SETTINGS, APP_NAME, MENU_ADMIN, MENU_SENSOR} from "../../utils";
+import { ADMIN_SETTINGS, APP_NAME, MENU_ADMIN, MENU_SENSOR, theme } from "../../utils";
 import { store, useStore } from "../../stores";
 import { DropdownSetting } from "../Settings";
-import { theme } from "../../utils";
-import { UserRole } from "../../models/types";
+import { UserRole } from "../../models";
 
 export const Appbar = () => {
     const { role } = useStore();

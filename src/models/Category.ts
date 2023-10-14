@@ -9,37 +9,55 @@ export class Category {
     @observable
     name: string;
     @observable
-    description: string;
-    @observable
     parent: string;
 
     constructor(data?: any) {
         this.icon = "";
         this.name = "";
         this._id = "";
-        this.description = "";
         this.parent = "ROOT";
 
         if (data) {
-            const { _id, icon, name, description, parent } = data;
+            const { _id, icon, name, parent } = data;
 
             this.icon = icon;
             this._id = _id;
             this.name = name;
-            this.description = description;
             this.parent = parent;
         }
 
         makeAutoObservable(this);
     }
 
-    static async getList(page: number, size: number, query?: string) {
-        // @ts-ignore
-        const searchParams: string = new URLSearchParams({ page, size, ...(query ? { query } : {}) }).toString();
+    async save() {
+        const uri = "/categories/";
+        const method: Method = this._id ? Method.PUT : Method.POST;
 
-        const [err, data] = await FetchAPI<{data: Category[], count: number, totalPages: number}>(Method.GET, `/categories?` + searchParams);
+        const path: string = uri + (this._id && this._id) || "";
+
+        const [err, data] = await FetchAPI(method, path, this.toJSON());
 
         return [err, data] as const;
     }
 
+    static async getList() {
+        const [err, data] = await FetchAPI<Category[]>(Method.GET, `/categories`);
+
+        return [err, data] as const;
+    }
+
+    static async delete(id: string) {
+        const [err, data] = await FetchAPI(Method.DELETE, "/categories/" + id);
+
+        return [err, data] as const;
+    }
+
+    toJSON() {
+        return {
+            _id: this._id,
+            icon: this.icon,
+            name: this.name,
+            parent: this.parent
+        }
+    }
 }

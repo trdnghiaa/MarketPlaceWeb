@@ -6,7 +6,7 @@ export const headers: { [key: string]: string } = {
     Accept: "application/json",
 };
 
-const HOST = process.env?.REACT_APP_API;
+export const HOST = process.env?.REACT_APP_API;
 
 // const HOST = "http://localhost:3010"
 
@@ -39,7 +39,7 @@ export async function FetchAPI<T = any, TError = any>(
             method,
             mode: "cors",
             headers,
-            ...(method != "GET" && body
+            ...(method !== "GET" && body
                 ? {body: JSON.stringify(body)}
                 : {}),
         });

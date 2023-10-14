@@ -25,6 +25,8 @@ export class AccountStore {
 
     @action
     async init() {
+        if (this.isLoading) return;
+
         this.set_isLoading(true);
         const [err, data] = await User.getAllUser(this.page, this.size, this.queryText);
 
@@ -37,9 +39,11 @@ export class AccountStore {
         this.totalRow = data.count;
         this.set_isLoading(false);
     }
+
     @action set_page(v: number) {
         this.page = v;
     }
+
     @action set_size(v: number) {
         this.size = v;
     }
