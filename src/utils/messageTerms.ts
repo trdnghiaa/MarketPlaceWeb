@@ -44,8 +44,18 @@ export const MESSAGE_TERMS = {
     DELETED_CATEGORY_SUCCESSFUL: "Xóa danh mục thành công",
     CATEGORY_ID_INVALID: "Danh mục không khả dụng!",
 
-    get: function (err: string) {
-        return this[err] ? this[err] : err;
+    //
+    SEEN_NOTIFICATION_SUCCESS: "Đánh dấu đã đọc thành công",
+    get: function (err: string | unknown) {
+        let message: string = "";
+        if (err instanceof Error) {
+            message = err.message
+        } else if (typeof err == "string") {
+            message = err
+        } else {
+            console.warn(err);
+        }
+        return this[message] ? this[message] : message;
     }
 };
 

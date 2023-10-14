@@ -61,4 +61,9 @@ export class NotificationWebStore {
     }
 
 
+    @action
+    async seenAll() {
+        const [err, data] = await NotificationWeb.seenAll();
+        return [err, data] as const;
+    }
 }
