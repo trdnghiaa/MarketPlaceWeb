@@ -1,10 +1,20 @@
-export const services = [
-	{ code: "VILLA-APARTMENT", name: "Biệt thự - Căn hộ" },
-	{ code: "FLIGHT", name: "Chuyến bay" },
-	{ code: "CAR-RENTAL", name: "Cho thuê xe" },
-	{ code: "AIRPORT-PICKLES", name: "Đưa đón sân bay" },
-	{ code: "TOUR", name: "Tour du lịch" },
-	{ code: "RESTAURANT", name: "Nhà hàng" },
-	{ code: "VOUCHER", name: "Voucher" },
-	{ code: "SAVING-COMBO", name: "Combo tiết kiệm" },
-];
+export const Object2Filter = (obj: object): object => {
+    const filter: Array<Object> = [];
+
+    for (let key of Object.keys(obj)) {
+        filter.push({ field: key, type: "=", value: obj[key] });
+    }
+
+    return arrFilter2Obj(filter);
+}
+
+function arrFilter2Obj(filters: Array<Object>): object {
+    const obj = {};
+
+    for (const index in filters) {
+        for (const key in filters[index]) {
+            obj[`filters[${index}][${key}]`] = filters[index][key];
+        }
+    }
+    return obj;
+}

@@ -2,30 +2,30 @@
 import { Account, Home, Login, MyPost, NewAccount, NewPost, NotFound, Order, Profile, SavedPost, Voucher, } from "../pages";
 import { Register } from "../pages/Register";
 import React from "react";
-import { UserRole } from "../models/types";
+import { UserRole } from "../models";
 import { RouteGuard } from "../components/Protected";
 import { PageMiddle } from "../pages/PageMiddle";
 import { Categories } from "../pages/Categories";
+import { NotificationPage } from "../pages/User/Notification";
 
 export interface RouteModel {
     path: string,
     component: React.ComponentElement<any, any>;
-    isPrivate?: boolean;
+    isPrivate?: boolean; // have logged in?
     role?: UserRole;
-    isAdmin?: boolean;
     name: string;
 }
 
 const routersAdmin: RouteModel[] = [
     {
         path: "/accounts/new", component:
-            <NewAccount />, isPrivate: true, isAdmin: true, role: UserRole.ADMIN, name: "Tạo tài khoản"
+            <NewAccount />, isPrivate: true, role: UserRole.ADMIN, name: "Tạo tài khoản"
     },
     {
         path: "/accounts",
         component: <Account />,
         isPrivate: true,
-        isAdmin: true, role: UserRole.ADMIN, name: "Quản lý tài khoản",
+        role: UserRole.ADMIN, name: "Quản lý tài khoản",
     },
     {
         path: "/accounts/:account/:mode",
@@ -40,7 +40,7 @@ const routersAdmin: RouteModel[] = [
         role: UserRole.ADMIN,
         name: "Quản lý thể loại"
     }
-]
+];
 
 // u can add new route in here
 const routers: RouteModel[] = [
@@ -54,15 +54,16 @@ const routers: RouteModel[] = [
     { path: "/my-post", component: <MyPost />, name: "Tin đã đăng", isPrivate: true },
     { path: "/saved-post", component: <SavedPost />, name: "Tin đã lưu", isPrivate: true },
     { path: "/signup", component: <Register />, name: "Đăng ký tài khoản" },
+    { path: "/notifications", component: <NotificationPage />, name: "Thông báo", isPrivate: true },
     { path: "*", component: <NotFound />, name: "Không tim thấy trang" },
 ];
 
 export const routerConfig = routers.concat(routersAdmin).map((e) => {
     if (e.isPrivate)
         e.component = <RouteGuard allowRole={e.role || UserRole.USER}
-                                  children={<PageMiddle child={e.component} name={e.name} />} />
+                                  children={<PageMiddle child={e.component} name={e.name} key={e.path} />} />
     else {
-        e.component = <PageMiddle child={e.component} name={e.name} />;
+        e.component = <PageMiddle child={e.component} name={e.name} key={e.path} />;
     }
     return e;
 });

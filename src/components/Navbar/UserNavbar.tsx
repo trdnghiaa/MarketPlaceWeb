@@ -13,14 +13,12 @@ import { UserDrawer } from "../user";
 import { APP_NAME, DRAWER_ITEMS, theme, TRANSLATE_TERMS, USER_SETTINGS } from "../../utils";
 import { useStore } from "../../stores";
 import { observer } from "mobx-react-lite";
-import { Badge, Button, Container, Divider, Grid, IconButton } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { styled } from '@mui/system';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { DropdownSetting } from "../Settings";
-import { blue, grey } from "@mui/material/colors";
-import { NotificationsRounded } from "@mui/icons-material";
-import { NotificationList, NotificationMenu } from "../NotificationWeb";
-import { NotificationWeb } from "../../models";
+import { blue } from "@mui/material/colors";
+import { NotificationMenu } from "../NotificationWeb";
 
 
 const pages = DRAWER_ITEMS.slice(1);
@@ -60,7 +58,6 @@ const Root = styled("div")({
 export const UserNavbar: FC = observer(() => {
     const { isLoggedIn, currentUser, sNotificationWeb, isDone } = useStore();
     const [anchorElUser, setAnchorElUser] = useState<{user: HTMLElement | null, notify: HTMLElement | null}>({ user: null, notify: null });
-    const navigator = useNavigate();
 
     const handleOpenUserMenu = (name: string) => {
         return (event: MouseEvent<HTMLElement>) => {
@@ -76,19 +73,11 @@ export const UserNavbar: FC = observer(() => {
         }
     }
 
-    const gotoPage = (notification: NotificationWeb) => {
-        handleCloseUserMenu("notify")();
-
-        sNotificationWeb.seen(notification);
-
-        navigator(notification.url);
-    }
-
     useEffect(() => {
         if (isDone && isLoggedIn) {
             sNotificationWeb.init();
         }
-    });
+    }, []);
 
     return (
         <Root>
