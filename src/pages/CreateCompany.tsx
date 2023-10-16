@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { BasicLayout } from "../layouts/common";
-import { countries } from "../utils/countries";
-import { services } from "../utils/services";
+import { countries } from "../utils";
 import {
 	Grid,
 	Paper,
@@ -11,7 +10,6 @@ import {
 	FormControl,
 	Select,
 	InputLabel,
-	MenuItem,
 	SelectChangeEvent,
 	Button,
 } from "@mui/material";
@@ -122,11 +120,6 @@ export const CreateCompany: FC = () => {
 									label="Chon dich vu"
 									onChange={handleChange}
 								>
-									{services.map((ser) => (
-										<MenuItem value={ser.code}>
-											{ser.name}
-										</MenuItem>
-									))}
 								</Select>
 							</FormControl>
 						</Box>

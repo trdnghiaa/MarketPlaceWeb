@@ -1,10 +1,10 @@
 import { Drafts, NotificationsRounded } from "@mui/icons-material";
-import { Badge, Button, Container, Divider, Grid, IconButton, Link as MLink, ListItemIcon, MenuItem, Stack, Typography } from "@mui/material";
+import { Badge, Container, Divider, Grid, IconButton, Link as MLink, ListItemIcon, MenuItem, Stack, Typography } from "@mui/material";
 import { blue, grey } from "@mui/material/colors";
 import { observer } from "mobx-react";
 import { CSSProperties, FC, MouseEvent, useState } from "react";
 import { useStore } from "../../stores";
-import { formatDDMMYYYY, MESSAGE_TERMS, TRANSLATE_TERMS } from "../../utils";
+import { formatSmartToday, MESSAGE_TERMS, TRANSLATE_TERMS } from "../../utils";
 import { NotificationWeb } from "../../models";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
@@ -99,7 +99,7 @@ export const NotificationMenu: FC = observer(({}) => {
             </Container>
             <Grid container
                   sx={{ position: "sticky", bottom: 0, width: "100%", backgroundColor: grey[50], py: "4px", alignItems: "center" }}>
-                <Link style={styles.notificationLink} to={"/notifications"}>{TRANSLATE_TERMS.NOTIFICATION_PAGE}</Link>
+                <Link style={styles.notificationLink} to={"/notifications"}>{TRANSLATE_TERMS.GO_TO_NOTIFICATION_PAGE}</Link>
             </Grid>
         </Menu>
     </Box>
@@ -109,7 +109,7 @@ export const NotificationList: FC<{goto: (notification: NotificationWeb) => void
     const { sNotificationWeb } = useStore();
 
     return <>
-        {sNotificationWeb.list.map((e) => (
+        {sNotificationWeb.listMenu.map((e) => (
             <MenuItem key={e._id} onClick={() => {goto(e)}}
                       style={{ ...(e.is_seen ? {} : { backgroundColor: grey[200] }) }}>
                 <ListItemIcon>
@@ -120,7 +120,7 @@ export const NotificationList: FC<{goto: (notification: NotificationWeb) => void
                     <Typography variant="body2" noWrap={true} sx={{ color: grey[500] }}
                                 nonce={""}>{e.description}</Typography>
                     <Typography variant="caption"
-                                sx={{ color: grey[500] }}>{formatDDMMYYYY(e.created_date)}</Typography>
+                                sx={{ color: grey[500] }}>{formatSmartToday(e.created_at)}</Typography>
                 </Stack>
             </MenuItem>))}
     </>
