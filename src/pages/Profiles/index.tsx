@@ -8,20 +8,15 @@ import { UserOrderHistory } from "../../components/userOrderHistory";
 import { BasicLayout } from "../../layouts/common";
 import { UserOptionBar } from "../../components/Settings/UserOptionBar";
 import { useSnackbar } from "notistack";
-import { User } from "../../models/User";
 import { useStore } from "../../stores";
-import { MODE, UserRole } from "../../models/types";
-import { FormControl, InputLabel, MenuList, OutlinedInput } from "@mui/material";
+import { MODE, User, UserRole } from "../../models";
+import { MenuList } from "@mui/material";
 import { observer } from "mobx-react";
 import { DropdownSetting } from "../../components/Settings";
-import { USER_SETTINGS } from "../../utils/constraint";
-import { theme } from "../../utils/theme";
+import { MESSAGE_TERMS, theme, USER_SETTINGS } from "../../utils";
 import { ChangePassword } from "../User/ChangePassword";
-import { Order } from "../../models/Order";
-import { Voucher } from "../../models/Voucher";
 import { MyVoucher } from "../User/MyVoucher";
-import { MESSAGE_TERMS } from "../../utils/messageTerms";
-import { setTitle } from "../../utils";
+
 
 export const Profile: FC = observer(() => {
     const { sProfile, role } = useStore();
@@ -84,19 +79,24 @@ export const Profile: FC = observer(() => {
                 const { user, old_password, new_password, confirm_password } = sProfile;
 
                 if (role !== UserRole.ADMIN) {
-                    if (!old_password)
+                    if (!old_password) {
                         throw new Error("Vui lòng điền mật khẩu cũ !");
-                    if (!new_password)
+                    }
+                    if (!new_password) {
                         throw new Error("Vui lòng điền mật khẩu mới !");
-                    if (!confirm_password)
+                    }
+                    if (!confirm_password) {
                         throw new Error("Vui lòng điền xác nhận mật khẩu !");
+                    }
 
-                    if (confirm_password != new_password)
+                    if (confirm_password != new_password) {
                         throw new Error("Mật khẩu xác nhận không đúng !");
+                    }
                 }
 
-                if (new_password.length < 8)
+                if (new_password.length < 8) {
                     throw new Error("Mật khẩu ít nhất phải có 8 kí tự !")
+                }
 
 
                 User.changePassword(user._id, new_password, old_password).then(([err, data]) => {

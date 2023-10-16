@@ -64,7 +64,7 @@ export const TRANSLATE_TERMS = {
     OPEN_NOTIFICATION: "Mở thông báo",
     OPEN_SETTINGS: "Mở cài đặt",
     NOTIFICATION: "Thông báo",
-    NOTIFICATION_PAGE: "Đi tới trang thông báo",
+    GO_TO_NOTIFICATION_PAGE: "Đi tới trang thông báo",
     SEEN_ALL_NOTIFICATION: "Đánh dấu đã đọc tất cả",
 
     CREATE_POST: "Tạo Tin",
@@ -108,4 +108,9 @@ export const TRANSLATE_TERMS = {
     CATEGORY_MANAGEMENT_TEXT: "Quản Lý Danh Mục",
     DELETE: "Xóa",
     EDIT: "Sửa",
+
+    ACCOUNT: "Tài Khoản",
+    CHAT: "Trò Chuyện",
+    POST: "Tin Đăng",
+    ALL: "Tất cả"
 }

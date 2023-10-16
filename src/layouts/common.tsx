@@ -6,7 +6,7 @@ import { UserNavbar } from "../components/user";
 
 import "./common.scss";
 import { store, useStore } from "../stores";
-import { UserRole } from "../models/types";
+import { UserRole } from "../models";
 import { observer } from "mobx-react";
 
 export const BasicLayout: FC<{ children: ReactNode }> = observer(
@@ -16,7 +16,6 @@ export const BasicLayout: FC<{ children: ReactNode }> = observer(
 		return (
 			<>
 				<div className="App">
-
 					{isLoading ? <></> : store.isLoggedIn && role !== UserRole.USER ? (
 						<Appbar />
 					) : (
@@ -30,3 +29,26 @@ export const BasicLayout: FC<{ children: ReactNode }> = observer(
 		);
 	}
 );
+// <>
+// <div>
+//     <p>ABC</p>
+// </div>
+// <div>
+//     <p>ABC</p>
+// </div>
+// <div>
+//     <p>ABC</p>
+// </div>
+// </>
+
+// <div id="root">
+// 		<div>
+//  	   <p>ABC</p>
+// 		</div>
+// 		<div>
+//     		<p>ABC</p>
+// 		</div>
+// 		<div>
+//     		<p>ABC</p>
+// 		</div>
+// </div>
