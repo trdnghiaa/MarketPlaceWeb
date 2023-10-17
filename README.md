@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Amazin Place
+
+[![wakatime](https://wakatime.com/badge/user/4e4263e1-46f1-41ba-b0d3-57c868e4cca9/project/5da04d13-3029-4a4f-8976-0b791b8255c1.svg)]()
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
