@@ -10,3 +10,23 @@ export const randomStringWithLength = (length: number) => {
 }
 
 export const goBack = () => window.history.go(-1);
+
+// @ts-ignore
+export const class2JSON = (clss: any) => {
+    if (clss instanceof Array) return clss.map(class2JSON);
+
+    switch (typeof clss) {
+        case "string":
+            return clss;
+        case "object":
+            const result = {};
+            const keys = Object.keys(clss);
+            for (const key of keys) {
+                result[key] = class2JSON(clss[key]);
+            }
+            return result;
+        case "boolean":
+            return Boolean(clss);
+    }
+    return {};
+}

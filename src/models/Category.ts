@@ -1,5 +1,7 @@
-import { makeAutoObservable, observable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
 import { FetchAPI, Method } from "../service/fetchAPI";
+import { AdvanceOption } from "./AdvanceField";
+import { class2JSON } from "../utils";
 
 export class Category {
     @observable
@@ -10,23 +12,31 @@ export class Category {
     name: string;
     @observable
     parent: string;
+    @observable
+    advancedSchemaInfo: AdvanceOption[];
 
     constructor(data?: any) {
         this.icon = "";
         this.name = "";
         this._id = "";
         this.parent = "ROOT";
+        this.advancedSchemaInfo = [];
 
         if (data) {
-            const { _id, icon, name, parent } = data;
+            const { _id, icon, name, parent, advancedSchemaInfo } = data;
 
             this.icon = icon;
             this._id = _id;
             this.name = name;
             this.parent = parent;
+            this.advancedSchemaInfo = advancedSchemaInfo instanceof Array ? advancedSchemaInfo.map((e) => new AdvanceOption(e)) : [];
         }
 
         makeAutoObservable(this);
+    }
+
+    @action set_icon(v: string) {
+        this.icon = v;
     }
 
     async save() {
@@ -35,7 +45,9 @@ export class Category {
 
         const path: string = uri + (this._id && this._id) || "";
 
-        const [err, data] = await FetchAPI(method, path, this.toJSON());
+        console.log(this.toJSON());
+
+        const [err, data] = await FetchAPI<{data: Category, message: string}>(method, path, this.toJSON());
 
         return [err, data] as const;
     }
@@ -53,11 +65,25 @@ export class Category {
     }
 
     toJSON() {
-        return {
-            _id: this._id,
-            icon: this.icon,
-            name: this.name,
-            parent: this.parent
-        }
+        return class2JSON(this);
+    }
+
+    static async getById(category: string) {
+        const [err, data] = await FetchAPI<Category>(Method.GET, "/categories/" + category);
+
+
+        return [err, data] as const;
+    }
+
+    @action set_name(v: string) {
+        this.name = v;
+    }
+
+    @action set_advancedSchemaInfo(v: AdvanceOption[]) {
+        this.advancedSchemaInfo = v;
+    }
+
+    @action set_parent(v: string) {
+        this.parent = v;
     }
 }

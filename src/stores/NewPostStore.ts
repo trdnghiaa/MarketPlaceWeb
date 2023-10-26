@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
-import { Post } from "../models/Post";
+import { Category, Post } from "../models";
 import { ExtFile } from "@files-ui/core";
 
 export class NewPostStore {
@@ -10,8 +10,17 @@ export class NewPostStore {
         makeObservable(this);
     }
 
+
     @action init() {
-      this.post = new Post();
+        this.post = new Post();
+    }
+
+    @action get_post() {
+        return this.post;
+    }
+
+    @action set_category(v: Category) {
+        this.post.set_category(v);
     }
 
     @action set_file(v: ExtFile[]) {

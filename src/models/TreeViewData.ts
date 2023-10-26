@@ -10,6 +10,7 @@ export class TreeViewData {
     @observable children: TreeViewData[];
     @observable isView: boolean;
     @observable isAddNew = false;
+    @observable category = new Category();
 
     constructor(data?: any) {
         this.name = "";
@@ -23,7 +24,7 @@ export class TreeViewData {
 
         if (data) {
             const { name, _id, parent, icon, children } = data;
-
+            this.category = new Category(data);
             this.name = name;
             this._id = _id;
             this.parent = parent;
@@ -63,13 +64,7 @@ export class TreeViewData {
     }
 
     @action getChildCount(): number {
-        const result = this.children.length;
-
-        const count = this.children.reduce((r, e) => {
-            return r + e.getChildCount();
-        }, 0)
-
-        return result + count;
+        return this.children.reduce((r, e) => r + e.getChildCount(), this.children.length);
     }
 
     @action removeInTree() {
@@ -82,5 +77,15 @@ export class TreeViewData {
 
     @action set_name(v: string) {
         this.name = v;
+    }
+
+    @action getNameNChild(): string[] {
+        const map = this.children.flatMap(e => e.getNameNChild());
+        return [this.name, ...map];
+    }
+
+    @action getNameOfChild(bold?: boolean): string {
+        const data = this.children.flatMap(e => e.getNameNChild());
+        return (bold ? data.map(e => `<b>${e}</b>`) : data).join(", ");
     }
 }

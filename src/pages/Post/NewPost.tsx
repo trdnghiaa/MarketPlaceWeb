@@ -1,20 +1,20 @@
-import { FC, useEffect, useState } from "react";
+import { FC, SyntheticEvent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { BasicLayout } from "../../layouts/common";
 import { styled } from "@mui/system";
 import { useStore } from "../../stores";
 import { useSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
 import { Button, FormControl, Grid, InputLabel, OutlinedInput, Paper, Typography } from "@mui/material";
-import { theme, MESSAGE_TERMS, TRANSLATE_TERMS } from "../../utils";
+import { MESSAGE_TERMS, theme, TRANSLATE_TERMS } from "../../utils";
 import { Dropzone, ExtFile, FileItem, ValidateFileResponse } from "@dropzone-ui/react";
 import { headers, UPLOAD_URL } from "../../service/fetchAPI";
 
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from "react-quill";
 import { PostAdd } from "@mui/icons-material";
-import { Attachment } from "../../models";
+import { Attachment, Category } from "../../models";
 import { EDITOR_CONFIG } from "../../config";
+import { TreeViewSelector } from "../../components/TreeView/TreeViewSelector";
 
 const PREFIX = "NewPost-";
 
@@ -31,22 +31,19 @@ const Root = styled("div")({
     }
 })
 
-export const NewPost: FC<{}> = observer(({}) => {
+export const NewPost: FC = observer(({}) => {
     const [submitting, setSubmitting] = useState(false);
-    const { sNewPost } = useStore();
+    const [expanded, setExpanded] = useState<boolean>(false);
+    const { sNewPost, sCategories } = useStore();
     const { enqueueSnackbar } = useSnackbar();
-    const navigator = useNavigate();
-
     const isView = false;
 
     const [syntheticFiles, setSyntheticFiles] = useState<ExtFile[]>([]);
 
     useEffect(() => {
-
-        return () => {
-            setSyntheticFiles([]);
-        };
+        setSyntheticFiles([]);
     }, []);
+
     const handleDelete = (id: any) => {
         const file: ExtFile | undefined = sNewPost.file.find((x) => x.id == id);
 
@@ -89,6 +86,14 @@ export const NewPost: FC<{}> = observer(({}) => {
         return { valid: true } as ValidateFileResponse;
     };
 
+    const dropCategoryHandle = () => {
+        sNewPost.set_category(new Category());
+    }
+
+    const handleChange = (event: SyntheticEvent, isExpanded: boolean) => {
+        setExpanded(isExpanded);
+    };
+
     return <BasicLayout>
         <Root>
             <Paper
@@ -96,80 +101,92 @@ export const NewPost: FC<{}> = observer(({}) => {
                 elevation={12}
                 className={classes.root}
             >
-                <Grid xs={12}>
-                    <Typography variant={"h2"}>{TRANSLATE_TERMS.CREATE_POST}</Typography>
-                </Grid>
-                <Grid xs={12} sx={{mt: 3}}>
-                    <FormControl fullWidth disabled={isView}>
-                        <InputLabel htmlFor="title_post">
-                            {TRANSLATE_TERMS.TITLE_POST_TEXT}
-                        </InputLabel>
-                        <OutlinedInput
-                            id="title_post"
-                            defaultValue={sNewPost.post.title}
-                            onChange={(event) => {
-                                sNewPost.post.set_title(event.target.value);
-                            }}
-                            label={TRANSLATE_TERMS.TITLE_POST_TEXT}
-                            name="title"
-                            required
-                        />
-                    </FormControl>
+                <Grid container direction={"row"} spacing={2} justifyContent={"center"}>
+                    <Grid item xs={4} mt={2}>
+                        <Dropzone onChange={updateFiles} value={sNewPost.file} maxFiles={6}
+                                  disabled={syntheticFiles.length >= 6}
+                                  accept="image/*, video/*"
+                                  label={TRANSLATE_TERMS.DROPZONE_PLACEHOLDER}
+                                  onUploadStart={(file) => {
+                                      console.log(file);
+                                  }}
+                                  onUploadFinish={(file) => {
+                                      console.log(file);
+
+                                      sNewPost.set_file(file);
+                                  }}
+                                  validator={fileValidation}
+                                  autoClean={true}
+                                  uploadConfig={{
+                                      url: UPLOAD_URL, uploadLabel: "attachment", autoUpload: true, headers: {
+                                          Authorization: headers.Authorization
+                                      },
+                                  }}
+                        >
+                            {sNewPost.file.map((f) => (
+                                <FileItem
+                                    {...f}
+                                    key={f.id}
+                                    onDelete={handleDelete}
+                                    info
+                                    preview
+                                    resultOnTooltip
+                                />
+                            ))}
+                        </Dropzone>
+                    </Grid>
+                    <Grid item xs={8} flexGrow={1}>
+                        {/*<Grid xs={12}>*/}
+                        {/*    <Typography variant={"h2"}>{TRANSLATE_TERMS.CREATE_POST}</Typography>*/}
+                        {/*</Grid>*/}
+                        <Grid item xs={12} sx={{ mt: 1 }}>
+                            <FormControl fullWidth disabled={isView}>
+                                <InputLabel htmlFor="title_post">
+                                    {TRANSLATE_TERMS.TITLE_POST_TEXT}
+                                </InputLabel>
+                                <OutlinedInput
+                                    id="title_post"
+                                    defaultValue={sNewPost.post.title}
+                                    onChange={(event) => {
+                                        sNewPost.post.set_title(event.target.value);
+                                    }}
+                                    label={TRANSLATE_TERMS.TITLE_POST_TEXT}
+                                    name="title"
+                                    required
+                                />
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item xs={12} sx={{ mt: 1 }}>
+                            <TreeViewSelector category={sNewPost.post.category} dropCategoryHandle={dropCategoryHandle}
+                                              set_category={(e) => {sNewPost.post.set_category(e)}} />
+                        </Grid>
+
+                        <Grid item xs={12} sx={{ my: 2, height: "300px" }}>
+                            <Typography variant={"h6"}>{TRANSLATE_TERMS.DESCRIPTION_POST_TEXT}</Typography>
+                            <ReactQuill theme="snow" value={sNewPost.post.description}
+                                        onChange={(value) => {sNewPost.post.set_description(value)}}
+                                        style={{ height: "70%" }}
+                                        placeholder={TRANSLATE_TERMS.DESCRIPTION_PLACEHOLDER}
+                                        modules={EDITOR_CONFIG.modules} formats={EDITOR_CONFIG.formats} />
+                        </Grid>
+
+                        <Grid container justifyContent={"center"} pt={2}>
+                            <Button
+                                variant="contained"
+                                size="large"
+                                disabled={submitting}
+                                style={{ margin: "1rem" }}
+                                onClick={() => {}}
+                                startIcon={<PostAdd />}
+                            >
+                                {TRANSLATE_TERMS.POST_TEXT}
+                            </Button>
+                        </Grid>
+
+                    </Grid>
                 </Grid>
 
-                <Grid item xs={12} sx={{ my: 2, height: "300px" }}>
-                    <Typography variant={"h6"}>{TRANSLATE_TERMS.DESCRIPTION_POST_TEXT}</Typography>
-                    <ReactQuill theme="snow" value={sNewPost.post.description}
-                                onChange={(value) => {sNewPost.post.set_description(value)}} style={{ height: "70%" }}
-                                placeholder={TRANSLATE_TERMS.DESCRIPTION_PLACEHOLDER} modules={EDITOR_CONFIG.modules} formats={EDITOR_CONFIG.formats} />
-                </Grid>
-
-
-                <Grid flexGrow={1} spacing={2} mt={2} alignItems="center" direction="column" justifyContent="center">
-                    <Dropzone onChange={updateFiles} value={sNewPost.file} maxFiles={6}
-                              disabled={syntheticFiles.length >= 6}
-                              accept="image/*, video/*"
-                              label={TRANSLATE_TERMS.DROPZONE_PLACEHOLDER}
-                              onUploadStart={(file) => {
-                                  console.log(file);
-                              }}
-                              onUploadFinish={(file) => {
-                                  console.log(file);
-
-                                  sNewPost.set_file(file);
-                              }}
-                              validator={fileValidation}
-                              autoClean={true}
-                              uploadConfig={{
-                                  url: UPLOAD_URL, uploadLabel: "attachment", autoUpload: true, headers: {
-                                      Authorization: headers.Authorization
-                                  },
-                              }}
-                    >
-                        {sNewPost.file.map((f, index) => (
-                            <FileItem
-                                {...f}
-                                key={f.id}
-                                onDelete={handleDelete}
-                                info
-                                preview
-                                resultOnTooltip
-                            />
-                        ))}
-                    </Dropzone>
-                </Grid>
-                <Grid container justifyContent={"center"} pt={2}>
-                    <Button
-                        variant="contained"
-                        size="large"
-                        disabled={submitting}
-                        style={{ margin: "1rem" }}
-                        onClick={() => {}}
-                        startIcon={<PostAdd />}
-                    >
-                        {TRANSLATE_TERMS.POST_TEXT}
-                    </Button>
-                </Grid>
                 {/*    <Grid*/}
                 {/*        item*/}
                 {/*        xs={6}*/}

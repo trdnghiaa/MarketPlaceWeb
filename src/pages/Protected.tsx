@@ -4,7 +4,7 @@ import { useSnackbar } from "notistack";
 import { Navigate } from "react-router-dom";
 
 import { store } from "../stores";
-import { Loading } from "./Loading";
+import { Loading } from "../components/Loading";
 import { UserRole } from "../models";
 import { MESSAGE_TERMS } from "../utils";
 

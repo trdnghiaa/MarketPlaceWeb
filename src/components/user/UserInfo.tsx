@@ -1,21 +1,8 @@
 import { FC } from "react";
 import { DesktopDatePicker } from '@mui/x-date-pickers';
-import {
-    Select,
-    SelectChangeEvent,
-    MenuItem,
-    OutlinedInput,
-    InputLabel,
-    FormControl,
-    Grid,
-    FormControlLabel,
-    FormLabel,
-    RadioGroup,
-    Radio,
-} from "@mui/material";
-import { User } from "../../models/User";
+import { FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, OutlinedInput, Radio, RadioGroup, Select, SelectChangeEvent, } from "@mui/material";
+import { User, UserRole } from "../../models";
 import { observer } from "mobx-react";
-import { UserRole } from "../../models/types";
 import { useStore } from "../../stores";
 import { useParams } from "react-router-dom";
 import { TRANSLATE_TERMS } from "../../utils";
@@ -50,7 +37,7 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                     <Grid item xs={6}>
                         <FormControl fullWidth disabled={isView}>
                             <InputLabel htmlFor="last_name">
-                                {TRANSLATE_TERMS.FRIST_NAME}
+                                {TRANSLATE_TERMS.FIRST_NAME}
                             </InputLabel>
                             <OutlinedInput
                                 id="last_name"
@@ -58,7 +45,7 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                                 onChange={(event,) => {
                                     user.last_name = event.target.value;
                                 }}
-                                label= {TRANSLATE_TERMS.FRIST_NAME}
+                                label={TRANSLATE_TERMS.FIRST_NAME}
                                 name="first_name"
                                 required
                             />

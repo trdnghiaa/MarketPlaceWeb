@@ -1,8 +1,7 @@
 import { FC, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { useStore } from "../../stores";
-import { DialogType } from "../../stores/DialogStore";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from "@mui/material";
+import { DialogType, useStore } from "../../stores";
 
 export const ConfirmDialog: FC<{}> = observer(({}) => {
     const { sDialog } = useStore();
@@ -20,7 +19,8 @@ export const ConfirmDialog: FC<{}> = observer(({}) => {
         </DialogTitle>
         <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                {sDialog.controller["confirm"].descriptionText || ""}
+                <Typography variant={"body1"}
+                            dangerouslySetInnerHTML={{ __html: sDialog.controller["confirm"].descriptionText || "" }}></Typography>
             </DialogContentText>
         </DialogContent>
         <DialogActions>

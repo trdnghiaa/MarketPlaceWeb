@@ -11,6 +11,9 @@ export function useStore() {
     return useContext(StoreContext);
 }
 
+export * from "./Store";
+export * from "./DialogStore";
+
 // if (process.env.NODE_ENV == "development")
-    // @ts-ignore
-    window.store = store;
+// @ts-ignore
+window.store = store;

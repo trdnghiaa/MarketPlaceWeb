@@ -1,6 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
-import { Category } from "../models/Category";
-import { TreeViewData } from "../models";
+import { Category, TreeViewData } from "../models";
 
 export class CategoryStore {
     @observable categories: Category[] = [];
@@ -11,8 +10,10 @@ export class CategoryStore {
         description: "",
         parent: "",
         icon: "",
-        children: []
+        children: [],
     });
+
+    @observable CategorySelected: TreeViewData = new TreeViewData();
 
     constructor() {
         makeObservable(this);
@@ -41,7 +42,7 @@ export class CategoryStore {
         const nodeMapped = {};
 
         const treeList = this.categories.map(e => {
-            const node = new TreeViewData(e)
+            const node = new TreeViewData(e);
             nodeMapped[node._id] = node;
             return node;
         });

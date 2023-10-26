@@ -1,10 +1,10 @@
-import { TreeItem, treeItemClasses, TreeItemContentProps, TreeItemProps, useTreeItem } from "@mui/x-tree-view";
+import { TreeItem, treeItemClasses, TreeItemContentProps, TreeItemProps, TreeView, useTreeItem } from "@mui/x-tree-view";
 import { styled } from "@mui/system";
-import React from "react";
+import React, { FC } from "react";
 import { observer } from "mobx-react-lite";
 import { CategoryEditor } from "./CategoryEditor";
 import { CategoryView } from "./CategoryView";
-import { TreeViewData } from "../../models";
+import { Category, TreeViewData } from "../../models";
 import { Box } from "@mui/material";
 
 
@@ -18,6 +18,11 @@ declare module 'react' {
 type StyledTreeItemProps = TreeItemProps & {
     data: TreeViewData,
     isAdd?: boolean,
+    isLeaf?: boolean,
+    isView?: boolean
+    onClickLeaf?: (category: Category) => void,
+    onSelectItem?: (category: Category) => void,
+    currentSelect?: Category,
 };
 
 /**
@@ -55,6 +60,10 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
 type CustomContentProps = TreeItemContentProps & {
     data: TreeViewData,
     isAdd?: boolean,
+    isView: boolean,
+    onClickLeaf?: (category: Category) => void,
+    onSelectItem?: (category: Category) => void,
+    currentSelect?: Category
 }
 
 /**
@@ -63,12 +72,14 @@ type CustomContentProps = TreeItemContentProps & {
  */
 const CustomContent = React.forwardRef(function CustomContent(
     props: CustomContentProps,
-    ref
 ) {
     const {
         nodeId,
         data,
-        isAdd
+        isAdd,
+        isView,
+        onClickLeaf,
+        onSelectItem, currentSelect
     } = props;
 
     const treeItemControl = useTreeItem(nodeId);
@@ -81,7 +92,10 @@ const CustomContent = React.forwardRef(function CustomContent(
 
     return (<>
             {data.isView ?
-                <CategoryView data={data} isAdd={!!isAdd} nodeId={nodeId} handleExpansion={handleExpansionClick} /> :
+                <CategoryView data={data} isAdd={!!isAdd} nodeId={nodeId} isView={isView}
+                              handleExpansion={handleExpansionClick}
+                              onClick={onClickLeaf ? onClickLeaf : (category) => {}} onSelect={onSelectItem}
+                              currentSelect={currentSelect} /> :
                 <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0, }}>
                     <CategoryEditor data={data} props={props} />
                 </Box>}
@@ -102,6 +116,10 @@ export const StyledTreeItem = observer(React.forwardRef(function StyledTreeItem(
     const {
         data,
         isAdd,
+        isView,
+        onClickLeaf,
+        onSelectItem,
+        currentSelect,
         ...other
     } = props;
 
@@ -112,11 +130,31 @@ export const StyledTreeItem = observer(React.forwardRef(function StyledTreeItem(
             ContentComponent={CustomContent}
             ContentProps={{
                 // @ts-ignore
-                data: data,
-                isAdd: isAdd
+                data,
+                isAdd,
+                isView,
+                onClickLeaf, onSelectItem, currentSelect
             }}
             {...other}
             ref={ref} />
     );
 }));
+
+export const TreeCategory: FC<{root: TreeViewData, isView: boolean, onClickLeaf?: (category: Category) => void, onSelectItem?: (category: Category) => void, currentSelect?: Category}> = observer(({ root, isView, ...props }) => {
+    const renderNode = (node: TreeViewData) => {
+        return <StyledTreeItem key={node._id} nodeId={node._id} data={node} isView={isView} {...props}>
+            {node.isView && node.children.length > 0 && <TreeView aria-label="Category Tree View">
+                {node.children.map(renderNode)}
+            </TreeView>}
+            {!node.isAddNew && node.isView && !isView &&
+                <StyledTreeItem key={"ADD_" + node._id} nodeId={"ADD_" + node._id} data={node} isAdd={true}
+                                onClick={(e) => {console.log(e)}} />}
+        </StyledTreeItem>
+    }
+
+    return <TreeView aria-label="Category Tree View">
+        {root.children.map(renderNode)}
+        {!isView && <StyledTreeItem key={"ADD_" + root._id} nodeId={"ADD_" + root._id} data={root} isAdd={true} />}
+    </TreeView>;
+})
 

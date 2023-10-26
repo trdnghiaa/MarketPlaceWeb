@@ -1,8 +1,8 @@
-import {action, observable} from "mobx";
-import {FetchAPI, Method} from "../service/fetchAPI";
-import {clearCurrentURL, getCurrentURL, setJwtToken} from "../utils";
+import { action, observable } from "mobx";
+import { FetchAPI, Method } from "../service/fetchAPI";
+import { clearCurrentURL, getCurrentURL, setJwtToken } from "../utils";
 
-export class SignInStore  {
+export class SignInStore {
     private signInRedirect: string = "/";
 
     @observable username: string = "";
@@ -18,12 +18,12 @@ export class SignInStore  {
 
     @action
     async doLogin(urlCallback: string) {
-        const [err, data] = await FetchAPI<{ access_token: string }>(Method.POST, "/auth/login", {
+        const [err, data] = await FetchAPI<{access_token: string}>(Method.POST, "/auth/login", {
             user: this.username,
             pass: this.password
         });
 
-        if(!err) {
+        if (!err) {
             setJwtToken(data.access_token);
 
             const currentUrl = getCurrentURL();
@@ -31,14 +31,16 @@ export class SignInStore  {
 
             clearCurrentURL();
             window.history.pushState(null, "", "/");
-            window.location.href = urlCallback ? `${urlCallback}?appId=vy03&token=${data.access_token}`: this.signInRedirect;
+            window.location.href = urlCallback ? `${urlCallback}?appId=marketplace&token=${data.access_token}` : this.signInRedirect;
             return;
         }
         return err.message;
     }
-    @action async LoginWithAdmin(id: string){
+
+    @action
+    async LoginWithAdmin(id: string) {
         const [err, data] = await FetchAPI<{access_token: string}>(Method.POST, "/auth/login-admin/" + id);
-        if(!err) {
+        if (!err) {
             setJwtToken(data.access_token);
             const currentURL = getCurrentURL();
             this.signInRedirect = currentURL || "/";

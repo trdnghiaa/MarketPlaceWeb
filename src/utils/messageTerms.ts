@@ -1,3 +1,17 @@
+function mappedMessage(message: string, mapped?: object) {
+    if (!mapped) return message;
+
+    // @ts-ignore
+    let matches = [...message.matchAll(/(?<={)(.*?)(?=})/g)];
+
+    console.log(mapped);
+
+    for (let i of matches) {
+        message = message.replace(`{${i[0]}}`, mapped[i[0]] || "")
+    }
+    return message;
+}
+
 export const MESSAGE_TERMS = {
     // TERM
     NOT_ALLOW_ACCESS_PAGE: "User Role Not Allowed Access Page!",
@@ -17,6 +31,8 @@ export const MESSAGE_TERMS = {
 
     //
     FILE_EMPTY: "Không thể tải lên tệp rỗng",
+
+
     FILE_NAME_INVALID: (invalidCharacter: String[]) => `Không thể tải tệp do chứa kí tự: "${invalidCharacter.join('", "')}"`,
 
     //
@@ -41,12 +57,20 @@ export const MESSAGE_TERMS = {
     //
     CATEGORY_INVALID: "Vui lòng nhập đầy đủ thông tin!",
     CREATED_CATEGORY_SUCCESSFUL: "Tạo danh mục thành công",
+    UPDATED_CATEGORY_SUCCESSFUL: "Chỉnh sửa danh mục thành công",
     DELETED_CATEGORY_SUCCESSFUL: "Xóa danh mục thành công",
     CATEGORY_ID_INVALID: "Danh mục không khả dụng!",
-
+    MISS_CATEGORY_NAME: "Vui lòng nhập tên danh mục!",
+    MISS_ADVANCE_OPTION_TITLE: "Vui lòng nhập tên tùy chọn \"{index}\"!",
+    MISS_FIELDS_ADVANCE_OPTION: "Các Tùy chọn bổ sung phải có ít nhất 1 thuộc tính!",
+    MISS_FIELD_NAME: "Vui lòng nhập tên thuộc tính {path}!",
+    MISS_ENUM_OPTION_FIELD: "{path} phải có ít nhất 2 tùy chọn!",
+    MISS_CATEGORY_ICON: "Vui lòng chọn icon cho danh mục!",
+    CATEGORY_PARENT_IS_THIS: "Bạn không thể chọn danh mục cha bằng chính nó!",
+    DUPLICATE_OPTION_REMOVED: "Tùy chọn bị trùng lặp đã được gỡ bỏ!",
     //
     SEEN_NOTIFICATION_SUCCESS: "Đánh dấu đã đọc thành công",
-    get: function (err: string | unknown) {
+    get: function (err: string | unknown, arg?: object) {
         let message: string = "";
         if (err instanceof Error) {
             message = err.message
@@ -55,7 +79,7 @@ export const MESSAGE_TERMS = {
         } else {
             console.warn(err);
         }
-        return this[message] ? this[message] : message;
+        return this[message] ? mappedMessage(this[message], arg) : message;
     }
 };
 
@@ -69,7 +93,7 @@ export const TRANSLATE_TERMS = {
 
     CREATE_POST: "Tạo Tin",
     DESCRIPTION_PLACEHOLDER: "Viết mô tả bài đăng tại đây...",
-    DROPZONE_PLACEHOLDER: "Đẩy hoặc kéo thả file vào đây",
+    DROPZONE_PLACEHOLDER: "Đăng từ 1 đến 6 tấm hình",
 
     LOGIN_TEXT: "Đăng Nhập",
     SIGNUP_TEXT: "Đăng Ký",
@@ -84,7 +108,7 @@ export const TRANSLATE_TERMS = {
     NEW_PASSWORD_TEXT: "Mật khẩu mới",
     CONFIRM_PASSWORD_TEXT: "Xác nhận lại mật khẩu",
     PERSONAL_INFORMATION: "Thông tin cá nhân",
-    FRIST_NAME: "Họ và tên đệm",
+    FIRST_NAME: "Họ và tên đệm",
     LAST_NAME: "Tên",
     GENDER: "Giới Tính",
     FEMALE: "Nữ",
@@ -100,17 +124,50 @@ export const TRANSLATE_TERMS = {
     PASSWORD_TEXT: "Mật khẩu",
     NOT_FOUND_PAGE: "Trang này không tồn tại!",
     OOPS_SOMETHING_WRONG: "Oops Xảy Ra Lỗi Rồi",
-
-    ADD_CATEGORY_PREFIX: (name: string) => `Thêm vào "${name}"`,
     ADD: "Thêm",
-    ENTER_CATEGORY_NAME: "Tên Danh Mục...",
+    ENTER_CATEGORY_NAME: "Tên Danh Mục",
     FILTER_ICON: "Lọc Biểu Tượng...",
     CATEGORY_MANAGEMENT_TEXT: "Quản Lý Danh Mục",
     DELETE: "Xóa",
     EDIT: "Sửa",
-
     ACCOUNT: "Tài Khoản",
     CHAT: "Trò Chuyện",
     POST: "Tin Đăng",
-    ALL: "Tất cả"
+    ALL: "Tất cả",
+    CREATE_CATEGORY: "Tạo Danh Mục",
+    CHOOSE_CATEGORY_PLACEHOLDER: "Chọn Danh mục",
+    CATEGORY_CATEGORY_BASIC_INFO: "Thông tin cơ bản",
+    CATEGORY_ADVANCE_INFO: "Bổ sung",
+    ADD_FIELD_BUTTON_TEXT: "Thêm Trường dữ liệu",
+    ADD_FIELD_TEXT: "Thuộc tính",
+    FIELD_NAME_LABEL: "Tên thuộc tính (không được viết khoảng trắng và ký tự đặc biệt)",
+    FIELD_TYPE_LABEL: "Kiểu thuộc tính",
+    ADD_SELECT_OPTION_FIELD_LABEL: "Thêm tùy chọn",
+    TEXT: "Văn bản",
+    OPTION: "Lựa chọn",
+    CURRENCY: "Tiền tệ",
+    CHECKBOX: "Hộp kiểm tra",
+    YEAR: "Năm",
+    SELECTOR: "Bộ lựa chọn",
+    FIELD_NAME_DESCRIPTION: "Đây là nội dung được hiển thị trên trang web",
+    FIELD_TYPE_DESCRIPTION: "Quyết định kiểu nhập liệu cho thuộc tính này lúc tạo tin đăng",
+    CHOOSE_CATEGORY_CREATE_PLACEHOLDER: "Chọn danh mục cha (mặc định chọn ROOT)",
+    TITLE_OPTION_TEXT: "Tên danh mục",
+    ADD_ADVANCE_OPTION_TEXT: "Thêm tùy chọn bổ sung",
+    ADD_OPTION_TEXT: "Bổ sung",
+    CREATE_CATEGORY_DESCRIPTION_DETAIL_MESSAGE: "*Mặc định đã có trường giá bán cho người dùng nhập",
+    TEXT_PLACEHOLDER_LABEL: "Mô tả (placeholder)",
+    LABEL_NAME_LABEL: "Nhãn hiển thị (tên hiển thị thuộc tính)",
+    FIELDS_OF_OPTION: "Các trường dữ liệu",
+    REFERENCE_SWITCH_TEXT: "Ràng buộc tới trường dữ liệu (tên thuộc tính)",
+    REFERENCE_LABEL_TEXT: "Chọn ràng buộc tới thuộc tính",
+    REFERENCE_NONE_TEXT: "Không có",
+    DELETE_CATEGORY_DESCRIPTION: "Bạn có chắc rằng muốn xóa danh mục <b>{name}</b>",
+    DELETE_CATEGORY_DESCRIPTION_WITH_CHILDREN: "Bạn có chắc rằng muốn xóa danh mục <b>{name}</b>, danh mục con {child}",
+    DELETE_CATEGORY_QUESTION_TEXT: "Xóa Danh Mục",
+
+    ADD_CATEGORY_PREFIX: (name: string) => `Thêm vào "${name}"`,
+    get: function (message: string, arg?: object) {
+        return this[message] ? mappedMessage(this[message], arg) : message;
+    }
 }

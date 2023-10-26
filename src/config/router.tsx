@@ -1,12 +1,6 @@
-// import page
-import { Account, Home, Login, MyPost, NewAccount, NewPost, NotFound, Order, Profile, SavedPost, Voucher, } from "../pages";
-import { Register } from "../pages/Register";
+import { Account, Categories, CategoryEditor, Home, Login, MyPost, NewAccount, NewPost, NotFound, NotificationPage, Order, PageMiddle, Profile, Register, RouteGuard, SavedPost, Voucher, } from "../pages";
 import React from "react";
 import { UserRole } from "../models";
-import { RouteGuard } from "../components/Protected";
-import { PageMiddle } from "../pages/PageMiddle";
-import { Categories } from "../pages/Categories";
-import { NotificationPage } from "../pages/User/Notification";
 
 export interface RouteModel {
     path: string,
@@ -19,26 +13,35 @@ export interface RouteModel {
 const routersAdmin: RouteModel[] = [
     {
         path: "/accounts/new", component:
-            <NewAccount />, isPrivate: true, role: UserRole.ADMIN, name: "Tạo tài khoản"
+            <NewAccount />, role: UserRole.ADMIN, name: "Tạo tài khoản"
     },
     {
         path: "/accounts",
         component: <Account />,
-        isPrivate: true,
         role: UserRole.ADMIN, name: "Quản lý tài khoản",
     },
     {
         path: "/accounts/:account/:mode",
         component: <Profile />,
-        isPrivate: true,
         role: UserRole.ADMIN, name: ":mode thông tin người dùng"
     },
     {
         path: "/categories",
         component: <Categories />,
-        isPrivate: true,
         role: UserRole.ADMIN,
-        name: "Quản lý thể loại"
+        name: "Quản lý danh mục"
+    },
+    {
+        path: "/categories/new",
+        component: <CategoryEditor />,
+        role: UserRole.ADMIN,
+        name: "Thêm danh mục"
+    },
+    {
+        path: "/categories/:category/edit",
+        component: <CategoryEditor />,
+        role: UserRole.ADMIN,
+        name: "Chỉnh sửa danh mục"
     }
 ];
 
@@ -59,7 +62,7 @@ const routers: RouteModel[] = [
 ];
 
 export const routerConfig = routers.concat(routersAdmin).map((e) => {
-    if (e.isPrivate)
+    if (e.isPrivate || e.role)
         e.component = <RouteGuard allowRole={e.role || UserRole.USER}
                                   children={<PageMiddle child={e.component} name={e.name} key={e.path} />} />
     else {
