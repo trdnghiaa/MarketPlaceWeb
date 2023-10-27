@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { DropdownSetting } from "../Settings";
 import { blue } from "@mui/material/colors";
 import { NotificationMenu } from "../NotificationWeb";
+import { SearchNav } from "./Search";
 
 
 const pages = DRAWER_ITEMS.slice(1);
@@ -111,6 +112,11 @@ export const UserNavbar: FC = observer(() => {
                                 </Typography>
                             </Link>
                         </Grid>
+
+                        <Grid> 
+                        <SearchNav/>
+                        </Grid>  
+
                         <Box
                             sx={{
                                 flexGrow: 1,

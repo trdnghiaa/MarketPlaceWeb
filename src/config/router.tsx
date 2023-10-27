@@ -7,6 +7,8 @@ import { RouteGuard } from "../components/Protected";
 import { PageMiddle } from "../pages/PageMiddle";
 import { Categories } from "../pages/Categories";
 import { NotificationPage } from "../pages/User/Notification";
+import { Detail } from "../pages/Detail";
+import { Search } from "../pages/Search";
 
 export interface RouteModel {
     path: string,
@@ -56,6 +58,8 @@ const routers: RouteModel[] = [
     { path: "/signup", component: <Register />, name: "Đăng ký tài khoản" },
     { path: "/notifications", component: <NotificationPage />, name: "Thông báo", isPrivate: true },
     { path: "*", component: <NotFound />, name: "Không tim thấy trang" },
+    { path: "/detail", component: <Detail />, name: "Trang thông tin bài đăng"},
+    {path: "/search", component: <Search />, name: ""}
 ];
 
 export const routerConfig = routers.concat(routersAdmin).map((e) => {

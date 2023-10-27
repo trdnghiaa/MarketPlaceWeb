@@ -101,6 +101,9 @@ export const TRANSLATE_TERMS = {
     NOT_FOUND_PAGE: "Trang này không tồn tại!",
     OOPS_SOMETHING_WRONG: "Oops Xảy Ra Lỗi Rồi",
 
+    SEARCH_NAV_PLACEHOLDER:"Tìm Kiếm",
+    NEW_POST:"Tin Mới Nhất",
+
     ADD_CATEGORY_PREFIX: (name: string) => `Thêm vào "${name}"`,
     ADD: "Thêm",
     ENTER_CATEGORY_NAME: "Tên Danh Mục...",

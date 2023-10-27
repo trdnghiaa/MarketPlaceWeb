@@ -12,6 +12,8 @@ import { NotificationWebStore } from "./NotificationWebStore";
 import { NewPostStore } from "./NewPostStore";
 import { CategoryStore } from "./CategoryStore";
 import { iconList } from "../components/IconPopoverSelect/icon_db";
+import { HomeStore } from "./HomeStore";
+import { SearchStore } from "./SearchStore";
 
 export class Store extends AuthorizedStore {
     @observable
@@ -36,6 +38,10 @@ export class Store extends AuthorizedStore {
     sNewPost = new NewPostStore();
     @observable
     sCategories = new CategoryStore();
+    @observable
+    sHome = new HomeStore();
+    @observable
+    sSearch = new SearchStore();
 
     @observable iconDB = iconList;
 }

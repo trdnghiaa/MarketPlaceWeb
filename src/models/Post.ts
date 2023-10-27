@@ -1,6 +1,7 @@
 import { User } from "./User";
 import { Attachment } from "./Attachment";
 import { action, makeObservable } from "mobx";
+import { FetchAPI, Method } from "../service/fetchAPI";
 
 export enum EPostStatus {
     PENDING = "PENDING",
@@ -57,7 +58,16 @@ export class Post {
        this.title = v;
     }
 
-    set_description(value: string) {
+    @action set_description(value: string) {
         this.description = value;
+    }
+
+    static async getListPost(page: number, size: number, query?: string){
+        //@ts-ignore
+        const searchParams: string = new URLSearchParams({ page, size, ...(query ? { query } : {}) }).toString();
+
+        const [err, data] = await FetchAPI<{data: Post[], count: number, totalPages: number}>(Method.GET, `/posts?` + searchParams);
+
+        return [err, data] as const;
     }
 }
