@@ -8,7 +8,7 @@ import { TRANSLATE_TERMS } from "../../utils";
 import { FieldItemEditor } from "./FieldItemEditor";
 
 const Root = styled(Grid)(({ theme }) => ({
-        "&": { margin: "1rem" },
+        "&": { margin: theme.spacing(1) },
         [`& .${gridClasses.container}, .${paperClasses.root}`]: {
             marginTop: theme.spacing(2)
         },
@@ -25,10 +25,9 @@ export const OptionItemEditor: FC<{data: AdvanceOption, index: number, removeHan
     const handleAdd = useCallback(() => {
         fields.push(new AdvanceField());
         data.set_fields(fields);
-        console.log(fields, data.fields)
     }, [data.fields]);
 
-    return <Root>
+    return <Root item>
         <Card elevation={6}>
             <CardHeader
                 action={<IconButton aria-label="remove" onClick={removeHandle}><HighlightOff
@@ -36,7 +35,7 @@ export const OptionItemEditor: FC<{data: AdvanceOption, index: number, removeHan
                 title={<Typography variant={"subtitle1"}
                                    fontWeight={"bold"}>{TRANSLATE_TERMS.ADD_OPTION_TEXT} {data.title ? `"${data.title}"` : index + 1}</Typography>} />
             <Grid container direction={"row"} spacing={2} alignItems={"top"}>
-                <Grid item md={6} xs={10}>
+                <Grid item md={8} xs={10}>
                     <FormControl fullWidth disabled={false}>
                         <InputLabel htmlFor="category_name">
                             {TRANSLATE_TERMS.TITLE_OPTION_TEXT}

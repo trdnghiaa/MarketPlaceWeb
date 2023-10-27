@@ -1,8 +1,8 @@
 import { FC, MouseEvent } from "react";
 import { AdvanceField, FieldType } from "../../models";
 import { observer } from "mobx-react-lite";
-import { buttonClasses, Card, CardHeader, FormControl, Grid, gridClasses, IconButton, InputLabel, MenuItem, OutlinedInput, paperClasses, Select, SelectChangeEvent, Tooltip, Typography } from "@mui/material";
-import { HelpOutline, HighlightOff } from "@mui/icons-material";
+import { buttonClasses, Card, CardHeader, FormControl, Grid, gridClasses, IconButton, InputLabel, MenuItem, OutlinedInput, paperClasses, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { HighlightOff } from "@mui/icons-material";
 import { TRANSLATE_TERMS } from "../../utils";
 import { SelectOptionFieldEditor, SelectorFieldsEditor, TextOptionFieldEditor } from "./FieldTypeEditor";
 import { styled } from "@mui/system";
@@ -31,8 +31,9 @@ export const FieldItemEditor: FC<{data: AdvanceField, index: number, removeHandl
                     color={"error"} /></IconButton>}
                 title={<Typography variant={"subtitle1"}
                                    fontWeight={"bold"}>{TRANSLATE_TERMS.ADD_FIELD_TEXT} {data.labelName ? `"${data.labelName}"` : index + 1}</Typography>} />
-            <Grid container direction={"row"} spacing={2} alignItems={"top"}>
-                <Grid item md={6} xs={10}>
+
+            <Grid container direction={"row"} spacing={2} alignItems={"top"} justifyContent={"center"}>
+                <Grid item container xs={8} md={10} direction={"row"}>
                     <FormControl fullWidth disabled={false}>
                         <InputLabel htmlFor="category_label_name">
                             {TRANSLATE_TERMS.LABEL_NAME_LABEL}
@@ -49,12 +50,8 @@ export const FieldItemEditor: FC<{data: AdvanceField, index: number, removeHandl
                         />
                     </FormControl>
                 </Grid>
-                <Tooltip title={TRANSLATE_TERMS.FIELD_NAME_DESCRIPTION} arrow>
-                    <HelpOutline />
-                </Tooltip>
-            </Grid>
-            <Grid container direction={"row"} spacing={2} alignItems={"top"}>
-                <Grid item md={6} xs={10}>
+
+                <Grid item xs={8} md={10} container direction={"row"}>
                     <FormControl fullWidth disabled={false}>
                         <InputLabel htmlFor="category_name">
                             {TRANSLATE_TERMS.FIELD_NAME_LABEL}
@@ -71,12 +68,8 @@ export const FieldItemEditor: FC<{data: AdvanceField, index: number, removeHandl
                         />
                     </FormControl>
                 </Grid>
-                <Tooltip title={TRANSLATE_TERMS.FIELD_NAME_DESCRIPTION} arrow>
-                    <HelpOutline />
-                </Tooltip>
-            </Grid>
-            <Grid container direction={"row"} spacing={2} alignItems={"top"}>
-                <Grid item xs={6}>
+
+                <Grid item xs={8} md={10} container direction={"row"}>
                     <FormControl fullWidth>
                         <InputLabel>{TRANSLATE_TERMS.FIELD_TYPE_LABEL}</InputLabel>
                         <Select
@@ -89,34 +82,19 @@ export const FieldItemEditor: FC<{data: AdvanceField, index: number, removeHandl
                         </Select>
                     </FormControl>
                 </Grid>
-                <Tooltip title={TRANSLATE_TERMS.FIELD_TYPE_DESCRIPTION}>
-                    <HelpOutline />
-                </Tooltip>
-            </Grid>
 
-            {data.fieldType == FieldType.SELECTOR && <Grid container direction={"row"} spacing={2} alignItems={"top"}>
-                <Grid item xs={6}>
-                    <SelectorFieldsEditor data={data} fields={fields} />
-                </Grid>
-            </Grid>}
-            <Grid container direction={"row"} spacing={2} alignItems={"top"}>
-                {(data.fieldType == FieldType.OPTION || data.fieldType == FieldType.SELECTOR) && <>
-                    <Grid item xs={6}>
-                        <SelectOptionFieldEditor data={data} />
-                    </Grid>
-                    <Tooltip title={TRANSLATE_TERMS.FIELD_NAME_DESCRIPTION}>
-                        <HelpOutline />
-                    </Tooltip>
-                </>}
+                {data.fieldType == FieldType.SELECTOR &&
+                    <Grid item xs={8} md={10} container direction={"row"}>
+                        <SelectorFieldsEditor data={data} fields={fields} />
+                    </Grid>}
+                {(data.fieldType == FieldType.OPTION) && <Grid item xs={8} md={10} container direction={"row"}>
+                    <SelectOptionFieldEditor data={data} />
+                </Grid>}
                 {
-                    data.fieldType == FieldType.TEXT && <>
-                        <Grid item xs={6}>
-                            <TextOptionFieldEditor data={data} />
-                        </Grid>
-                        <Tooltip title={TRANSLATE_TERMS.FIELD_NAME_DESCRIPTION} arrow>
-                            <HelpOutline />
-                        </Tooltip>
-                    </>
+                    data.fieldType == FieldType.TEXT &&
+                    <Grid item xs={8} md={10} container direction={"row"}>
+                        <TextOptionFieldEditor data={data} />
+                    </Grid>
                 }
             </Grid>
         </Card>

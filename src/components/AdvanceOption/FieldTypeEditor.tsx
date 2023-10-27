@@ -58,6 +58,7 @@ export const TextOptionFieldEditor: FC<{data: AdvanceField}> = observer(({ data 
 });
 
 export const SelectorFieldsEditor: FC<{data: AdvanceField, fields: AdvanceField[]}> = observer(({ data, fields }) => {
+    // const [field, setField] = useState<AdvanceField>(new AdvanceField());
     const isReferenceHandle = (event: ChangeEvent<HTMLInputElement>) => {
         const { checked } = event.target;
         data.option.set_isReference(checked);
@@ -68,16 +69,32 @@ export const SelectorFieldsEditor: FC<{data: AdvanceField, fields: AdvanceField[
     }
 
     useEffect(() => {
-        const referenceName = data.option.referenceName;
-        const field: AdvanceField = fields.find((e) => e.fieldName == referenceName) || new AdvanceField();
-        reaction(() => field.option.Enum.length, () => {
-            console.log("running")
+        const field: AdvanceField = fields.find((e) => e.fieldName == data.option.referenceName) || new AdvanceField();
+
+        const disposer = reaction(() => [data.option.referenceName, fields.find((e) => e.fieldName == data.option.referenceName), field.option.Enum], (values) => {
+            console.log("run", values);
+
+            const name: string = values[0] as string;
+            const field: AdvanceField = new AdvanceField(values[1]);
+            const Enum = field.option.Enum;
+
+
             const reference = {
-                [referenceName]: field.option.Enum.reduce((r, e) => ({ ...r, [e]: data.option.reference[referenceName][e] || [] }), {}),
+                [name]: Enum.reduce((r: object, e: string) => ({ ...r, [e]: data.option.reference[name] ? data.option.reference[name][e] || [] : [] }), {}),
             };
             data.option.set_reference(reference);
-        });
-    }, [data.option.referenceName]);
+        }, {});
+        return () => {
+            console.log("cancel");
+            // disposer();
+        }
+    }, []);
+
+    // useEffect(() => {
+    //     const referenceName = data.option.referenceName;
+    //     setField(new AdvanceField(fields.find((e) => e.fieldName == referenceName)));
+    //     console.log(field);
+    // }, [data.option.referenceName]);
 
     const selectReferenceChange = (event: SelectChangeEvent<string>) => {
         const { value } = event.target;
@@ -110,7 +127,7 @@ export const SelectorFieldsEditor: FC<{data: AdvanceField, fields: AdvanceField[
             {data.option.referenceName &&
                 <Grid container direction={"column"} spacing={1}
                       sx={{ border: "1px solid #999", padding: 1 }}>
-                    {Object.keys(data.option.reference[data.option.referenceName])
+                    {Object.keys(data.option.reference[data.option.referenceName] || [])
                         .map((e) => <ReferenceItem reference={data.option.reference[data.option.referenceName]}
                                                    name={e} key={e} />)
                     }</Grid>}

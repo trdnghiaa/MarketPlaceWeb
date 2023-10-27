@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { FC, MouseEvent, useCallback } from "react";
-import { Button, buttonClasses, Grid, gridClasses, paperClasses, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { TRANSLATE_TERMS } from "../../utils";
 import { Add } from "@mui/icons-material";
 import { AdvanceOption } from "../../models";
@@ -9,13 +9,13 @@ import { OptionItemEditor } from "./OptionItemEditor";
 
 const Root = styled(Grid)(({ theme }) => ({
         "&": { margin: "1rem" },
-        [`& .${gridClasses.container}, .${paperClasses.root}`]: {
-            marginTop: theme.spacing(2)
-        },
-        [`& .${buttonClasses.root}`]: {
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(2),
-        },
+        // [`& .${gridClasses.container}, .${paperClasses.root}`]: {
+        //     marginTop: theme.spacing(2)
+        // },
+        // [`& .${buttonClasses.root}`]: {
+        //     marginTop: theme.spacing(2),
+        //     marginBottom: theme.spacing(2),
+        // },
     }
 ));
 
@@ -24,13 +24,13 @@ export const AdvanceOptionCreator: FC<{advanceOptions: AdvanceOption[], set_adva
         set_advanceOption([...advanceOptions, new AdvanceOption()]);
     }, [advanceOptions]);
 
-    return <Root container justifyContent={"center"} className={"abs"}>
+    return <Grid container justifyContent={"center"} alignItems={"center"}>
         <Grid item xs={12}>
             <Typography variant={"h5"} fontWeight={"bold"}>
                 {TRANSLATE_TERMS.CATEGORY_ADVANCE_INFO}
             </Typography>
         </Grid>
-        <Grid item container direction={"column"}>
+        <Grid container direction={"column"}>
             {advanceOptions.length > 0 && advanceOptions.map((e, i) => {
                 const removeHandle = (event: MouseEvent<HTMLButtonElement>) => {
                     const advance = Array.from(advanceOptions);
@@ -40,6 +40,8 @@ export const AdvanceOptionCreator: FC<{advanceOptions: AdvanceOption[], set_adva
 
                 return <OptionItemEditor key={i} data={e} index={i} removeHandle={removeHandle} />;
             })}
+        </Grid>
+        <Grid item xs={12} container justifyContent={"center"}>
             <Button color={"secondary"} variant={"outlined"} onClick={handleAdd}>
                 <Add />
                 <Typography>
@@ -47,6 +49,6 @@ export const AdvanceOptionCreator: FC<{advanceOptions: AdvanceOption[], set_adva
                 </Typography>
             </Button>
         </Grid>
-    </Root>;
+    </Grid>;
 });
 

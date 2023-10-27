@@ -130,15 +130,17 @@ export const CategoryEditor: FC = observer(({}) => {
                         <Typography variant={"body1"}
                                     color={"error"}>{TRANSLATE_TERMS.CREATE_CATEGORY_DESCRIPTION_DETAIL_MESSAGE}</Typography>
                     </Grid>
-                    {sCategoryEditor.category &&
+                    {sCategoryEditor.category && <Grid item xs={12}>
                         <AdvanceOptionCreator advanceOptions={sCategoryEditor.category.advancedSchemaInfo}
-                                              set_advanceOption={(v) => {sCategoryEditor.category.set_advancedSchemaInfo(v);}} />}
+                                              set_advanceOption={(v) => {sCategoryEditor.category.set_advancedSchemaInfo(v);}} />
+                    </Grid>}
                     <Grid item container justifyContent={"center"}>
                         <Button variant={"outlined"} onClick={saveHandle} disabled={submitting}>
                             {sCategoryEditor.isCreateNew ? TRANSLATE_TERMS.CREATE_CATEGORY : TRANSLATE_TERMS.SAVE_BUTTON}
                         </Button>
                     </Grid>
                 </Grid>
-            </Root>}
+            </Root>
+        }
     </BasicLayout>
 })

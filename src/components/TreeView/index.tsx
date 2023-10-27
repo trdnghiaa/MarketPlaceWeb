@@ -72,6 +72,7 @@ type CustomContentProps = TreeItemContentProps & {
  */
 const CustomContent = React.forwardRef(function CustomContent(
     props: CustomContentProps,
+    ref
 ) {
     const {
         nodeId,
