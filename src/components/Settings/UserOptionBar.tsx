@@ -1,7 +1,7 @@
-import {FC, useEffect, useState} from "react";
-import {observer} from "mobx-react-lite";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import {Divider, ListItemText, MenuItem, MenuList} from "@mui/material";
+import { FC } from "react";
+import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
+import { Divider, ListItemText, MenuItem, MenuList } from "@mui/material";
 
 export const UserOptionBar: FC = observer(({}) => {
     return <MenuList dense>
@@ -17,7 +17,7 @@ export const UserOptionBar: FC = observer(({}) => {
                 <ListItemText>Reward</ListItemText>
             </Link>
         </MenuItem>
-        <Divider/>
+        <Divider />
         <MenuItem>
             <Link
                 to="/detail/order-history"
@@ -38,7 +38,7 @@ export const UserOptionBar: FC = observer(({}) => {
                 <ListItemText>Voucher</ListItemText>
             </Link>
         </MenuItem>
-        <Divider/>
+        <Divider />
         <MenuItem>
             <Link
                 to="/detail/notification"

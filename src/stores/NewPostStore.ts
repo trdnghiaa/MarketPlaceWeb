@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
-import { Category, Post } from "../models";
+import { Category, Post } from "@models";
 import { ExtFile } from "@files-ui/core";
 
 export class NewPostStore {

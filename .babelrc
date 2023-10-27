@@ -1,6 +1,23 @@
 {
-	"plugins": [
-		["@babel/plugin-proposal-decorators", { "legacy": true }],
-		["@babel/plugin-proposal-class-properties", { "loose": false }]
-	]
+  "plugins": [
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "loose": true,
+        "legacy": true,
+        "shippedProposals": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true,
+        "legacy": true,
+        "shippedProposals": true
+      }
+    ]
+  ],
+  "presets": [
+    "react-app"
+  ]
 }

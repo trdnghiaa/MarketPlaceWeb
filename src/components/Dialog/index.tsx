@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from "@mui/material";
-import { DialogType, useStore } from "../../stores";
+import { DialogType, useStore } from "@stores";
 
 export const ConfirmDialog: FC<{}> = observer(({}) => {
     const { sDialog } = useStore();

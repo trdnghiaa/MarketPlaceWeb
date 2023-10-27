@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
-import { User } from "../models/User";
+import { User } from "@models";
 import { PAGE_SIZE_DEFAULT } from "../config";
 
 export class AccountStore {

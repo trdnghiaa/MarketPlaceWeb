@@ -1,8 +1,9 @@
-import {action, observable} from "mobx";
+import { action, observable } from "mobx";
 
 export class ServiceStore {
 
     @observable services: string[] = new Array<string>();
+
     @action add_services(v: string) {
         console.log(this)
         this.services.push(v);

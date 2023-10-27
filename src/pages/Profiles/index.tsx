@@ -3,19 +3,18 @@ import { Button, Grid } from "@mui/material/";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import { UserInfo, UserReward } from "../../components/user";
-import { UserOrderHistory } from "../../components/userOrderHistory";
+import { UserInfo, UserReward } from "@components/user";
+import { UserOrderHistory } from "@components/userOrderHistory";
 import { BasicLayout } from "../../layouts/common";
-import { UserOptionBar } from "../../components/Settings/UserOptionBar";
+import { UserOptionBar } from "@components/Settings/UserOptionBar";
 import { useSnackbar } from "notistack";
-import { useStore } from "../../stores";
-import { MODE, User, UserRole } from "../../models";
+import { useStore } from "@stores";
+import { MODE, User, UserRole } from "@models";
 import { MenuList } from "@mui/material";
 import { observer } from "mobx-react";
-import { DropdownSetting } from "../../components/Settings";
-import { MESSAGE_TERMS, theme, USER_SETTINGS } from "../../utils";
-import { ChangePassword } from "../User/ChangePassword";
-import { MyVoucher } from "../User/MyVoucher";
+import { DropdownSetting } from "@components/Settings";
+import { MESSAGE_TERMS, theme, USER_SETTINGS } from "@utils";
+import { ChangePassword, MyVoucher } from "../User";
 
 
 export const Profile: FC = observer(() => {

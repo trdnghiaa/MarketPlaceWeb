@@ -1,10 +1,10 @@
 import React, { FC, MouseEvent } from "react";
 import { IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import { Delete, Edit, MoreVert } from "@mui/icons-material";
-import { MESSAGE_TERMS, TRANSLATE_TERMS } from "../../utils";
+import { MESSAGE_TERMS, TRANSLATE_TERMS } from "@utils";
 import { useSnackbar } from "notistack";
-import { DialogType, useStore } from "../../stores";
-import { TreeViewData } from "../../models";
+import { DialogType, useStore } from "@stores";
+import { TreeViewData } from "@models";
 import { useNavigate } from "react-router-dom";
 
 export const OptionalForTreeViewItem: FC<{data: TreeViewData, nodeId: string}> = ({ data }) => {

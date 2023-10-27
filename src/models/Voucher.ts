@@ -1,7 +1,6 @@
 import { makeObservable, observable } from "mobx";
-import { FetchAPI, Method } from "../service/fetchAPI";
 
-export class Voucher{
+export class Voucher {
     @observable
     title: string;
     @observable
@@ -19,7 +18,7 @@ export class Voucher{
     @observable
     description: string
 
-    constructor(data? : any){
+    constructor(data?: any) {
         this.title = "";
         this.content = "";
         this.effectiveAt = "";
@@ -31,7 +30,7 @@ export class Voucher{
         makeObservable(this)
     }
 
-    static async getMyVoucher(userId: string, type: string){
+    static async getMyVoucher(userId: string, type: string) {
         const res = await fetch(`https://api.votuan.xyz/api/v1/user/voucher/owner?type=${type}`, {
             method: 'GET',
             mode: 'cors',

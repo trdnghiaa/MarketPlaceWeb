@@ -1,6 +1,6 @@
 import { action, observable } from "mobx";
 import { FetchAPI, Method } from "../service/fetchAPI";
-import { Object2Filter } from "../utils";
+import { Object2Filter } from "@utils";
 
 export class NotificationWeb {
     @observable _id: string;

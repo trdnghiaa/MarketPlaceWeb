@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect } from "react";
-import { APP_NAME, setTitle } from "../utils";
+import { APP_NAME, setTitle } from "@utils";
 import { useParams } from "react-router-dom";
 
 const paramsText = {

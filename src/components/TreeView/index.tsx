@@ -4,7 +4,7 @@ import React, { FC } from "react";
 import { observer } from "mobx-react-lite";
 import { CategoryEditor } from "./CategoryEditor";
 import { CategoryView } from "./CategoryView";
-import { Category, TreeViewData } from "../../models";
+import { Category, TreeViewData } from "@models";
 import { Box } from "@mui/material";
 
 

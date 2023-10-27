@@ -1,15 +1,15 @@
 import { FC, useEffect, useState } from "react";
 import { BasicLayout } from "../../layouts/common";
-import { UserInfo } from "../../components/user";
-import { CreateAccount } from "../../components/CreateAccount";
+import { UserInfo } from "@components/user";
+import { CreateAccount } from "@components/CreateAccount";
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useStore } from "../../stores";
+import { useStore } from "@stores";
 import { useNavigate } from "react-router-dom";
-import { LOGO_TRAVELOKA, MESSAGE_TERMS } from "../../utils";
+import { MESSAGE_TERMS } from "@utils";
 import { observer } from "mobx-react-lite";
-import { UserRole } from "../../models/types";
-import { Oops } from "../../components/Error/Oops";
+import { UserRole } from "@models";
+import { Oops } from "@components/Error/Oops";
 import { styled } from "@mui/system";
 
 const PREFIX = "REGISTER-";
@@ -64,8 +64,8 @@ export const Register: FC = observer(() => {
 
                     {role == UserRole.USER ? <>
                             {/* <Grid container justifyContent={"center"} pt={2}>
-                                <img src={LOGO_TRAVELOKA} alt="Logo" />
-                            </Grid> */}
+                             <img src={LOGO_TRAVELOKA} alt="Logo" />
+                             </Grid> */}
 
                             <Typography variant={"h4"} align={"center"}>
                                 Đăng kí tài khoản người dùng

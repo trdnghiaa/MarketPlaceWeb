@@ -3,12 +3,12 @@ import * as React from "react";
 import { FC, ReactElement, useCallback, useEffect } from "react";
 import { BasicLayout } from "../../layouts/common";
 import { Card, CardActionArea, cardActionAreaClasses, cardClasses, CardContent, Chip, Divider, Grid, ListItemIcon, ListItemText, MenuItem, MenuList, Paper, Skeleton, Typography } from "@mui/material";
-import { formatSmartToday, theme, TRANSLATE_TERMS } from "../../utils";
+import { formatSmartToday, theme, TRANSLATE_TERMS } from "@utils";
 import { AccessTime, AllInbox, CircleNotificationsOutlined, PermIdentity, SupervisorAccount } from "@mui/icons-material";
-import { useStore } from "../../stores";
+import { useStore } from "@stores";
 import styled from "@emotion/styled";
 import { grey } from "@mui/material/colors";
-import { NotificationWeb } from "../../models";
+import { NotificationWeb } from "@models";
 
 const Root = styled(Paper)({
     [`& .${cardClasses.root}`]: {
@@ -54,7 +54,7 @@ export const NotificationPage: FC = observer(({}) => {
         sNotificationWeb.initForPage();
     }, []);
 
-    const setTypeHandle = (type:  string) => {
+    const setTypeHandle = (type: string) => {
         return () => {
             sNotificationWeb.set_currentPage(0);
             sNotificationWeb.set_countPage(0);
@@ -77,13 +77,15 @@ export const NotificationPage: FC = observer(({}) => {
             <Grid container spacing={2} direction={{ xs: "column", sm: "row" }}>
                 <Grid item sm={3}>
                     <MenuList>
-                        {notificationType.map((e) => (<MenuItem key={e} onClick={setTypeHandle(e)} selected={e == sNotificationWeb.currentType}>
-                            <ListItemIcon>
-                                {getIconByType(e)}
-                            </ListItemIcon>
-                            <ListItemText>{TRANSLATE_TERMS[e.toUpperCase()] || e}</ListItemText>
-                            <Typography variant="body2" color="primary">{sNotificationWeb.types[e] || 0}</Typography>
-                        </MenuItem>))}
+                        {notificationType.map((e) => (
+                            <MenuItem key={e} onClick={setTypeHandle(e)} selected={e == sNotificationWeb.currentType}>
+                                <ListItemIcon>
+                                    {getIconByType(e)}
+                                </ListItemIcon>
+                                <ListItemText>{TRANSLATE_TERMS[e.toUpperCase()] || e}</ListItemText>
+                                <Typography variant="body2"
+                                            color="primary">{sNotificationWeb.types[e] || 0}</Typography>
+                            </MenuItem>))}
                     </MenuList>
                     <Divider />
                 </Grid>

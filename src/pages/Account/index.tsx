@@ -1,5 +1,5 @@
 import { Account } from "./Account";
-import { CreateAccount } from "../../components/CreateAccount";
+import { CreateAccount } from "@components/CreateAccount";
 import { Profile } from "../Profiles";
 import { NewAccount } from "./newAccount";
 

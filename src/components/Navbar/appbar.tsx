@@ -2,10 +2,10 @@ import { MouseEvent, useState } from "react";
 import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, } from "@mui/material/";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import { ADMIN_SETTINGS, APP_NAME, MENU_ADMIN, MENU_SENSOR, theme } from "../../utils";
-import { store, useStore } from "../../stores";
+import { ADMIN_SETTINGS, APP_NAME, MENU_ADMIN, MENU_SENSOR, theme } from "@utils";
+import { store, useStore } from "@stores";
 import { DropdownSetting } from "../Settings";
-import { UserRole } from "../../models";
+import { UserRole } from "@models";
 
 export const Appbar = () => {
     const { role } = useStore();

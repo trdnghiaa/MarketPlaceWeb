@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import { Button, Container, IconButton, Popover } from "@mui/material";
-import Icon from '@mui/material/Icon';
-import { useStore } from "../../stores";
+import { Button, Container, Icon, IconButton, Popover } from "@mui/material";
+import { useStore } from "@stores";
 
 export const IconPopoverSelect: FC<{setIcon: Function, icon: string}> = ({ setIcon, icon }) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);

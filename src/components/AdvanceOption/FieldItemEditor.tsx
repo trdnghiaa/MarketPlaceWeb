@@ -1,9 +1,9 @@
 import { FC, MouseEvent } from "react";
-import { AdvanceField, FieldType } from "../../models";
+import { AdvanceField, FieldType } from "@models";
 import { observer } from "mobx-react-lite";
 import { buttonClasses, Card, CardHeader, FormControl, Grid, gridClasses, IconButton, InputLabel, MenuItem, OutlinedInput, paperClasses, Select, SelectChangeEvent, Typography } from "@mui/material";
 import { HighlightOff } from "@mui/icons-material";
-import { TRANSLATE_TERMS } from "../../utils";
+import { TRANSLATE_TERMS } from "@utils";
 import { SelectOptionFieldEditor, SelectorFieldsEditor, TextOptionFieldEditor } from "./FieldTypeEditor";
 import { styled } from "@mui/system";
 

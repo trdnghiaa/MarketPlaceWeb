@@ -3,10 +3,10 @@ import { observer } from "mobx-react-lite";
 import { useSnackbar } from "notistack";
 import { Navigate } from "react-router-dom";
 
-import { store } from "../stores";
-import { Loading } from "../components/Loading";
-import { UserRole } from "../models";
-import { MESSAGE_TERMS } from "../utils";
+import { store } from "@stores";
+import { Loading } from "@components/Loading";
+import { UserRole } from "@models";
+import { MESSAGE_TERMS } from "@utils";
 
 
 export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> = observer(({ allowRole, children }) => {
@@ -42,7 +42,8 @@ export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> = obs
 
     return (
         <>
-            {isLoading || !isDone ? <Loading /> : !isLoggedIn ? <Navigate to="/login" replace={true} /> : (<AdminRouteControl />)}
+            {isLoading || !isDone ? <Loading /> : !isLoggedIn ? <Navigate to="/login" replace={true} /> : (
+                <AdminRouteControl />)}
         </>
     );
 });

@@ -1,10 +1,10 @@
 import { FC, MouseEvent, useCallback, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { AdvanceField, AdvanceOption } from "../../models";
+import { AdvanceField, AdvanceOption } from "@models";
 import { styled } from "@mui/system";
 import { Button, buttonClasses, Card, CardHeader, FormControl, Grid, gridClasses, IconButton, InputLabel, OutlinedInput, paperClasses, Tooltip, Typography } from "@mui/material";
 import { Add, HelpOutline, HighlightOff } from "@mui/icons-material";
-import { TRANSLATE_TERMS } from "../../utils";
+import { TRANSLATE_TERMS } from "@utils";
 import { FieldItemEditor } from "./FieldItemEditor";
 
 const Root = styled(Grid)(({ theme }) => ({
