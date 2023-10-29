@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
 import { ChangeEvent, FC, KeyboardEvent, useEffect, useState } from "react";
-import { AdvanceField, FieldType } from "../../models";
+import { AdvanceField, FieldType } from "src/models";
 import { Autocomplete, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Switch, TextField } from "@mui/material";
-import { MESSAGE_TERMS, TRANSLATE_TERMS } from "../../utils";
+import { MESSAGE_TERMS, TRANSLATE_TERMS } from "src/utils";
 import { reaction } from "mobx";
 import { useSnackbar } from "notistack";
 

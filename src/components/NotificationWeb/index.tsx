@@ -3,9 +3,9 @@ import { Badge, Container, Divider, Grid, IconButton, Link as MLink, ListItemIco
 import { blue, grey } from "@mui/material/colors";
 import { observer } from "mobx-react";
 import { CSSProperties, FC, MouseEvent, useState } from "react";
-import { useStore } from "../../stores";
-import { formatSmartToday, MESSAGE_TERMS, TRANSLATE_TERMS } from "../../utils";
-import { NotificationWeb } from "../../models";
+import { useStore } from "src/stores";
+import { formatSmartToday, MESSAGE_TERMS, TRANSLATE_TERMS } from "src/utils";
+import { NotificationWeb } from "src/models";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import ListItem from "@mui/material/ListItem";
@@ -43,14 +43,14 @@ export const NotificationMenu: FC = observer(({}) => {
     }
 
     const seenAllHandle = () => {
-        try{
+        try {
             sNotificationWeb.seenAll().then(([err, data]) => {
-                if(err) throw err;
+                if (err) throw err;
 
-                enqueueSnackbar(MESSAGE_TERMS.get(data.message), {variant: "success"});
+                enqueueSnackbar(MESSAGE_TERMS.get(data.message), { variant: "success" });
             });
-        }catch (e) {
-            enqueueSnackbar(MESSAGE_TERMS.get(e), {variant: "error"})
+        } catch (e) {
+            enqueueSnackbar(MESSAGE_TERMS.get(e), { variant: "error" })
         }
     }
 
@@ -92,14 +92,16 @@ export const NotificationMenu: FC = observer(({}) => {
             <Container>
                 <Grid container justifyContent="space-between" alignItems="center" style={styles.notification}>
                     <Typography variant="h6">{TRANSLATE_TERMS.NOTIFICATION}</Typography>
-                    <MLink component="button" variant="subtitle1" onClick={seenAllHandle}>{TRANSLATE_TERMS.SEEN_ALL_NOTIFICATION}</MLink>
+                    <MLink component="button" variant="subtitle1"
+                           onClick={seenAllHandle}>{TRANSLATE_TERMS.SEEN_ALL_NOTIFICATION}</MLink>
                 </Grid>
                 <Divider />
                 <NotificationList goto={gotoPage} />
             </Container>
             <Grid container
                   sx={{ position: "sticky", bottom: 0, width: "100%", backgroundColor: grey[50], py: "4px", alignItems: "center" }}>
-                <Link style={styles.notificationLink} to={"/notifications"}>{TRANSLATE_TERMS.GO_TO_NOTIFICATION_PAGE}</Link>
+                <Link style={styles.notificationLink}
+                      to={"/notifications"}>{TRANSLATE_TERMS.GO_TO_NOTIFICATION_PAGE}</Link>
             </Grid>
         </Menu>
     </Box>

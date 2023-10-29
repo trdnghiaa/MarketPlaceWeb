@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Button, Container, IconButton, Popover } from "@mui/material";
 import Icon from '@mui/material/Icon';
-import { useStore } from "../../stores";
+import { useStore } from "src/stores";
 
 export const IconPopoverSelect: FC<{setIcon: Function, icon: string}> = ({ setIcon, icon }) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
@@ -46,7 +46,7 @@ export const IconPopoverSelect: FC<{setIcon: Function, icon: string}> = ({ setIc
             }}
         >
             <Container maxWidth={"xs"} fixed sx={{ height: "50vh", px: 0 }}>
-                {iconDB.map((e) => (<Button color={"inherit"} key={e.name} onClick={selectIconHandle(e.name)}>
+                {iconDB.map((e: any) => (<Button color={"inherit"} key={e.name} onClick={selectIconHandle(e.name)}>
                     <Icon baseClassName="material-icons-two-tone" fontSize={"large"}>{e.name}</Icon></Button>))}
             </Container>
         </Popover>

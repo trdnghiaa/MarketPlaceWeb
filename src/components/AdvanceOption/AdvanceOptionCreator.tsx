@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { FC, MouseEvent, useCallback } from "react";
 import { Button, buttonClasses, Grid, gridClasses, paperClasses, Typography } from "@mui/material";
-import { TRANSLATE_TERMS } from "../../utils";
+import { TRANSLATE_TERMS } from "src/utils";
 import { Add } from "@mui/icons-material";
-import { AdvanceOption } from "../../models";
+import { AdvanceOption } from "src/models";
 import { styled } from "@mui/system";
 import { OptionItemEditor } from "./OptionItemEditor";
 

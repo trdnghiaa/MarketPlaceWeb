@@ -1,6 +1,6 @@
-import { store } from "../stores";
-import { MenuItem, MenuItemIcon } from "../models";
-import { AddCircleOutlineSharp, DnsRounded, FavoriteRounded, HomeRounded} from "@mui/icons-material";
+import { store } from "src/stores";
+import { MenuItem, MenuItemIcon } from "src/models";
+import { AddCircleOutlineSharp, DnsRounded, FavoriteRounded, HomeRounded } from "@mui/icons-material";
 import { TRANSLATE_TERMS } from "./messageTerms";
 
 export const srcIcon = "./favicon.ico";
@@ -109,8 +109,7 @@ export const DRAWER_ICONS = [
     "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/b/b0f87008a7a01d72ffb5eacf06870cba.svg",
 ];
 
-export const LOGO_TRAVELOKA =
-    "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/3/30bf6c528078ba28d34bc3e37d124bdb.svg";
+export const LOGO = "";
 
 
 export const regexes = {

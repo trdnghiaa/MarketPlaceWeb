@@ -1,14 +1,14 @@
 import { FC, MouseEvent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { BasicLayout } from "../../layouts/common";
-import { UserInfo } from "../../components/user";
-import { useStore } from "../../stores";
+import { BasicLayout } from "src/layouts/common";
+import { UserInfo } from "src/components/user";
+import { useStore } from "src/stores";
 import { Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, Typography } from "@mui/material";
-import { goBack, randomStringWithLength, theme } from "../../utils";
+import { goBack, randomStringWithLength, theme } from "src/utils";
 import { Cached, Save, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import { MESSAGE_TERMS } from "../../utils/messageTerms";
+import { MESSAGE_TERMS } from "src/utils/messageTerms";
 
 export const NewAccount: FC<{}> = observer(({}) => {
     const { sNewAccount } = useStore();

@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
-import { clearAll, clearJwtToken, getJwtToken, getRole, setRole, } from "../utils";
-import { setAuthorizationToken } from "../service/fetchAPI";
-import { UserRole, User} from "../models";
+import { clearAll, clearJwtToken, getJwtToken, getRole, setRole, } from "src/utils";
+import { setAuthorizationToken } from "src/service/fetchAPI";
+import { User, UserRole } from "src/models";
 import { BaseStore } from "./BaseStore";
 import { store } from "./index";
 

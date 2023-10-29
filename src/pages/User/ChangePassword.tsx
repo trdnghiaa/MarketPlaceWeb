@@ -2,8 +2,8 @@ import { FC, MouseEvent, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useStore } from "../../stores";
-import { UserRole } from "../../models";
+import { useStore } from "src/stores";
+import { UserRole } from "src/models";
 
 export const ChangePassword: FC = observer(() => {
     const { sProfile, role } = useStore();

@@ -1,7 +1,6 @@
-import { AdsSlider, Search } from "../../components/user";
-import { BasicLayout } from "../../layouts/common";
-import { useStore } from "../../stores";
-import { UserRole } from "../../models/types";
+import { BasicLayout } from "src/layouts/common";
+import { useStore } from "src/stores";
+import { UserRole } from "src/models/types";
 import { observer } from "mobx-react-lite";
 
 export const Home = observer(() => {

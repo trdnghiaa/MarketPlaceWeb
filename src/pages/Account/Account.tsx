@@ -1,23 +1,23 @@
 import { FC, useCallback, useEffect, useMemo } from "react";
 
-import { BasicLayout } from "../../layouts/common";
+import { BasicLayout } from "src/layouts/common";
 import { observer } from "mobx-react-lite";
 import { useSnackbar } from "notistack";
-import { useStore } from "../../stores";
+import { useStore } from "src/stores";
 import { MaterialReactTable, MRT_ColumnDef } from "material-react-table";
-import { User } from "../../models/User";
+import { User } from "src/models/User";
 import { Box, Button, IconButton } from "@mui/material";
 import { Add, Delete as DeleteIcon, Edit as EditIcon, } from '@mui/icons-material';
 
 import { MRT_Localization_VI } from "material-react-table/locales/vi";
-import { setTitle } from "../../utils";
+import { setTitle } from "src/utils";
 import { useNavigate } from "react-router-dom";
 import { Visibility } from "@mui/icons-material/";
-import { PAGINATION_SIZE_LIST } from "../../config";
+import { PAGINATION_SIZE_LIST } from "src/config";
 import { Tooltip } from "@mui/material/";
 import { yellow } from "@mui/material/colors";
-import { DialogType } from "../../stores/DialogStore";
-import { MESSAGE_TERMS } from "../../utils/messageTerms";
+import { DialogType } from "src/stores/DialogStore";
+import { MESSAGE_TERMS } from "src/utils/messageTerms";
 
 
 export const Account: FC<{}> = observer(({}) => {

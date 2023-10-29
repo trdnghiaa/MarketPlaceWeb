@@ -2,7 +2,7 @@ import { Fragment, KeyboardEvent, MouseEvent, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Box, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, } from "@mui/material";
 
-import { DRAWER_ITEMS } from "../../utils";
+import { DRAWER_ITEMS } from "src/utils";
 import { Link } from "react-router-dom";
 import { blue } from "@mui/material/colors";
 

@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
-import { Category, TreeViewData } from "../models";
+import { Category, TreeViewData } from "src/models";
 
 export class CategoryStore {
     @observable categories: Category[] = [];

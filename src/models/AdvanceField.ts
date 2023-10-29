@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
-import { FetchAPI, Method } from "../service/fetchAPI";
+import { FetchAPI, Method } from "src/service/fetchAPI";
 
 export enum FieldType {
     TEXT = "TEXT",

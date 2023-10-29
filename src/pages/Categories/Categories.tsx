@@ -1,14 +1,14 @@
 import { FC, useCallback, useEffect } from "react";
 
-import { BasicLayout } from "../../layouts/common";
+import { BasicLayout } from "src/layouts/common";
 import { observer } from "mobx-react-lite";
-import { useStore } from "../../stores";
-import { setTitle, TRANSLATE_TERMS } from "../../utils";
+import { useStore } from "src/stores";
+import { setTitle, TRANSLATE_TERMS } from "src/utils";
 import { treeViewClasses } from "@mui/x-tree-view";
-import { TreeCategory } from "../../components/TreeView";
+import { TreeCategory } from "src/components/TreeView";
 import { Divider, Grid, IconButton, Paper, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { Category } from "../../models";
+import { Category } from "src/models";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 

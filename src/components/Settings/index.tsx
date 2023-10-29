@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { MenuItem as MenuItemType } from "../../models/types";
+import { MenuItem as MenuItemType } from "src/models/types";
 import { MenuItem, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";

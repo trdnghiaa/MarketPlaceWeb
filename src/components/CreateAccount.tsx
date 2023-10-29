@@ -6,9 +6,9 @@ import {
 	InputAdornment,
 	IconButton, Grid,
 } from "@mui/material";
-import { useStore } from "../stores";
+import { useStore } from "src/stores";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { TRANSLATE_TERMS } from "../utils";
+import { TRANSLATE_TERMS } from "src/utils";
 
 export const CreateAccount: FC = () => {
 	const { sSignUp } = useStore();

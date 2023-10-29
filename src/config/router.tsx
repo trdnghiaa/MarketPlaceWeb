@@ -1,6 +1,6 @@
-import { Account, Categories, CategoryEditor, Home, Login, MyPost, NewAccount, NewPost, NotFound, NotificationPage, Order, PageMiddle, Profile, Register, RouteGuard, SavedPost, Voucher, } from "../pages";
+import { Account, Categories, CategoryEditor, Home, Login, MyPost, NewAccount, NewPost, NotFound, NotificationPage, Order, PageMiddle, Profile, Register, RouteGuard, SavedPost, Voucher, } from "src/pages";
 import React from "react";
-import { UserRole } from "../models";
+import { UserRole } from "src/models";
 
 export interface RouteModel {
     path: string,

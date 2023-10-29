@@ -1,21 +1,19 @@
-import {observer} from "mobx-react";
-import {FC, useEffect} from "react";
-import {useStore} from "../../stores";
-import {useSnackbar} from "notistack";
-import {useNavigate} from "react-router-dom";
-import {Order} from "../../models/Order";
-
-import {Typography} from "@mui/material";
+import { observer } from "mobx-react";
+import { FC, useEffect } from "react";
+import { useStore } from "src/stores";
+import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
+import { Order } from "src/models/Order";
 
 export const OrderTable: FC = observer(() => {
-    const {enqueueSnackbar} = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
     const navigator = useNavigate();
-    const {sOrder} = useStore();
+    const { sOrder } = useStore();
 
     useEffect(() => {
         Order.getOfMe().then(([err, data]) => {
             if (err) {
-                enqueueSnackbar(err.message, {variant: "error"});
+                enqueueSnackbar(err.message, { variant: "error" });
                 return;
             }
             sOrder.set_orders(data);

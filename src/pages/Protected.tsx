@@ -3,10 +3,10 @@ import { observer } from "mobx-react-lite";
 import { useSnackbar } from "notistack";
 import { Navigate } from "react-router-dom";
 
-import { store } from "../stores";
-import { Loading } from "../components/Loading";
-import { UserRole } from "../models";
-import { MESSAGE_TERMS } from "../utils";
+import { store } from "src/stores";
+import { Loading } from "src/components/Loading";
+import { UserRole } from "src/models";
+import { MESSAGE_TERMS } from "src/utils";
 
 
 export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> = observer(({ allowRole, children }) => {

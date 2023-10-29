@@ -1,12 +1,12 @@
 import { observer } from "mobx-react-lite";
 import { Accordion, AccordionDetails, AccordionSummary, Chip, Icon, Typography } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
-import { TRANSLATE_TERMS } from "../../utils";
+import { TRANSLATE_TERMS } from "src/utils";
 import { TreeCategory } from "./index";
-import { Category } from "../../models";
+import { Category } from "src/models";
 import { FC, SyntheticEvent, useState } from "react";
-import { useStore } from "../../stores";
-import { ROOT_CATEGORY } from "../../config";
+import { useStore } from "src/stores";
+import { ROOT_CATEGORY } from "src/config";
 
 export const TreeViewSelector: FC<{
     category: Category, dropCategoryHandle: (event: any) => void, set_category: (category: Category) => void, chooseCategoryPlaceholder?: string, withCheckbox?: boolean

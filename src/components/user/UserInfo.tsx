@@ -1,16 +1,14 @@
 import { FC } from "react";
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, OutlinedInput, Radio, RadioGroup, Select, SelectChangeEvent, } from "@mui/material";
-import { User, UserRole } from "../../models";
+import { User, UserRole } from "src/models";
 import { observer } from "mobx-react";
-import { useStore } from "../../stores";
-import { useParams } from "react-router-dom";
-import { TRANSLATE_TERMS } from "../../utils";
+import { useStore } from "src/stores";
+import { TRANSLATE_TERMS } from "src/utils";
 
 export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
     observer(({ user, setUser, isView }) => {
         const { role, types, currentUser } = useStore();
-        const { account } = useParams();
 
         const handleDateChange = (newValue: unknown) => {
             if (newValue instanceof Date) user.dob = newValue;

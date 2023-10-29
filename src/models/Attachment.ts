@@ -1,6 +1,6 @@
 import { User } from "./User";
 import { makeAutoObservable, observable } from "mobx";
-import { FetchAPI, Method } from "../service/fetchAPI";
+import { FetchAPI, Method } from "src/service/fetchAPI";
 
 export class Attachment {
     @observable

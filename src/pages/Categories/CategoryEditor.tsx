@@ -1,15 +1,15 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { BasicLayout } from "../../layouts/common";
+import { BasicLayout } from "src/layouts/common";
 import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { MESSAGE_TERMS, TRANSLATE_TERMS } from "../../utils";
-import { Category } from "../../models";
-import { useStore } from "../../stores";
+import { MESSAGE_TERMS, TRANSLATE_TERMS } from "src/utils";
+import { Category } from "src/models";
+import { useStore } from "src/stores";
 import { Backdrop, Button, CircularProgress, FormControl, Grid, InputLabel, OutlinedInput, Paper, styled, Typography } from "@mui/material";
-import { IconPopoverSelect } from "../../components/IconPopoverSelect";
-import { AdvanceOptionCreator } from "../../components/AdvanceOption";
-import { TreeViewSelector } from "../../components/TreeView/TreeViewSelector";
+import { IconPopoverSelect } from "src/components/IconPopoverSelect";
+import { AdvanceOptionCreator } from "src/components/AdvanceOption";
+import { TreeViewSelector } from "src/components/TreeView/TreeViewSelector";
 
 const Root = styled(Paper)(({ theme }) => ({
     "&": {

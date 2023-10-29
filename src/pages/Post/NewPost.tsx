@@ -1,20 +1,20 @@
 import { FC, SyntheticEvent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { BasicLayout } from "../../layouts/common";
+import { BasicLayout } from "src/layouts/common";
 import { styled } from "@mui/system";
-import { useStore } from "../../stores";
+import { useStore } from "src/stores";
 import { useSnackbar } from "notistack";
 import { Button, FormControl, Grid, InputLabel, OutlinedInput, Paper, Typography } from "@mui/material";
-import { MESSAGE_TERMS, theme, TRANSLATE_TERMS } from "../../utils";
+import { MESSAGE_TERMS, theme, TRANSLATE_TERMS } from "src/utils";
 import { Dropzone, ExtFile, FileItem, ValidateFileResponse } from "@dropzone-ui/react";
-import { headers, UPLOAD_URL } from "../../service/fetchAPI";
+import { headers, UPLOAD_URL } from "src/service/fetchAPI";
 
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from "react-quill";
 import { PostAdd } from "@mui/icons-material";
-import { Attachment, Category } from "../../models";
-import { EDITOR_CONFIG } from "../../config";
-import { TreeViewSelector } from "../../components/TreeView/TreeViewSelector";
+import { Attachment, Category } from "src/models";
+import { EDITOR_CONFIG } from "src/config";
+import { TreeViewSelector } from "src/components/TreeView/TreeViewSelector";
 
 const PREFIX = "NewPost-";
 

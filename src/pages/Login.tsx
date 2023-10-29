@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, Grid, TextField, Typography, } from "@mui/material";
 import { FC, useState } from "react";
 
-import { APP_NAME, MESSAGE_TERMS, PRIMARY_COLOR, srcIcon, theme, TRANSLATE_TERMS } from "../utils";
-import { useStore } from "../stores";
+import { APP_NAME, MESSAGE_TERMS, PRIMARY_COLOR, srcIcon, theme, TRANSLATE_TERMS } from "src/utils";
+import { useStore } from "src/stores";
 import { useSnackbar } from "notistack";
 import { observer } from "mobx-react";
 import { Link, useSearchParams } from "react-router-dom";

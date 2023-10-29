@@ -1,14 +1,14 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { FC, ReactElement, useCallback, useEffect } from "react";
-import { BasicLayout } from "../../layouts/common";
+import { BasicLayout } from "src/layouts/common";
 import { Card, CardActionArea, cardActionAreaClasses, cardClasses, CardContent, Chip, Divider, Grid, ListItemIcon, ListItemText, MenuItem, MenuList, Paper, Skeleton, Typography } from "@mui/material";
-import { formatSmartToday, theme, TRANSLATE_TERMS } from "../../utils";
+import { formatSmartToday, theme, TRANSLATE_TERMS } from "src/utils";
 import { AccessTime, AllInbox, CircleNotificationsOutlined, PermIdentity, SupervisorAccount } from "@mui/icons-material";
-import { useStore } from "../../stores";
+import { useStore } from "src/stores";
 import styled from "@emotion/styled";
 import { grey } from "@mui/material/colors";
-import { NotificationWeb } from "../../models";
+import { NotificationWeb } from "src/models";
 
 const Root = styled(Paper)({
     [`& .${cardClasses.root}`]: {

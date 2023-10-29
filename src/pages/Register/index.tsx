@@ -1,15 +1,15 @@
 import { FC, useEffect, useState } from "react";
-import { BasicLayout } from "../../layouts/common";
-import { UserInfo } from "../../components/user";
-import { CreateAccount } from "../../components/CreateAccount";
+import { BasicLayout } from "src/layouts/common";
+import { UserInfo } from "src/components/user";
+import { CreateAccount } from "src/components/CreateAccount";
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useStore } from "../../stores";
+import { useStore } from "src/stores";
 import { useNavigate } from "react-router-dom";
-import { LOGO_TRAVELOKA, MESSAGE_TERMS } from "../../utils";
+import { MESSAGE_TERMS } from "src/utils";
 import { observer } from "mobx-react-lite";
-import { UserRole } from "../../models/types";
-import { Oops } from "../../components/Error/Oops";
+import { UserRole } from "src/models/types";
+import { Oops } from "src/components/Error/Oops";
 import { styled } from "@mui/system";
 
 const PREFIX = "REGISTER-";
@@ -29,7 +29,7 @@ const Root = styled("div")({
 
 export const Register: FC = observer(() => {
     const [submitting, setSubmitting] = useState(false);
-    const { sSignUp, currentUser, role, Logout } = useStore();
+    const { sSignUp, currentUser, role } = useStore();
     const { enqueueSnackbar } = useSnackbar();
     const navigator = useNavigate();
 
@@ -41,8 +41,6 @@ export const Register: FC = observer(() => {
     }, [currentUser])
 
     const handleSignUp = () => {
-        const { user } = sSignUp;
-
         sSignUp.doSignUp().then(([err, data]) => {
             setSubmitting(false);
             if (err)
@@ -64,8 +62,8 @@ export const Register: FC = observer(() => {
 
                     {role == UserRole.USER ? <>
                             {/* <Grid container justifyContent={"center"} pt={2}>
-                                <img src={LOGO_TRAVELOKA} alt="Logo" />
-                            </Grid> */}
+                             <img src={LOGO_TRAVELOKA} alt="Logo" />
+                             </Grid> */}
 
                             <Typography variant={"h4"} align={"center"}>
                                 Đăng kí tài khoản người dùng

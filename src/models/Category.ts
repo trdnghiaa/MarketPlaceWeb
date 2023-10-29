@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import { FetchAPI, Method } from "../service/fetchAPI";
+import { FetchAPI, Method } from "src/service/fetchAPI";
 import { AdvanceOption } from "./AdvanceField";
-import { class2JSON } from "../utils";
+import { class2JSON } from "src/utils";
 
 export class Category {
     @observable

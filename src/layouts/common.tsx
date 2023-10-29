@@ -1,12 +1,12 @@
 import { FC, ReactNode, useEffect } from "react";
 import { Container } from "@mui/material";
 
-import { Appbar } from "../components/Navbar/appbar";
-import { UserNavbar } from "../components/user";
+import { Appbar } from "src/components/Navbar/appbar";
+import { UserNavbar } from "src/components/user";
 
 import "./common.scss";
-import { store, useStore } from "../stores";
-import { UserRole } from "../models";
+import { store, useStore } from "src/stores";
+import { UserRole } from "src/models";
 import { observer } from "mobx-react";
 
 export const BasicLayout: FC<{children: ReactNode}> = observer(

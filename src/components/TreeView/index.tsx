@@ -1,10 +1,10 @@
 import { TreeItem, treeItemClasses, TreeItemContentProps, TreeItemProps, TreeView, useTreeItem } from "@mui/x-tree-view";
 import { styled } from "@mui/system";
-import React, { FC } from "react";
+import React, { FC, ForwardedRef } from "react";
 import { observer } from "mobx-react-lite";
 import { CategoryEditor } from "./CategoryEditor";
 import { CategoryView } from "./CategoryView";
-import { Category, TreeViewData } from "../../models";
+import { Category, TreeViewData } from "src/models";
 import { Box } from "@mui/material";
 
 
@@ -72,6 +72,7 @@ type CustomContentProps = TreeItemContentProps & {
  */
 const CustomContent = React.forwardRef(function CustomContent(
     props: CustomContentProps,
+    ref: ForwardedRef<any>
 ) {
     const {
         nodeId,

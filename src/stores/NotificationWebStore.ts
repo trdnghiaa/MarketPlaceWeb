@@ -1,4 +1,4 @@
-import { NotificationWeb } from "../models";
+import { NotificationWeb } from "src/models";
 import { action, makeObservable, observable } from "mobx";
 
 export class NotificationWebStore {

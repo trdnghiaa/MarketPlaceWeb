@@ -9,16 +9,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Tooltip from "@mui/material/Tooltip";
-import { UserDrawer } from "../user";
-import { APP_NAME, DRAWER_ITEMS, theme, TRANSLATE_TERMS, USER_SETTINGS } from "../../utils";
-import { useStore } from "../../stores";
+import { UserDrawer } from "src/components/user";
+import { APP_NAME, DRAWER_ITEMS, theme, TRANSLATE_TERMS, USER_SETTINGS } from "src/utils";
+import { useStore } from "src/stores";
 import { observer } from "mobx-react-lite";
 import { Button, Grid } from "@mui/material";
 import { styled } from '@mui/system';
 import { Link } from "react-router-dom";
-import { DropdownSetting } from "../Settings";
+import { DropdownSetting } from "src/components/Settings";
 import { blue } from "@mui/material/colors";
-import { NotificationMenu } from "../NotificationWeb";
+import { NotificationMenu } from "src/components/NotificationWeb";
 
 
 const pages = DRAWER_ITEMS.slice(1);

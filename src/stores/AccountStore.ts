@@ -1,6 +1,6 @@
 import { action, makeObservable, observable } from "mobx";
-import { User } from "../models/User";
-import { PAGE_SIZE_DEFAULT } from "../config";
+import { User } from "src/models";
+import { PAGE_SIZE_DEFAULT } from "src/config";
 
 export class AccountStore {
     @observable users: User[] = [];

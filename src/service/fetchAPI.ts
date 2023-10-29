@@ -1,6 +1,6 @@
-import {IErrorData} from "../models/types";
+import { IErrorData } from "src/models/types";
 
-export const headers: { [key: string]: string } = {
+export const headers: {[key: string]: string} = {
     "Content-Type": "application/json",
     'Access-Control-Allow-Origin': '*',
     Accept: "application/json",
@@ -40,7 +40,7 @@ export async function FetchAPI<T = any, TError = any>(
             mode: "cors",
             headers,
             ...(method !== "GET" && body
-                ? {body: JSON.stringify(body)}
+                ? { body: JSON.stringify(body) }
                 : {}),
         });
         if (res.ok) {
@@ -61,7 +61,7 @@ export async function FetchAPI<T = any, TError = any>(
             }
         }
 
-        const err = Object.assign(new Error(res.statusText) || String(res.status), {status: res.status})
+        const err = Object.assign(new Error(res.statusText) || String(res.status), { status: res.status })
         try {
             const e = await res.json();
             return [Object.assign(err, e), null as any];

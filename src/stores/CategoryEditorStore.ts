@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import { AdvanceOption, Category, FieldType } from "../models";
-import { MESSAGE_TERMS, TRANSLATE_TERMS } from "../utils";
-import { ROOT_CATEGORY } from "../config";
+import { AdvanceOption, Category, FieldType } from "src/models";
+import { MESSAGE_TERMS, TRANSLATE_TERMS } from "src/utils";
+import { ROOT_CATEGORY } from "src/config";
 import { Store } from "./Store";
 
 

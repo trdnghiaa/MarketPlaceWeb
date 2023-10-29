@@ -1,9 +1,9 @@
 import { observer } from "mobx-react";
 import { FC, Fragment } from "react";
-import { Order } from "../models/Order";
+import { Order } from "src/models/Order";
 import { Divider, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Typography } from "@mui/material";
 import InboxIcon from '@mui/icons-material/Inbox';
-import { UserRole } from "../models/types";
+import { UserRole } from "src/models/types";
 import { Grid } from "@mui/material/";
 import moment from "moment";
 

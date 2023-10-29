@@ -1,18 +1,16 @@
 import { FC, useEffect, useState } from "react";
-import { BasicLayout } from "../layouts/common";
-import { store, useStore } from "../stores";
+import { BasicLayout } from "src/layouts/common";
+import { useStore } from "src/stores";
 import { observer } from "mobx-react-lite";
-import { Oops } from "../components/Error/Oops";
+import { Oops } from "src/components/Error/Oops";
 import { Typography } from "@mui/material";
-import { UserRole } from "../models/types";
+import { UserRole } from "src/models/types";
 import { useNavigate } from "react-router-dom";
-import { Loading } from "../components/Loading";
-import { TRANSLATE_TERMS } from "../utils";
-
-const { REACT_APP_VOUCHER_HOST } = process.env;
+import { Loading } from "src/components/Loading";
+import { TRANSLATE_TERMS } from "src/utils";
 
 export const Voucher: FC = observer(() => {
-    const { token, role } = useStore();
+    const { role } = useStore();
     const navigator = useNavigate();
     const [done, setDone] = useState(false);
 

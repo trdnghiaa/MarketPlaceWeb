@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import { User } from "../models";
-import { MESSAGE_TERMS, MIN_YEAR_OLD_USER } from "../utils";
-import { FetchAPI, Method } from "../service/fetchAPI";
+import { User } from "src/models";
+import { MESSAGE_TERMS, MIN_YEAR_OLD_USER } from "src/utils";
+import { FetchAPI, Method } from "src/service/fetchAPI";
 import { Store } from "./Store";
 
 

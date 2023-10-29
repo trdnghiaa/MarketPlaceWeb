@@ -1,4 +1,4 @@
-import { FetchAPI, Method } from "../service/fetchAPI";
+import { FetchAPI, Method } from "src/service/fetchAPI";
 import { action, computed, makeObservable, observable } from "mobx";
 import { UserRole } from "./types";
 

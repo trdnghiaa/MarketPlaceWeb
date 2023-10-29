@@ -3,7 +3,7 @@ import { FC } from "react";
 import { observer } from "mobx-react-lite";
 import { Box, Button, Typography } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import { TRANSLATE_TERMS, goBack, theme } from "../utils";
+import { TRANSLATE_TERMS, goBack, theme } from "src/utils";
 import { ArrowBack } from "@mui/icons-material";
 
 export const NotFound: FC = observer(() => {

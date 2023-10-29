@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { BasicLayout } from "../layouts/common";
+import { BasicLayout } from "src/layouts/common";
 
 export const Loading: FC<{}> = () => {
 	return (

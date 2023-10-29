@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { Box, Button, Checkbox, Grid, Icon, Typography } from "@mui/material";
-import { theme, TRANSLATE_TERMS } from "../../utils";
+import { theme, TRANSLATE_TERMS } from "src/utils";
 import { OptionalForTreeViewItem } from "./OptionalForTreeViewItem";
 import React, { ChangeEvent, FC, MouseEvent } from "react";
-import { Category, TreeViewData } from "../../models";
+import { Category, TreeViewData } from "src/models";
 import styled from "@emotion/styled";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
 import { createSearchParams, useNavigate } from "react-router-dom";

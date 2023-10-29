@@ -1,12 +1,12 @@
 import { observer } from "mobx-react-lite";
 import React, { FC, useState } from "react";
 import { Divider, dividerClasses, Grid, IconButton, iconButtonClasses, InputBase, inputBaseClasses, Paper, paperClasses, Tooltip } from "@mui/material";
-import { MESSAGE_TERMS, theme, TRANSLATE_TERMS } from "../../utils";
+import { MESSAGE_TERMS, theme, TRANSLATE_TERMS } from "src/utils";
 import { Add, HighlightOff } from "@mui/icons-material";
-import { IconPopoverSelect } from "../IconPopoverSelect";
+import { IconPopoverSelect } from "src/components/IconPopoverSelect";
 import { useSnackbar } from "notistack";
-import { useStore } from "../../stores";
-import { TreeViewData } from "../../models";
+import { useStore } from "src/stores";
+import { TreeViewData } from "src/models";
 import styled from "@emotion/styled";
 
 const Root = styled(Grid)({

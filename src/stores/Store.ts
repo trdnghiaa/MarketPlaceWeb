@@ -11,7 +11,7 @@ import { DialogStore } from "./DialogStore";
 import { NotificationWebStore } from "./NotificationWebStore";
 import { NewPostStore } from "./NewPostStore";
 import { CategoryStore } from "./CategoryStore";
-import { iconList } from "../components/IconPopoverSelect/icon_db";
+import { iconList } from "src/components/IconPopoverSelect/icon_db";
 import { CategoryEditorStore } from "./CategoryEditorStore";
 
 export class Store extends AuthorizedStore {

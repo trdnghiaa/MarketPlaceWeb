@@ -1,7 +1,7 @@
-import {FetchAPI, Method} from "../service/fetchAPI";
-import {action, makeObservable, observable} from "mobx";
+import { FetchAPI, Method } from "src/service/fetchAPI";
+import { makeObservable, observable } from "mobx";
 
-export class OrderDetail{
+export class OrderDetail {
     @observable detailId: string;
     @observable productName: string;
     @observable quantity: number;
@@ -10,7 +10,7 @@ export class OrderDetail{
     @observable link: string;
     @observable orderId: string;
 
-    constructor(data?: any){
+    constructor(data?: any) {
         this.detailId = "";
         this.productName = "";
         this.quantity = 0;
@@ -21,12 +21,12 @@ export class OrderDetail{
         makeObservable(this)
     }
 
-    static async update(detail: OrderDetail){
+    static async update(detail: OrderDetail) {
         const [err, data] = await FetchAPI<{message: string}>(Method.PUT, `/order-detail/${detail.detailId}`, detail);
         return [err, data] as const;
     }
 
-    static async delete(id: string){
+    static async delete(id: string) {
         const [err, data] = await FetchAPI<{message: string}>(Method.DELETE, `/order-detail/${id}`);
         return [err, data] as const;
     }
