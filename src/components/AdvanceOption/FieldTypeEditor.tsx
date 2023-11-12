@@ -1,14 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { ChangeEvent, FC, KeyboardEvent, useEffect, useState } from "react";
-import { AdvanceField, FieldType } from "src/models";
-import { Autocomplete, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Switch, TextField } from "@mui/material";
+import { FC, KeyboardEvent, useState } from "react";
+import { AdvanceField, TextType } from "src/models";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { MESSAGE_TERMS, TRANSLATE_TERMS } from "src/utils";
-import { reaction } from "mobx";
 import { useSnackbar } from "notistack";
-
-const NonUsingPopper: FC = () => {
-    return <></>
-}
+import { AutoCompleteCustom } from "src/components/AutoCompleteCustom";
 
 export const SelectOptionFieldEditor: FC<{data: AdvanceField}> = observer(({ data }) => {
     const [Enum, setEnum] = useState<string[]>(data.option.Enum);
@@ -45,124 +41,23 @@ export const SelectOptionFieldEditor: FC<{data: AdvanceField}> = observer(({ dat
 });
 
 export const TextOptionFieldEditor: FC<{data: AdvanceField}> = observer(({ data }) => {
+    const handleChange = (event: SelectChangeEvent) => {
+        data.option.set_textType(TextType[event.target.value as string]);
+    };
     return <>
         <FormControl fullWidth>
-            <InputLabel htmlFor="text_placeholder">
-                {TRANSLATE_TERMS.TEXT_PLACEHOLDER_LABEL}
+            <InputLabel htmlFor="text_type">
+                {TRANSLATE_TERMS.TEXT_TYPE_LABEL}
             </InputLabel>
-            <OutlinedInput id={"text_placeholder"} defaultValue={data.option.placeholder} onChange={(event) => {
-                data.option.set_placeholder(event.target.value as string);
-            }} label={TRANSLATE_TERMS.TEXT_PLACEHOLDER_LABEL} />
+            <Select
+                value={data.option.textType}
+                label={TRANSLATE_TERMS.TEXT_TYPE_LABEL}
+                onChange={handleChange}
+            >
+                {Object.keys(TextType)
+                    .map(e => <MenuItem key={e} value={e}>{TRANSLATE_TERMS[e] || e}</MenuItem>)}
+            </Select>
+
         </FormControl>
     </>;
 });
-
-export const SelectorFieldsEditor: FC<{data: AdvanceField, fields: AdvanceField[]}> = observer(({ data, fields }) => {
-    const isReferenceHandle = (event: ChangeEvent<HTMLInputElement>) => {
-        const { checked } = event.target;
-        data.option.set_isReference(checked);
-        if (!checked) {
-            data.option.set_referenceName("");
-            data.option.set_reference({});
-        }
-    }
-
-    useEffect(() => {
-        const referenceName = data.option.referenceName;
-        const field: AdvanceField = fields.find((e) => e.fieldName == referenceName) || new AdvanceField();
-        reaction(() => field.option.Enum.length, () => {
-            console.log("running")
-            const reference = {
-                [referenceName]: field.option.Enum.reduce((r, e) => ({ ...r, [e]: data.option.reference[referenceName][e] || [] }), {}),
-            };
-            data.option.set_reference(reference);
-        });
-    }, [data.option.referenceName]);
-
-    const selectReferenceChange = (event: SelectChangeEvent<string>) => {
-        const { value } = event.target;
-        data.option.set_referenceName(value);
-    }
-
-    return <>
-        <FormControlLabel control={<Switch checked={data.option.isReference} onChange={isReferenceHandle} />}
-                          label={TRANSLATE_TERMS.REFERENCE_SWITCH_TEXT} sx={{ mb: 2 }} />
-
-        {data.option.isReference && <>
-            <FormControl fullWidth>
-                <InputLabel id="selector_reference_label">{TRANSLATE_TERMS.REFERENCE_LABEL_TEXT}</InputLabel>
-                <Select
-                    labelId="selector_reference_label"
-                    id="reference_selector"
-                    value={data.option.referenceName}
-                    label={TRANSLATE_TERMS.REFERENCE_LABEL_TEXT}
-                    onChange={selectReferenceChange}
-                >
-                    {
-                        fields.filter((e) => e.fieldName != data.fieldName || e.fieldType == FieldType.OPTION)
-                            .map(e => <MenuItem key={e.fieldName}
-                                                value={e.fieldName}>{`${e.labelName} (${e.fieldName})`}</MenuItem>)
-                    }
-                    <MenuItem value={""}>{TRANSLATE_TERMS.REFERENCE_NONE_TEXT}</MenuItem>
-                </Select>
-            </FormControl>
-
-            {data.option.referenceName &&
-                <Grid container direction={"column"} spacing={1}
-                      sx={{ border: "1px solid #999", padding: 1 }}>
-                    {Object.keys(data.option.reference[data.option.referenceName])
-                        .map((e) => <ReferenceItem reference={data.option.reference[data.option.referenceName]}
-                                                   name={e} key={e} />)
-                    }</Grid>}
-
-        </>}
-    </>
-});
-
-export const ReferenceItem: FC<{reference: {[name: string]: string[]}, name: string}> = observer(({ reference, name }) => {
-    const [Enum, setEnum] = useState<string[]>([]);
-    const [content, setContent] = useState<string>("");
-
-    const onEnter = (event: KeyboardEvent<HTMLDivElement>) => {
-        if (13 == event.keyCode) {
-
-            Enum.push(event.target['value'].trim());
-            reference[name] = Enum;
-            event.target['blur']();
-            event.target['focus']();
-        }
-    }
-
-    const changeEvent = (event: any, values: string[] | null) => {
-        setEnum(values || []);
-        reference[name] = values || [];
-    };
-
-    const ChangeInputEvent = (event: any, value: string) => {
-        setContent(value);
-    }
-
-    return <Grid item>
-        <AutoCompleteCustom onEnter={onEnter} changeHandle={changeEvent} changeInputHandle={ChangeInputEvent}
-                            list={reference[name]} content={content} label={name} />
-    </Grid>
-})
-
-export const AutoCompleteCustom: FC<{onEnter: (event: KeyboardEvent<HTMLDivElement>) => void, changeHandle: (event: any, values: string[] | null, reason: string) => void, changeInputHandle: (event: any, value: string) => void, list: string[], content: string, label?: string}> = observer(({ onEnter, changeHandle, changeInputHandle, list, content, label }) => {
-    return <FormControl fullWidth>
-        <Autocomplete
-            multiple
-            limitTags={4}
-            value={list}
-            onKeyDown={onEnter}
-            onChange={changeHandle}
-            inputValue={content}
-            onInputChange={changeInputHandle}
-            renderInput={(params) => {
-                return <TextField {...params} label={label ? label : TRANSLATE_TERMS.ADD_SELECT_OPTION_FIELD_LABEL} />
-            }}
-            PopperComponent={NonUsingPopper}
-            blurOnSelect={true}
-            options={[]} />
-    </FormControl>;
-})

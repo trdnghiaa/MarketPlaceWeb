@@ -1,17 +1,18 @@
 import { FC, ReactElement, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useSnackbar } from "notistack";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 import { store } from "src/stores";
 import { Loading } from "src/components/Loading";
 import { UserRole } from "src/models";
-import { MESSAGE_TERMS } from "src/utils";
+import { MESSAGE_TERMS, setCurrentURL } from "src/utils";
 
 
 export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> = observer(({ allowRole, children }) => {
     const { isLoggedIn, isDone, isLoading, role } = store;
     const { enqueueSnackbar } = useSnackbar();
+    const location = useLocation();
 
     useEffect(() => {
         store.checkLogin();
@@ -40,9 +41,17 @@ export const RouteGuard: FC<{allowRole: UserRole; children: ReactElement}> = obs
         return <Navigate to="/" />;
     }
 
+    function RedirectLogin() {
+        setCurrentURL(location.pathname);
+
+        return <Navigate to="/login" replace={true} />;
+    }
+
+
     return (
         <>
-            {isLoading || !isDone ? <Loading /> : !isLoggedIn ? <Navigate to="/login" replace={true} /> : (<AdminRouteControl />)}
+            {isLoading || !isDone ? <Loading /> : !isLoggedIn ? <RedirectLogin /> : (
+                <AdminRouteControl />)}
         </>
     );
 });

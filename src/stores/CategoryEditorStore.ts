@@ -34,10 +34,25 @@ export class CategoryEditorStore {
         makeAutoObservable(this);
     }
 
-    @action init() {
+    @action clean() {
         this.set_category(new Category());
         this.set_parent(new Category());
     }
+
+    @action
+    async init(category_id?: string) {
+        if (this.isLoading) return;
+
+        this.set_isLoading(true);
+        if (this.parent && this.isCreateNew) {
+            await this.getParentAdvanceOption();
+        }
+        if (category_id) {
+            await this.getById(category_id);
+        }
+        this.set_isLoading(false);
+    }
+
 
     @action set_category(v: Category) {
         this.category = v;
@@ -63,7 +78,6 @@ export class CategoryEditorStore {
     @action validateAdvanceOption() {
         for (let index = 0; index < this.category.advancedSchemaInfo.length; index++) {
             const currentOption = this.category.advancedSchemaInfo[index];
-
 
             if (!currentOption.title) {
                 throw new Error(MESSAGE_TERMS.get("MISS_ADVANCE_OPTION_TITLE", { index: TRANSLATE_TERMS.ADD_OPTION_TEXT + " " + (index + 1) }));
@@ -91,6 +105,16 @@ export class CategoryEditorStore {
         }
     }
 
+    @action basicImageInfoValidate() {
+        if (this.category.basicInfo.min_price > this.category.basicInfo.max_price) {
+            throw new Error("MIN_PRICE_GREATER_THAN_MAX_PRICE");
+        }
+
+        if (this.category.imageInfo.min > this.category.imageInfo.max) {
+            throw new Error("MIN_IMAGE_GREATER_THAN_MAX_IMAGE");
+        }
+    }
+
     @action
     async doSave(): Promise<{data: Category, message: string}> {
         return new Promise(async (resolve, reject) => {
@@ -103,6 +127,8 @@ export class CategoryEditorStore {
                 if (!this.category.icon) {
                     throw new Error("MISS_CATEGORY_ICON");
                 }
+
+                this.basicImageInfoValidate();
 
                 if (this.category.advancedSchemaInfo.length > 0) {
                     this.validateAdvanceOption();
@@ -127,9 +153,6 @@ export class CategoryEditorStore {
 
     @action
     async getById(id: string) {
-        if (this.isLoading) return;
-
-        this.set_isLoading(true);
         const [err, data] = await Category.getById(id);
 
         if (err)
@@ -138,11 +161,10 @@ export class CategoryEditorStore {
         this.set_category(new Category(data));
 
         if (data.parent != ROOT_CATEGORY) {
-            const parent: Category = this.store.sCategories.categories.find((e) => e._id == data.parent) || new Category();
-            await this.getParentAdvanceOption();
+            const parent: Category = new Category(this.store.sCategories.categories.find((e) => e._id == data.parent));
+            // await this.getParentAdvanceOption();
             this.set_parent(parent);
         }
-        this.set_isLoading(false);
     }
 
     @action
@@ -160,7 +182,6 @@ export class CategoryEditorStore {
         const [err, data] = await AdvanceOption.getAdvanceOption(id);
 
         if (err) throw err;
-
         this.category.set_advancedSchemaInfo(data.concat(this.category.advancedSchemaInfo)
             .map(e => new AdvanceOption(e)));
     }

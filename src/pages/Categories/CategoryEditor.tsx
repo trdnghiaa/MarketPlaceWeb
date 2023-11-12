@@ -17,6 +17,8 @@ const Root = styled(Paper)(({ theme }) => ({
     }
 }));
 
+const currencyRegex = /\.|,|\D/gi;
+
 export const CategoryEditor: FC = observer(({}) => {
     const [submitting, setSubmitting] = useState(false);
     const { isLoggedIn, isDone, sCategoryEditor, sCategories } = useStore();
@@ -29,32 +31,25 @@ export const CategoryEditor: FC = observer(({}) => {
     const navigator = useNavigate();
 
     useEffect(() => {
-        const parent = searchParams.get("parent");
-        setSearchParams({});
         sCategoryEditor.set_isCreateNew(/\/new/i.test(location.pathname))
         if (isDone && isLoggedIn) {
-            if (sCategoryEditor.isCreateNew) {
-                sCategoryEditor.init();
-                if (parent)
-                    sCategoryEditor.set_parent(sCategories.categories.find(e => e._id == parent) || new Category());
-                return;
+            if (category && category != sCategoryEditor.category._id || sCategoryEditor.isCreateNew && sCategoryEditor.category._id) {
+                sCategoryEditor.clean();
             }
-
-            if (!category) {
+            if (sCategoryEditor.isCreateNew) {
+                const parent = searchParams.get("parent");
+                if (parent) {
+                    sCategoryEditor.set_parent(sCategories.categories.find(e => e._id == parent) || new Category());
+                    setSearchParams({});
+                }
+            } else if (!category) {
                 enqueueSnackbar(MESSAGE_TERMS.CATEGORY_ID_INVALID);
                 navigator("/categories");
                 return;
             }
-
-            sCategoryEditor.init();
-            sCategoryEditor.getById(category);
+            sCategoryEditor.init(category);
         }
-    }, [category]);
-
-    useEffect(() => {
-        sCategoryEditor.category.set_advancedSchemaInfo([]);
-        sCategoryEditor.getParentAdvanceOption();
-    }, [sCategoryEditor.parent])
+    }, []);
 
     const saveHandle = () => {
         setSubmitting(true);
@@ -76,6 +71,7 @@ export const CategoryEditor: FC = observer(({}) => {
             return;
         }
         sCategoryEditor.set_parent(category)
+        sCategoryEditor.getParentAdvanceOption();
     }, [sCategoryEditor.parent]);
 
     return <BasicLayout>
@@ -127,9 +123,86 @@ export const CategoryEditor: FC = observer(({}) => {
                         </Grid>
                     </Grid>
                     <Grid item container sx={{ ml: 2, mt: 2 }}>
-                        <Typography variant={"body1"}
-                                    color={"error"}>{TRANSLATE_TERMS.CREATE_CATEGORY_DESCRIPTION_DETAIL_MESSAGE}</Typography>
+                        <FormControl fullWidth disabled={false}>
+                            <InputLabel htmlFor="min_price">
+                                {TRANSLATE_TERMS.MIN_PRICE_TEXT}
+                            </InputLabel>
+                            <OutlinedInput
+                                id="min_price"
+                                value={sCategoryEditor.category.basicInfo.min_price.toLocaleString("vi", { style: "decimal" })}
+                                onChange={(event) => {
+                                    const value = event.target.value.replaceAll(currencyRegex, "")
+                                    console.log(value);
+                                    sCategoryEditor.category.basicInfo.set_min(+value || 0);
+                                }}
+                                label={TRANSLATE_TERMS.MIN_PRICE_TEXT}
+                                name="min_price"
+                                required
+                            />
+                        </FormControl>
                     </Grid>
+
+                    <Grid item container sx={{ ml: 2, mt: 2 }}>
+                        <FormControl fullWidth disabled={false}>
+                            <InputLabel htmlFor="category_name">
+                                {TRANSLATE_TERMS.MAX_PRICE_TEXT}
+                            </InputLabel>
+                            <OutlinedInput
+                                id="category_name"
+                                value={sCategoryEditor.category.basicInfo.max_price.toLocaleString("vi", { style: "decimal" })}
+                                onChange={(event,) => {
+                                    const value = event.target.value.replaceAll(currencyRegex, "")
+                                    console.log(value)
+                                    sCategoryEditor.category.basicInfo.set_max(+value || 0);
+                                }}
+                                label={TRANSLATE_TERMS.MAX_PRICE_TEXT}
+                                name="first_name"
+                                required
+                            />
+                        </FormControl>
+                    </Grid>
+                    <Grid item container sx={{ ml: 2, mt: 2 }}>
+                        <FormControl fullWidth disabled={false}>
+                            <InputLabel htmlFor="min_image">
+                                {TRANSLATE_TERMS.MIN_IMAGE_TEXT}
+                            </InputLabel>
+                            <OutlinedInput
+                                id="min_image"
+                                type={"number"}
+                                value={sCategoryEditor.category.imageInfo.min}
+                                inputProps={{ min: 1, max: 20 }}
+                                onChange={(event) => {
+                                    const value = event.target.value;
+                                    sCategoryEditor.category.imageInfo.set_min(+value || 0);
+                                }}
+                                label={TRANSLATE_TERMS.MIN_IMAGE_TEXT}
+                                name="min_image"
+                                required
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item container sx={{ ml: 2, mt: 2 }}>
+                        <FormControl fullWidth disabled={false}>
+                            <InputLabel htmlFor="max_image">
+                                {TRANSLATE_TERMS.MAX_IMAGE_TEXT}
+                            </InputLabel>
+                            <OutlinedInput
+                                id="max_image"
+                                type={"number"}
+                                value={sCategoryEditor.category.imageInfo.max}
+                                inputProps={{ min: 1, max: 20 }}
+                                onChange={(event,) => {
+                                    const value = event.target.value;
+                                    sCategoryEditor.category.imageInfo.set_max(+value || 0);
+                                }}
+                                label={TRANSLATE_TERMS.MAX_IMAGE_TEXT}
+                                name="max_image"
+                                required
+                            />
+                        </FormControl>
+                    </Grid>
+
                     {sCategoryEditor.category &&
                         <AdvanceOptionCreator advanceOptions={sCategoryEditor.category.advancedSchemaInfo}
                                               set_advanceOption={(v) => {sCategoryEditor.category.set_advancedSchemaInfo(v);}} />}

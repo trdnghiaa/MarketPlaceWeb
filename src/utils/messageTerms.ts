@@ -4,10 +4,9 @@ function mappedMessage(message: string, mapped?: object) {
     // @ts-ignore
     let matches = [...message.matchAll(/(?<={)(.*?)(?=})/g)];
 
-    console.log(mapped);
-
     for (let i of matches) {
-        message = message.replace(`{${i[0]}}`, mapped[i[0]] || "")
+        const value = mapped[i[0]];
+        message = message.replace(`{${i[0]}}`, value != undefined || value != null ? value : "");
     }
     return message;
 }
@@ -70,6 +69,18 @@ export const MESSAGE_TERMS = {
     DUPLICATE_OPTION_REMOVED: "Tùy chọn bị trùng lặp đã được gỡ bỏ!",
     //
     SEEN_NOTIFICATION_SUCCESS: "Đánh dấu đã đọc thành công",
+    //
+    ENTER_POST_TITLE: "Vui lòng nhập tiêu đề tin đăng!",
+    ENTER_POST_DESCRIPTION: "Vui lòng nhập mô tả tin đăng!",
+    REQUIRED_FIELD_IS_EMPTY: "Vui lòng {label_type} giá trị cho {path}!",
+    REQUIRED_FIELD_WITH_FIELD: "{requiredFieldValue} Bắt buộc {label_type} giá trị cho {path}!",
+    LABEL_VALUE_TEXT: "{label} {value}",
+    REQUIRED_IMAGE_FOR_POST: "Tin đăng bắt buộc phải có hình ảnh!",
+
+    MIN_PRICE_GREATER_THAN_MAX_PRICE: "Giá thấp nhất lớn hơn giá cao nhất",
+    MIN_IMAGE_GREATER_THAN_MAX_IMAGE: "Số lượng hình ảnh chênh lệch",
+    IMAGE_LESS: "Cần phải ít nhất <b>{min}</b> hình cho tin đăng thuộc doanh mục <b>{categoryName}</b>!",
+
     get: function (err: string | unknown, arg?: object) {
         let message: string = "";
         if (err instanceof Error) {
@@ -93,12 +104,13 @@ export const TRANSLATE_TERMS = {
 
     CREATE_POST: "Tạo Tin",
     DESCRIPTION_PLACEHOLDER: "Viết mô tả bài đăng tại đây...",
-    DROPZONE_PLACEHOLDER: "Đăng từ 1 đến 6 tấm hình",
+    DROPZONE_PLACEHOLDER: "Đăng từ {min} đến {max} tấm hình",
 
     LOGIN_TEXT: "Đăng Nhập",
     SIGNUP_TEXT: "Đăng Ký",
     TITLE_POST_TEXT: "Tiêu đề bài đăng",
-    DESCRIPTION_POST_TEXT: "Mô tả bài đăng",
+    TITLE_DESCRIPTION_POST_TEXT: "Tiêu đề và mô tả bài đăng",
+    DESCRIPTION_POST_TEXT: "Mô tả chi tiết",
     POST_TEXT: "ĐĂNG TIN",
     EDIT_PROFILE: "Chỉnh sử hồ sơ",
     LOG_OUT: "Đăng xuất",
@@ -148,7 +160,7 @@ export const TRANSLATE_TERMS = {
     CURRENCY: "Tiền tệ",
     CHECKBOX: "Hộp kiểm tra",
     YEAR: "Năm",
-    SELECTOR: "Bộ lựa chọn",
+    DROPDOWN: "Thả xuống",
     FIELD_NAME_DESCRIPTION: "Đây là nội dung được hiển thị trên trang web",
     FIELD_TYPE_DESCRIPTION: "Quyết định kiểu nhập liệu cho thuộc tính này lúc tạo tin đăng",
     CHOOSE_CATEGORY_CREATE_PLACEHOLDER: "Chọn danh mục cha (mặc định chọn ROOT)",
@@ -156,7 +168,7 @@ export const TRANSLATE_TERMS = {
     ADD_ADVANCE_OPTION_TEXT: "Thêm tùy chọn bổ sung",
     ADD_OPTION_TEXT: "Bổ sung",
     CREATE_CATEGORY_DESCRIPTION_DETAIL_MESSAGE: "*Mặc định đã có trường giá bán cho người dùng nhập",
-    TEXT_PLACEHOLDER_LABEL: "Mô tả (placeholder)",
+    TEXT_TYPE_LABEL: "Kiểu của bộ nhập",
     LABEL_NAME_LABEL: "Nhãn hiển thị (tên hiển thị thuộc tính)",
     FIELDS_OF_OPTION: "Các trường dữ liệu",
     REFERENCE_SWITCH_TEXT: "Ràng buộc tới trường dữ liệu (tên thuộc tính)",
@@ -165,6 +177,26 @@ export const TRANSLATE_TERMS = {
     DELETE_CATEGORY_DESCRIPTION: "Bạn có chắc rằng muốn xóa danh mục <b>{name}</b>",
     DELETE_CATEGORY_DESCRIPTION_WITH_CHILDREN: "Bạn có chắc rằng muốn xóa danh mục <b>{name}</b>, danh mục con {child}",
     DELETE_CATEGORY_QUESTION_TEXT: "Xóa Danh Mục",
+    REQUIRED_TEXT_LABEL: "Bắt buộc",
+    REQUIRED_WITH_OPTION_FIELD_TEXT_LABEL: "Bắt buộc với lựa chọn của trường dữ liệu khác",
+    ADVANCE_FIELD_OPTION_TEXT: "Tùy Chọn Nâng Cao",
+    DEPENDS_SWITCH_TEXT: "Phụ thuộc (Trường dữ liệu này sẽ hiển thị nếu giá trị của cài đặt được chọn)",
+    REQUIRED_ALERT_TEXT: "* Thuộc tính này bắt buộc phải có!",
+    REQUIRED_FIELD_ALERT_TEXT: "*Thuộc tính này sẽ trở nên bắt buộc nếu chọn vào thuộc tính và giá trị đã được cài đặt ở trên.",
+    ONE_QUARTER: "4 Cột",
+    ONE_THIRD: "3 Cột",
+    HALF: "6 Cột",
+    FULL: "Toàn Dòng",
+    COLUMN_LABEL_TEXT: "Số Cột",
+    STRING: "Chữ",
+    NUMBER: "Kiểu Số",
+    NO_OPTION_TEXT: "Không có lựa chọn nào",
+    TITLE_LENGTH: "{length}/{max_length} ký tự",
+    MIN_PRICE_TEXT: "Giá thấp nhất của doanh mục",
+    MAX_PRICE_TEXT: "Giá cao nhất của doanh mục",
+    MIN_IMAGE_TEXT: "ít nhất (Hình ảnh)",
+    MAX_IMAGE_TEXT: "nhiều nhất (Hình ảnh)", PRODUCT_PRICE: "Giá bán",
+
 
     ADD_CATEGORY_PREFIX: (name: string) => `Thêm vào "${name}"`,
     get: function (message: string, arg?: object) {

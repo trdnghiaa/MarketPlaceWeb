@@ -1,16 +1,20 @@
-import { FC, MouseEvent } from "react";
+import { FC, MouseEvent, useEffect } from "react";
 import { AdvanceField, FieldType } from "src/models";
 import { observer } from "mobx-react-lite";
-import { buttonClasses, Card, CardHeader, FormControl, Grid, gridClasses, IconButton, InputLabel, MenuItem, OutlinedInput, paperClasses, Select, SelectChangeEvent, Tooltip, Typography } from "@mui/material";
-import { HelpOutline, HighlightOff } from "@mui/icons-material";
+import { buttonClasses, Card, cardClasses, CardHeader, Divider, FormControl, Grid, gridClasses, IconButton, InputLabel, MenuItem, OutlinedInput, paperClasses, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { HighlightOff } from "@mui/icons-material";
 import { TRANSLATE_TERMS } from "src/utils";
-import { SelectOptionFieldEditor, SelectorFieldsEditor, TextOptionFieldEditor } from "./FieldTypeEditor";
+import { SelectOptionFieldEditor, TextOptionFieldEditor } from "./FieldTypeEditor";
 import { styled } from "@mui/system";
+import { AdvanceFieldOption } from "src/components/AdvanceOption/AdvanceFieldOption";
 
 const Root = styled(Grid)(({ theme }) => ({
-        "&": { margin: "1rem" },
+        "&": { marginBottom: "2rem" },
         [`& .${gridClasses.container}, .${paperClasses.root}`]: {
-            marginTop: theme.spacing(2)
+            marginTop: theme.spacing(2),
+        },
+        [`&>.${cardClasses.root}>.${gridClasses.root}`]: {
+            padding: theme.spacing(2),
         },
         [`& .${buttonClasses.root}`]: {
             marginTop: theme.spacing(2),
@@ -24,14 +28,17 @@ export const FieldItemEditor: FC<{data: AdvanceField, index: number, removeHandl
         data.set_fieldType(FieldType[event.target.value as string]);
     };
 
+    useEffect(() => {})
+
     return <Root>
-        <Card elevation={2}>
+        <Card elevation={2} sx={{ padding: 0 }}>
             <CardHeader
                 action={<IconButton aria-label="remove" onClick={removeHandle}><HighlightOff
                     color={"error"} /></IconButton>}
                 title={<Typography variant={"subtitle1"}
                                    fontWeight={"bold"}>{TRANSLATE_TERMS.ADD_FIELD_TEXT} {data.labelName ? `"${data.labelName}"` : index + 1}</Typography>} />
-            <Grid container direction={"row"} spacing={2} alignItems={"top"}>
+            <Divider />
+            <Grid container direction={"column"} spacing={2} alignItems={"top"}>
                 <Grid item md={6} xs={10}>
                     <FormControl fullWidth disabled={false}>
                         <InputLabel htmlFor="category_label_name">
@@ -49,11 +56,6 @@ export const FieldItemEditor: FC<{data: AdvanceField, index: number, removeHandl
                         />
                     </FormControl>
                 </Grid>
-                <Tooltip title={TRANSLATE_TERMS.FIELD_NAME_DESCRIPTION} arrow>
-                    <HelpOutline />
-                </Tooltip>
-            </Grid>
-            <Grid container direction={"row"} spacing={2} alignItems={"top"}>
                 <Grid item md={6} xs={10}>
                     <FormControl fullWidth disabled={false}>
                         <InputLabel htmlFor="category_name">
@@ -71,11 +73,6 @@ export const FieldItemEditor: FC<{data: AdvanceField, index: number, removeHandl
                         />
                     </FormControl>
                 </Grid>
-                <Tooltip title={TRANSLATE_TERMS.FIELD_NAME_DESCRIPTION} arrow>
-                    <HelpOutline />
-                </Tooltip>
-            </Grid>
-            <Grid container direction={"row"} spacing={2} alignItems={"top"}>
                 <Grid item xs={6}>
                     <FormControl fullWidth>
                         <InputLabel>{TRANSLATE_TERMS.FIELD_TYPE_LABEL}</InputLabel>
@@ -89,36 +86,20 @@ export const FieldItemEditor: FC<{data: AdvanceField, index: number, removeHandl
                         </Select>
                     </FormControl>
                 </Grid>
-                <Tooltip title={TRANSLATE_TERMS.FIELD_TYPE_DESCRIPTION}>
-                    <HelpOutline />
-                </Tooltip>
-            </Grid>
-
-            {data.fieldType == FieldType.SELECTOR && <Grid container direction={"row"} spacing={2} alignItems={"top"}>
-                <Grid item xs={6}>
-                    <SelectorFieldsEditor data={data} fields={fields} />
-                </Grid>
-            </Grid>}
-            <Grid container direction={"row"} spacing={2} alignItems={"top"}>
-                {(data.fieldType == FieldType.OPTION || data.fieldType == FieldType.SELECTOR) && <>
+                {(data.fieldType == FieldType.OPTION || data.fieldType == FieldType.DROPDOWN) &&
                     <Grid item xs={6}>
                         <SelectOptionFieldEditor data={data} />
                     </Grid>
-                    <Tooltip title={TRANSLATE_TERMS.FIELD_NAME_DESCRIPTION}>
-                        <HelpOutline />
-                    </Tooltip>
-                </>}
+                }
                 {
-                    data.fieldType == FieldType.TEXT && <>
-                        <Grid item xs={6}>
-                            <TextOptionFieldEditor data={data} />
-                        </Grid>
-                        <Tooltip title={TRANSLATE_TERMS.FIELD_NAME_DESCRIPTION} arrow>
-                            <HelpOutline />
-                        </Tooltip>
-                    </>
+                    data.fieldType == FieldType.TEXT &&
+                    <Grid item xs={6}>
+                        <TextOptionFieldEditor data={data} />
+                    </Grid>
+
                 }
             </Grid>
+            <AdvanceFieldOption data={data} fields={fields} />
         </Card>
     </Root>
 })

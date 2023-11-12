@@ -2,8 +2,8 @@ import { FC, MouseEvent, useCallback, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { AdvanceField, AdvanceOption } from "src/models";
 import { styled } from "@mui/system";
-import { Button, buttonClasses, Card, CardHeader, FormControl, Grid, gridClasses, IconButton, InputLabel, OutlinedInput, paperClasses, Tooltip, Typography } from "@mui/material";
-import { Add, HelpOutline, HighlightOff } from "@mui/icons-material";
+import { Button, buttonClasses, Card, CardHeader, FormControl, Grid, gridClasses, IconButton, InputLabel, OutlinedInput, paperClasses, Typography } from "@mui/material";
+import { Add, HighlightOff } from "@mui/icons-material";
 import { TRANSLATE_TERMS } from "src/utils";
 import { FieldItemEditor } from "./FieldItemEditor";
 
@@ -53,9 +53,6 @@ export const OptionItemEditor: FC<{data: AdvanceOption, index: number, removeHan
                         />
                     </FormControl>
                 </Grid>
-                <Tooltip title={TRANSLATE_TERMS.FIELD_NAME_DESCRIPTION}>
-                    <HelpOutline />
-                </Tooltip>
             </Grid>
             {data.fields.length > 0 && data.fields.map((e, i) => {
                 const removeFieldAdvance = () => {
