@@ -17,3 +17,4 @@ export * from "./DialogStore";
 // if (process.env.NODE_ENV == "development")
 // @ts-ignore
 window.store = store;
+export { PostStore } from "src/stores/PostStore";

@@ -15,6 +15,7 @@ export class ProfileStore extends ServiceStore {
     @observable UsedVouchers: [] = [];
     @observable AvailableVouchers: [] = [];
     @observable ExpiredVouchers: [] = [];
+    @observable isLoading: boolean = false;
 
     constructor() {
         super();
@@ -77,5 +78,21 @@ export class ProfileStore extends ServiceStore {
     @action
     set_oldPassword(value: string) {
         this.old_password = value;
+    }
+
+    @action
+    async getUser(id?: string) {
+        if (this.isLoading) return;
+        this.set_isLoading(true);
+        const [err, data]: any = await (id ? User.getUserById(id) : User.getMe())
+        if (err) {
+            throw err;
+        }
+        this.set_user(data);
+        this.set_isLoading(false);
+    }
+
+    @action set_isLoading(v: boolean) {
+        this.isLoading = v
     }
 }

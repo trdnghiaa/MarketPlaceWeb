@@ -16,7 +16,15 @@ export const RequiredTextField: FC<{data: AdvanceField, values: AdvanceInfoValue
 
     return <>
         {
-            isRequired() && <Typography color={"error"} component={"span"}>*</Typography>
+            isRequired() && <RequiredDot />
         }
     </>
+});
+
+export const RequiredDot: FC = () => {
+    return <Typography color={"error"} component={"span"}>*</Typography>
+}
+
+export const LabelRequired: FC<{label: string}> = observer(({ label }) => {
+    return <>{label} <RequiredDot /></>
 });

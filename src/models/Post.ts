@@ -1,14 +1,14 @@
 import { User } from "./User";
 import { Attachment } from "./Attachment";
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { Category } from "./Category";
 import { FetchAPI, Method } from "src/service/fetchAPI";
 import { class2JSON } from "src/utils";
 
 export enum EPostStatus {
-    PENDING = "PENDING",
     APPROVED = "APPROVED",
-    DENIED = "DENIED"
+    DENIED = "DENIED",
+    PENDING = "PENDING",
 }
 
 export interface AdvanceInfoValue {
@@ -40,6 +40,14 @@ export class Post {
     advanceInfo: AdvanceInfoValue;
     @observable
     price: number;
+    @observable
+    address: string;
+    @observable
+    favorite: boolean;
+    @observable
+    reason: string;
+    @observable
+    approvedDate: Date;
 
     constructor(data?: any) {
         this._id = "";
@@ -54,9 +62,13 @@ export class Post {
         this.category = new Category();
         this.advanceInfo = {};
         this.price = 0;
+        this.address = "";
+        this.favorite = false;
+        this.reason = "";
+        this.approvedDate = new Date();
 
         if (data) {
-            const { _id, title, description, createdBy, created_at, expires, view, status, images, category, advanceInfo, price } = data;
+            const { _id, title, description, createdBy, created_at, expires, view, status, images, category, advanceInfo, price, address, favorite, reason, approvedDate } = data;
             this._id = _id;
             this.title = title;
             this.description = description;
@@ -68,7 +80,11 @@ export class Post {
             this.category = new Category(category);
             this.advanceInfo = advanceInfo || {};
             this.price = price;
-            this.images = images.map((e: any) => new Attachment(e)) || [];
+            this.images = images ? images.map((e: any) => new Attachment(e)) : [];
+            this.address = address;
+            this.favorite = favorite;
+            this.reason = reason;
+            this.approvedDate = new Date(approvedDate);
         }
         makeObservable(this);
     }
@@ -89,6 +105,10 @@ export class Post {
         this.price = v;
     }
 
+    @computed get city() {
+        return this.address.split(", ")[3] || "";
+    }
+
     @action
     async save() {
         const body = class2JSON(this);
@@ -101,6 +121,56 @@ export class Post {
         delete body.expires;
 
         const [err, data] = await FetchAPI(Method.POST, "/posts/", body);
+        return [err, data] as const;
+    }
+
+    @action
+    async favoritePost() {
+        const [err, data] = await FetchAPI(Method.GET, `/posts/${this._id}/favorite`);
+        if (data) {
+            this.favorite = !this.favorite;
+        }
+        return [err, data];
+    }
+
+    static async getById(id: string) {
+        const [err, data] = await FetchAPI<Post>(Method.GET, `/posts/${id}?includes=images,createdBy,category`);
+        return [err, data] as const;
+    }
+
+    static async deniedPost(_id: string, reason: string) {
+        const [err, data] = await FetchAPI<{message: string}>(Method.POST, "/posts/censorship", { _id, isApproved: false, reason });
+        return [err, data] as const;
+    }
+
+    static async approvedPost(_id: string) {
+        const [err, data] = await FetchAPI<{message: string}>(Method.POST, "/posts/censorship", { _id, isApproved: true });
+        return [err, data] as const;
+    }
+
+    @action set_address(v: string) {
+        this.address = v;
+    }
+
+    static async getRecommend() {
+        const [err, data] = await FetchAPI<Post[]>(Method.GET, "/posts/recommend")
+        return [err, data] as const;
+    }
+
+    static async getPostForYou() {
+        const [err, data] = await FetchAPI<Post[]>(Method.GET, "/public/posts/for-you");
+
+        return [err, data ? data.map(e => new Post(e)) : []] as const;
+    }
+
+    static async getPublicPost(id: string) {
+        const [err, data] = await FetchAPI<Post>(Method.GET, `/public/posts/${id}?includes=images,createdBy,category`);
+        return [err, data] as const;
+    }
+
+    static async getPostWithFilter(filter: object, page: number) {
+        const [err, data] = await FetchAPI<{data: Post[], count: number, totalPages: number}>(Method.POST, `/posts/search?includes=images,createdBy,category&page=${page}`, filter);
+
         return [err, data] as const;
     }
 }

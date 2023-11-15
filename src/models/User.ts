@@ -27,6 +27,10 @@ export class User {
     reward: number;
     @observable
     access_token: string;
+    @observable
+    last_access: Date;
+    @observable
+    avatar: string;
 
     constructor(data?: any) {
         this._id = "";
@@ -41,6 +45,9 @@ export class User {
         this.role = UserRole.USER;
         this.reward = 0;
         this.access_token = "";
+        this.last_access = new Date();
+        this.avatar = "";
+
         if (data != null) {
             const {
                 _id,
@@ -54,7 +61,10 @@ export class User {
                 address,
                 role,
                 reward,
+                last_access,
+                avatar
             } = data;
+
             this._id = _id;
             this.email = email;
             this.username = username;
@@ -66,6 +76,8 @@ export class User {
             this.address = address;
             this.role = role;
             this.reward = reward;
+            this.last_access = new Date(last_access);
+            this.avatar = avatar;
 
         }
         makeObservable(this);
@@ -127,5 +139,9 @@ export class User {
             old_password
         });
         return [err, data] as const;
+    }
+
+    @action set_address(v: string) {
+        this.address = v;
     }
 }

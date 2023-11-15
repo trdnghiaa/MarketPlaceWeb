@@ -4,13 +4,12 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import Avatar from "@mui/material/Avatar";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Tooltip from "@mui/material/Tooltip";
 import { UserDrawer } from "src/components/user";
-import { APP_NAME, DRAWER_ITEMS, theme, TRANSLATE_TERMS, USER_SETTINGS } from "src/utils";
+import { APP_NAME, DRAWER_ITEMS, TRANSLATE_TERMS, USER_SETTINGS } from "src/utils";
 import { useStore } from "src/stores";
 import { observer } from "mobx-react-lite";
 import { Button, Grid } from "@mui/material";
@@ -19,6 +18,7 @@ import { Link } from "react-router-dom";
 import { DropdownSetting } from "src/components/Settings";
 import { blue } from "@mui/material/colors";
 import { NotificationMenu } from "src/components/NotificationWeb";
+import { UserAvatar } from "src/components/Navbar/UserAvatar";
 
 
 const pages = DRAWER_ITEMS.slice(1);
@@ -143,7 +143,7 @@ export const UserNavbar: FC = observer(() => {
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title={TRANSLATE_TERMS.OPEN_SETTINGS}>
                                     <Button onClick={handleOpenUserMenu("user")}>
-                                        <Avatar src="/static/images/avatar/2.jpg" sx={{ margin: theme.spacing(1) }} />
+                                        <UserAvatar user={currentUser} />
                                         <Typography color="black">{currentUser?.fullName}</Typography>
                                     </Button>
                                 </Tooltip>

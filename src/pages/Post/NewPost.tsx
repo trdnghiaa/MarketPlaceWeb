@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, SyntheticEvent, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { BasicLayout } from "src/layouts/common";
 import { styled } from "@mui/system";
@@ -17,6 +17,9 @@ import { EDITOR_CONFIG } from "src/config";
 import { TreeViewSelector } from "src/components/TreeView/TreeViewSelector";
 import { RenderSchemaOption } from "src/components/Post/RenderSchemaOption";
 import { useSearchParams } from "react-router-dom";
+import { AddressSelect } from "src/components/AddressSelect";
+import { LabelRequired } from "src/components/Post/RequiredTextField";
+import { currency2Number, toCurrency } from "src/utils/currency";
 
 const PREFIX = "NewPost-";
 
@@ -30,12 +33,14 @@ const Root = styled("div")({
         // minHeight: "500px",
         margin: "2rem auto",
         padding: "0 3rem"
+    },
+    ".ql-editor": {
+        minHeight: "20vh"
     }
 })
 
 export const NewPost: FC = observer(({}) => {
     const [submitting, setSubmitting] = useState(false);
-    const [expanded, setExpanded] = useState<boolean>(false);
     const { sNewPost, sCategories, isDone, currentUser } = useStore();
     const { enqueueSnackbar } = useSnackbar();
     const isView = false;
@@ -56,6 +61,9 @@ export const NewPost: FC = observer(({}) => {
                 sNewPost.post.set_category(category);
             }
         }
+
+        sNewPost.post.address = currentUser?.address || "";
+
         if (sNewPost.post.category._id) {
             sNewPost.getSchema();
         }
@@ -109,11 +117,6 @@ export const NewPost: FC = observer(({}) => {
         sNewPost.set_category(new Category());
         setSearchParams({});
     }
-
-    const handleChange = (event: SyntheticEvent, isExpanded: boolean) => {
-        setExpanded(isExpanded);
-    };
-
     const handleChangeCategory = (v: Category) => {
         sNewPost.post.set_category(v);
         setSearchParams({ category: v._id });
@@ -125,17 +128,22 @@ export const NewPost: FC = observer(({}) => {
         try {
             sNewPost.submit().then(([err, data]) => {
                 if (err) {
+                    setSubmitting(false);
                     return enqueueSnackbar(<div
                         dangerouslySetInnerHTML={{ __html: MESSAGE_TERMS.get(err, arg) }} />, { variant: "error" });
                 }
-
+                sNewPost.set_file([]);
+                setSyntheticFiles([]);
+                setSubmitting(false);
             }).catch((err) => {
+
                 enqueueSnackbar(<div
                     dangerouslySetInnerHTML={{ __html: MESSAGE_TERMS.get(err, arg) }} />, { variant: "error" });
                 setSubmitting(false);
             });
         } catch (err) {
             setSubmitting(false);
+
             enqueueSnackbar(<div
                 dangerouslySetInnerHTML={{ __html: MESSAGE_TERMS.get(err, arg) }} />, { variant: "error" });
         }
@@ -148,8 +156,7 @@ export const NewPost: FC = observer(({}) => {
     }
 
     const changePricePost = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value.replaceAll(/\.|,|\D/gi, "");
-        sNewPost.post.set_price(+value || 0);
+        sNewPost.post.set_price(currency2Number(event.target.value));
     };
 
     return <BasicLayout>
@@ -229,11 +236,11 @@ export const NewPost: FC = observer(({}) => {
                             <Grid item xs={12} sx={{ my: 2 }}>
                                 <FormControl fullWidth disabled={isView} sx={{ mb: 2 }}>
                                     <InputLabel htmlFor={"title_post"}>
-                                        {TRANSLATE_TERMS.PRODUCT_PRICE}
+                                        <LabelRequired label={TRANSLATE_TERMS.PRODUCT_PRICE} />
                                     </InputLabel>
                                     <OutlinedInput
                                         id={"title_post"}
-                                        value={sNewPost.post.price.toLocaleString("vi", { style: "decimal" })}
+                                        value={toCurrency(sNewPost.post.price)}
                                         onChange={changePricePost}
                                         label={TRANSLATE_TERMS.PRODUCT_PRICE}
                                         name="title"
@@ -247,7 +254,7 @@ export const NewPost: FC = observer(({}) => {
                                             sx={{ mb: 2 }}>{TRANSLATE_TERMS.TITLE_DESCRIPTION_POST_TEXT}</Typography>
                                 <FormControl fullWidth disabled={isView} sx={{ mb: 2 }}>
                                     <InputLabel htmlFor={"title_post"}>
-                                        {TRANSLATE_TERMS.TITLE_POST_TEXT}
+                                        <LabelRequired label={TRANSLATE_TERMS.TITLE_POST_TEXT} />
                                     </InputLabel>
                                     <OutlinedInput
                                         id={"title_post"}
@@ -260,12 +267,16 @@ export const NewPost: FC = observer(({}) => {
                                     />
                                     <FormHelperText>{TRANSLATE_TERMS.get("TITLE_LENGTH", { length: sNewPost.post.title.length, max_length: sNewPost.titleMaxLength })}</FormHelperText>
                                 </FormControl>
+                                <AddressSelect set_address={(address: string) => {sNewPost.post.set_address(address)}}
+                                               address={sNewPost.post.address}
+                                               isView={false} />
                                 <Typography variant={"h6"}>{TRANSLATE_TERMS.get("DESCRIPTION_POST_TEXT")}</Typography>
                                 <ReactQuill theme="snow" value={sNewPost.post.description}
                                             onChange={(value) => {sNewPost.post.set_description(value)}}
-                                            style={{ height: "20vh" }}
+                                            style={{ minHeight: "20vh" }}
                                             placeholder={TRANSLATE_TERMS.DESCRIPTION_PLACEHOLDER}
                                             modules={EDITOR_CONFIG.modules} formats={EDITOR_CONFIG.formats} />
+                                <FormHelperText>{TRANSLATE_TERMS.get("TITLE_LENGTH", { length: sNewPost.post.description.length, max_length: sNewPost.descriptionMaxLength })}</FormHelperText>
                             </Grid>
                         </>}
                         <Grid item xs={12} container justifyContent={"center"} pt={2}>

@@ -1,8 +1,8 @@
 import { action, makeObservable, observable } from "mobx";
 import { AdvanceField, AdvanceOption, Category, FieldType, Post } from "src/models";
-import { ExtFile } from "@files-ui/core";
 import { MESSAGE_TERMS } from "src/utils";
 import { DESCRIPTION_POST_MAX_LENGTH, TITLE_POST_MAX_LENGTH } from "src/config";
+import { ExtFile } from "@dropzone-ui/react";
 
 export class NewPostStore {
     @observable isLoading: boolean = false;
@@ -48,10 +48,8 @@ export class NewPostStore {
     }
 
     showPostButton() {
-        if (this.post.category._id) {
-            return true;
-        }
-        return false;
+        return !!this.post.category._id;
+
     }
 
     @action postValidate() {

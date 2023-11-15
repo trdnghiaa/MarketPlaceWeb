@@ -60,7 +60,7 @@ export class Category {
     }
 
     static async getList() {
-        const [err, data] = await FetchAPI<Category[]>(Method.GET, `/categories`);
+        const [err, data] = await FetchAPI<Category[]>(Method.GET, `/public/categories`);
 
         return [err, data] as const;
     }

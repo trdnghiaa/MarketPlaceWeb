@@ -1,4 +1,4 @@
-import { Account, Categories, CategoryEditor, Home, Login, MyPost, NewAccount, NewPost, NotFound, NotificationPage, Order, PageMiddle, Profile, Register, RouteGuard, SavedPost, Voucher, } from "src/pages";
+import { Account, Categories, CategoryEditor, Home, Login, MyPost, NewAccount, NewPost, NotFound, NotificationPage, Order, PageMiddle, PostManager, PostPage, Profile, Register, RouteGuard, SavedPost, Voucher, } from "src/pages";
 import React from "react";
 import { UserRole } from "src/models";
 
@@ -42,6 +42,11 @@ const routersAdmin: RouteModel[] = [
         component: <CategoryEditor />,
         role: UserRole.ADMIN,
         name: "Chỉnh sửa danh mục"
+    }, {
+        path: "/post-manager",
+        component: <PostManager />,
+        role: UserRole.SENSOR,
+        name: "Quản lý tin đăng"
     }
 ];
 
@@ -58,6 +63,7 @@ const routers: RouteModel[] = [
     { path: "/saved-post", component: <SavedPost />, name: "Tin đã lưu", isPrivate: true },
     { path: "/signup", component: <Register />, name: "Đăng ký tài khoản" },
     { path: "/notifications", component: <NotificationPage />, name: "Thông báo", isPrivate: true },
+    { path: "/posts/:id/", component: <PostPage />, name: "Tin đăng" },
     { path: "*", component: <NotFound />, name: "Không tim thấy trang" },
 ];
 

@@ -31,24 +31,29 @@ export const Profile: FC = observer(() => {
             sProfile.set_IsView(mode === MODE.VIEW);
             sProfile.set_IsChangePassword(false);
 
-            (typeof account == "string" ? User.getUserById(account) : User.getMe()).then(([err, data]) => {
-                if (err) {
-                    enqueueSnackbar(err.message, { variant: "error" });
-                    return;
-                }
-                sProfile.set_user(data);
-
-                if (sProfile.user.role != UserRole.ADMIN) {
-                    // (typeof account == "string" ? Order.getByAccount(account) : Order.getOfMe()).then(([err, data]) => {
-                    //     if (err) {
-                    //         enqueueSnackbar(err.message, { variant: "error" })
-                    //         return;
-                    //     }
-                    //     sProfile.set_orders(data);
-                    // })
-                }
-
+            sProfile.getUser(account).catch((err) => {
+                enqueueSnackbar(err.message, { variant: "error" });
             });
+
+
+            // (typeof account == "string" ? User.getUserById(account) : User.getMe()).then(([err, data]) => {
+            //     if (err) {
+            //         enqueueSnackbar(err.message, { variant: "error" });
+            //         return;
+            //     }
+            //     sProfile.set_user(data);
+            //
+            //     if (sProfile.user.role != UserRole.ADMIN) {
+            //         // (typeof account == "string" ? Order.getByAccount(account) : Order.getOfMe()).then(([err, data]) => {
+            //         //     if (err) {
+            //         //         enqueueSnackbar(err.message, { variant: "error" })
+            //         //         return;
+            //         //     }
+            //         //     sProfile.set_orders(data);
+            //         // })
+            //     }
+            //
+            // });
         } else {
             navigator("/404");
         }
@@ -134,7 +139,7 @@ export const Profile: FC = observer(() => {
                 </Grid>
 
                 <Grid item xs={12} md={8}>
-                    <UserInfo user={sProfile.user} setUser={sProfile.user} isView={sProfile.isView} />
+                    <UserInfo user={sProfile.get_user()} setUser={sProfile.get_user()} isView={sProfile.isView} />
 
                     {sProfile.isChangePassword && <ChangePassword />}
 

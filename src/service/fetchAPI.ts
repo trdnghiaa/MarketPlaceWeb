@@ -6,9 +6,11 @@ export const headers: {[key: string]: string} = {
     Accept: "application/json",
 };
 
-export const HOST = process.env?.REACT_APP_API;
 
-// const HOST = "http://localhost:3010"
+// blind port with localhost
+export const HOST: string = window.location.hostname == "localhost" ? (process.env?.REACT_APP_API || "") : "https://fe33-2405-4802-90bb-8a10-18-2565-570a-84a.ngrok-free.app";
+
+// export const HOST = "https://de5b-14-226-222-174.ngrok-free.app";
 
 
 export function setAuthorizationToken(token: string) {

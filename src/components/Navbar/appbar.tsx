@@ -1,14 +1,15 @@
 import { MouseEvent, useState } from "react";
-import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, } from "@mui/material/";
+import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, } from "@mui/material/";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import { ADMIN_SETTINGS, APP_NAME, MENU_ADMIN, MENU_SENSOR, theme } from "src/utils";
-import { store, useStore } from "src/stores";
+import { ADMIN_SETTINGS, APP_NAME, MENU_ADMIN, MENU_SENSOR } from "src/utils";
+import { useStore } from "src/stores";
 import { DropdownSetting } from "src/components/Settings";
 import { UserRole } from "src/models";
+import { UserAvatar } from "src/components/Navbar/UserAvatar";
 
 export const Appbar = () => {
-    const { role } = useStore();
+    const { role, currentUser } = useStore();
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -125,8 +126,8 @@ export const Appbar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <Button onClick={handleOpenUserMenu} color="inherit">
-                                <Avatar src="/static/images/avatar/2.jpg" sx={{ margin: theme.spacing(1) }} />
-                                <Typography color="white">{store.currentUser?.fullName}</Typography>
+                                <UserAvatar user={currentUser} />
+                                <Typography color="white">{currentUser?.fullName}</Typography>
                             </Button>
                         </Tooltip>
                         <Menu

@@ -5,6 +5,7 @@ import { User, UserRole } from "src/models";
 import { observer } from "mobx-react";
 import { useStore } from "src/stores";
 import { TRANSLATE_TERMS } from "src/utils";
+import { AddressSelect } from "src/components/AddressSelect";
 
 export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
     observer(({ user, setUser, isView }) => {
@@ -127,20 +128,22 @@ export const UserInfo: FC<{user: User; setUser?: any; isView?: boolean}> =
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                    <FormControl fullWidth disabled={isView}>
-                        <InputLabel htmlFor="address">{TRANSLATE_TERMS.ADDRESS}</InputLabel>
-                        <OutlinedInput
-                            id="address"
-                            label="Địa chỉ"
-                            name="address"
-                            required
-                            value={user.address}
-                            onChange={(event) => {
-                                setUser.address = event.target.value;
+                    {/*<FormControl fullWidth disabled={isView}>*/}
+                    {/*    <InputLabel htmlFor="address">{TRANSLATE_TERMS.ADDRESS}</InputLabel>*/}
+                    {/*    <OutlinedInput*/}
+                    {/*        id="address"*/}
+                    {/*        label="Địa chỉ"*/}
+                    {/*        name="address"*/}
+                    {/*        required*/}
+                    {/*        value={user.address}*/}
+                    {/*        onChange={(event) => {*/}
+                    {/*            setUser.address = event.target.value;*/}
 
-                            }}
-                        />
-                    </FormControl>
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*</FormControl>*/}
+                    <AddressSelect set_address={(address: string) => {user.set_address(address)}}
+                                   address={user.address} isView={!!isView} />
                 </Grid>
                 <Grid item xs={6}>
                     <FormControl fullWidth disabled={isView}>

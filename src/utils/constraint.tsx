@@ -37,7 +37,7 @@ export const MENU_SENSOR = [
 export const MENU_ADMIN = [
     { name: "Tài Khoản", path: "/accounts" },
     { name: "Danh Mục", path: "/categories" },
-    { name: "Bài Đăng", path: "/post" },
+    { name: "Bài Đăng", path: "/post-manager" },
     { name: "vouchers", path: "/vouchers" },
 ]
 

@@ -13,6 +13,10 @@ import { NewPostStore } from "./NewPostStore";
 import { CategoryStore } from "./CategoryStore";
 import { iconList } from "src/components/IconPopoverSelect/icon_db";
 import { CategoryEditorStore } from "./CategoryEditorStore";
+import { PostStore } from "src/stores/PostStore";
+import { CountriesStore } from "src/stores/CountriesStore";
+import { HomeStore } from "src/stores/HomeStore";
+import { PostManagerStore } from "src/stores/PostManagerStore";
 
 export class Store extends AuthorizedStore {
     @observable
@@ -37,6 +41,17 @@ export class Store extends AuthorizedStore {
     sNewPost = new NewPostStore();
     @observable
     sCategories = new CategoryStore();
+    @observable
+    sHome = new HomeStore();
+
+    @observable
+    sPost = new PostStore(this);
+
+    @observable
+    sPostManager = new PostManagerStore();
+
+    @observable
+    sCountries = new CountriesStore();
 
     @observable
     sCategoryEditor = new CategoryEditorStore(this);
