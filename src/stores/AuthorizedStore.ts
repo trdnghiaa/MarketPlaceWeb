@@ -101,7 +101,8 @@ export class AuthorizedStore extends BaseStore {
     @action Logout() {
         clearAll();
         // eslint-disable-next-line no-restricted-globals
-        location.reload();
+        // location.reload();
+        window.location.href = "/";
     }
 
 }

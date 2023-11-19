@@ -79,8 +79,13 @@ export class Category {
     static async getById(category: string) {
         const [err, data] = await FetchAPI<Category>(Method.GET, "/categories/" + category);
 
+        return [err, new Category(data)] as const;
+    }
 
-        return [err, data] as const;
+    static async getPublicById(category: string) {
+        const [err, data] = await FetchAPI<Category>(Method.GET, `/public/categories/${category}`);
+
+        return [err, new Category(data)] as const;
     }
 
     @action set_name(v: string) {

@@ -18,3 +18,4 @@ export * from "./DialogStore";
 // @ts-ignore
 window.store = store;
 export { PostStore } from "src/stores/PostStore";
+export { SearchStore } from "src/stores/SearchStore";

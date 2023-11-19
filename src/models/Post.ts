@@ -4,6 +4,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { Category } from "./Category";
 import { FetchAPI, Method } from "src/service/fetchAPI";
 import { class2JSON } from "src/utils";
+import { Suggestion } from "src/stores/SearchStore";
 
 export enum EPostStatus {
     APPROVED = "APPROVED",
@@ -106,7 +107,8 @@ export class Post {
     }
 
     @computed get city() {
-        return this.address.split(", ")[3] || "";
+        const city = this.address.split(", ")[3] || "";
+        return city.length > 11 ? city.replace("Thành phố ", "TP.") : city;
     }
 
     @action
@@ -120,7 +122,7 @@ export class Post {
         delete body.view;
         delete body.expires;
 
-        const [err, data] = await FetchAPI(Method.POST, "/posts/", body);
+        const [err, data] = await FetchAPI<{data: Post, message: string}>(Method.POST, "/posts/", body);
         return [err, data] as const;
     }
 
@@ -158,9 +160,9 @@ export class Post {
     }
 
     static async getPostForYou() {
-        const [err, data] = await FetchAPI<Post[]>(Method.GET, "/public/posts/for-you");
+        const [err, data] = await FetchAPI<Post[]>(Method.GET, `/public/posts/for-you`);
 
-        return [err, data ? data.map(e => new Post(e)) : []] as const;
+        return [err, data ? data.map(e => new Post({ ...e, status: EPostStatus.APPROVED })) : []] as const;
     }
 
     static async getPublicPost(id: string) {
@@ -168,9 +170,37 @@ export class Post {
         return [err, data] as const;
     }
 
-    static async getPostWithFilter(filter: object, page: number) {
-        const [err, data] = await FetchAPI<{data: Post[], count: number, totalPages: number}>(Method.POST, `/posts/search?includes=images,createdBy,category&page=${page}`, filter);
+    static async getPostWithFilter(filter: object, page: number, size: number) {
+        const [err, data] = await FetchAPI<{data: Post[], count: number, totalPages: number}>(Method.POST, `/posts/search?includes=images,createdBy,category&page=${page}&size=${size}`, filter);
 
         return [err, data] as const;
+    }
+
+    static async getMyPost(filter: object) {
+        const [err, data] = await FetchAPI<Post[]>(Method.POST, "/posts/my-post?includes=images,category,createdBy", filter);
+
+        return [err, data] as const;
+    }
+
+    static async getFavorites() {
+        const [err, data] = await FetchAPI<Post[]>(Method.GET, "/posts/favorites?includes=images,category,createdBy");
+
+        return [err, data.map(e => new Post(e))] as const;
+    }
+
+    static async getSuggestion(query: string, category: string) {
+        const [err, data] = await FetchAPI<Suggestion[]>(Method.POST, "/public/suggestions", { query, category });
+
+        return [err, data] as const;
+    }
+
+    static async searchPublicPost(filter: object, page: number, size: number) {
+        const [err, data] = await FetchAPI<{data: Post[], size: number, count: number, totalPages: number}>(Method.POST, `/public/posts/search?page=${page}&size=${size}&includes=images,createdBy`, filter);
+        return [err, data] as const;
+    }
+
+    static async getSimilarPost(_id: string) {
+        const [err, data] = await FetchAPI<Post[]>(Method.POST, `/public/posts/similar`, { _id });
+        return [err, data] as const
     }
 }

@@ -27,7 +27,7 @@ export const AdvanceInfoPost: FC<{post: Post}> = observer(({ post }) => {
         setFields(result);
     }, [post.category.advancedSchemaInfo])
 
-    return <Paper elevation={2} sx={{ my: 1 }}>
+    return <Paper elevation={4} sx={{ my: 1 }}>
         <Grid container spacing={2} justifyContent={"center"}>
             <Grid item xs={12}>
                 <Typography variant={"h6"} fontWeight={700}>{TRANSLATE_TERMS.SPECIFICATION_TEXT}</Typography>

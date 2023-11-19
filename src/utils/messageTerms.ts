@@ -1,3 +1,5 @@
+const { APP_NAME } = process.env;
+
 function mappedMessage(message: string, mapped?: object) {
     if (!mapped) return message;
 
@@ -221,9 +223,14 @@ export const TRANSLATE_TERMS = {
     SEND: "Gửi",
     DENY_REASON_TEXT: "Lý do từ chối",
     REASON_SUGGESTION: "Gợi ý",
-    VERIFY_POST_CONTENT: "Kiểm duyệt nội dung", EXPLORE_CATEGORY: "Khám Phá Danh Mục", POST_FOR_YOU: "Tin Đăng Dành Cho Bạn", LOAD_MORE: "Xem thêm",
+    VERIFY_POST_CONTENT: "Kiểm duyệt nội dung", EXPLORE_CATEGORY: "Khám Phá Danh Mục", POST_FOR_YOU: "Tin Đăng Gần Đây", LOAD_MORE: "Xem thêm",
     DENIED: "Đã bị từ chối",
     APPROVE: "Duyệt",
+    SEARCH_POST: "Tìm kiếm bài đăng",
+    SEARCH_RESULT_POST_TEXT: "Tìm thấy <b>{count}</b> tin đăng.",
+    NO_POSTS: "Không có tin đăng nào!",
+    POST_MANAGER_TEXT: "Quản Lý Tin",
+    SEARCH_POST_PLACEHOLDER: `Tìm kiếm sản phẩm trên Amazin Place`, SIMILAR_TEXT: "Tin đăng tương tự", NO_SUGGESTION_RESULT: "không có kết quả nào!",
 
 
     ADD_CATEGORY_PREFIX: (name: string) => `Thêm vào "${name}"`,

@@ -17,6 +17,9 @@ import { PostStore } from "src/stores/PostStore";
 import { CountriesStore } from "src/stores/CountriesStore";
 import { HomeStore } from "src/stores/HomeStore";
 import { PostManagerStore } from "src/stores/PostManagerStore";
+import { MyPostStore } from "src/stores/MyPostStore";
+import { SavedPostStore } from "src/stores/SavedPostStore";
+import { SearchStore } from "src/stores/SearchStore";
 
 export class Store extends AuthorizedStore {
     @observable
@@ -48,7 +51,16 @@ export class Store extends AuthorizedStore {
     sPost = new PostStore(this);
 
     @observable
-    sPostManager = new PostManagerStore();
+    sPostManager = new PostManagerStore(this);
+
+    @observable
+    sMyPost = new MyPostStore();
+
+    @observable
+    sSavedPost = new SavedPostStore();
+
+    @observable
+    sSearch = new SearchStore(this);
 
     @observable
     sCountries = new CountriesStore();

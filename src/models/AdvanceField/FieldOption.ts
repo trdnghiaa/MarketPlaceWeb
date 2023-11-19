@@ -12,7 +12,7 @@ export class FieldOption {
     @observable
     referenceName: string;
     @observable
-    reference: Reference;
+    reference: Reference[];
     @observable
     isReference: boolean;
 
@@ -32,7 +32,7 @@ export class FieldOption {
         this.multiSelect = false;
         this.textType = TextType.TEXT;
 
-        this.reference = {};
+        this.reference = [];
         this.isReference = false;
         this.referenceName = "";
 
@@ -53,7 +53,7 @@ export class FieldOption {
             this.isRequiredWithField = isRequiredWithField;
             this.requiredFieldName = requiredFieldName;
             this.requiredOptions = requiredOptions;
-            this.depends = depends || {};
+            this.depends = depends as Depend || {};
             this.textType = textType as TextType || TextType.TEXT;
         }
 
@@ -73,7 +73,7 @@ export class FieldOption {
         this.isReference = v;
     }
 
-    @action set_reference(v: Reference) {
+    @action set_reference(v: Reference[]) {
         this.reference = v;
     }
 

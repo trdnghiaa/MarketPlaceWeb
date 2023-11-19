@@ -18,9 +18,8 @@ export enum EColumn {
 }
 
 export interface Reference {
-    [name: string]: {
-        [name: string]: string[]
-    }
+    name: string;
+    option: string[]
 }
 
 export interface RequireOption {

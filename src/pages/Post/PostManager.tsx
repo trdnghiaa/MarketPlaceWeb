@@ -1,32 +1,22 @@
 import { FC, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { BasicLayout } from "src/layouts/common";
-import { Button, Chip, Grid, Paper } from "@mui/material";
-import { EPostStatus } from "src/models";
+import { Autocomplete, Button, FormControl, Grid, InputLabel, OutlinedInput, Paper, TextField, Typography } from "@mui/material";
+import { Category } from "src/models";
 import { useStore } from "src/stores";
 import { TRANSLATE_TERMS } from "src/utils";
 import { ListPost } from "src/components/Explores/ListPost";
+import { useDebounce } from "src/utils/useBounce";
+import { PostStatusSelector } from "src/components/Post/PostStatusSelector";
+
 
 export const PostManager: FC<{}> = observer(({}) => {
-
-    const { sPostManager } = useStore();
-
-    const getPostStatusColor = (status: string) => {
-        switch (status) {
-            case "ALL":
-                return "secondary"
-            case EPostStatus.APPROVED:
-                return "success";
-            case EPostStatus.DENIED:
-                return "error";
-            default:
-                return "default";
-        }
-    }
+    const { sPostManager, sCategories } = useStore();
+    const debounceSearch = useDebounce(sPostManager.search, 600);
 
     useEffect(() => {
         sPostManager.init();
-    }, [sPostManager.filterStatus, sPostManager.search]);
+    }, [sPostManager.filterStatus, debounceSearch, sPostManager.filterCategory]);
 
     function selectFilterStatus(e: string) {
         sPostManager.set_filterStatus(e);
@@ -39,22 +29,51 @@ export const PostManager: FC<{}> = observer(({}) => {
 
     return <BasicLayout>
         <Paper>
-            <Grid container spacing={1} sx={{ mb: 1 }}>
-                <Grid item key={""}>
-                    <Chip label={TRANSLATE_TERMS["ALL"]} color={getPostStatusColor("ALL")}
-                          onClick={() => {selectFilterStatus("")}}
-                          variant={sPostManager.filterStatus == "" ? "filled" : "outlined"} />
+            <Grid container spacing={1} sx={{ mb: 1 }} direction={{
+                xs: "column", md: "row"
+            }}>
+                <Grid item xs={4} container spacing={1}>
+                    <PostStatusSelector selectHandle={selectFilterStatus} selectedValue={sPostManager.filterStatus} />
                 </Grid>
-                {Object.keys(EPostStatus).map((e, i) => {
-
-                    return <Grid item key={i}>
-                        <Chip label={TRANSLATE_TERMS[e]} color={getPostStatusColor(e)}
-                              onClick={() => {selectFilterStatus(e)}}
-                              variant={sPostManager.filterStatus == e ? "filled" : "outlined"} />
-                    </Grid>
-                })}
+                <Grid item xs={4}>
+                    <Autocomplete
+                        renderInput={(params) =>
+                            <TextField {...params} label={TRANSLATE_TERMS.CHOOSE_CATEGORY_PLACEHOLDER} fullWidth />}
+                        options={new Array(...sCategories.categories).sort(({ parent: a }, { parent: b }) => {
+                            return a === "ROOT" && b !== "ROOT" ? -1 : a == "ROOT" && b === "ROOT" ? 1 : 0
+                        })}
+                        disablePortal
+                        groupBy={(option) => sCategories.findById(option.parent).name}
+                        id={"category"}
+                        value={sPostManager.filterCategory}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(e, value) => {sPostManager.set_filterCategory(new Category(value))}}
+                        slotProps={{ paper: { sx: { padding: 1 } } }}
+                        noOptionsText={TRANSLATE_TERMS.NO_OPTION_TEXT} />
+                </Grid>
+                <Grid item xs={4}>
+                    <FormControl fullWidth>
+                        <InputLabel htmlFor={"search"}>
+                            {TRANSLATE_TERMS.SEARCH_POST}
+                        </InputLabel>
+                        <OutlinedInput
+                            id={"search"}
+                            value={sPostManager.search}
+                            onChange={(event) => {
+                                const { value } = event.target;
+                                sPostManager.set_search(value);
+                            }}
+                            label={TRANSLATE_TERMS.SEARCH_POST}
+                            required
+                        />
+                    </FormControl>
+                </Grid>
             </Grid>
-            <ListPost posts={sPostManager.posts} />
+            {sPostManager.count != 0 && <Typography
+                variant={"h5"}
+                paragraph
+                dangerouslySetInnerHTML={{ __html: TRANSLATE_TERMS.get("SEARCH_RESULT_POST_TEXT", { count: sPostManager.count }) }} />}
+            <ListPost posts={sPostManager.posts} isLoading={sPostManager.isLoading} />
             <Grid container justifyContent={"center"}>
                 {
                     sPostManager.isShowLoadMore() &&

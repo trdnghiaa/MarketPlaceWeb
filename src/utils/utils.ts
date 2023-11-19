@@ -48,14 +48,13 @@ export const stringToColor = (string: string) => {
         color += `00${value.toString(16)}`.slice(-2);
     }
     /* eslint-enable no-bitwise */
-
     return color;
 }
 
 export const stringAvatar = (name: string) => {
     return {
         sx: {
-            bgcolor: stringToColor(name),
+            backgroundColor: stringToColor(name),
         },
         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };

@@ -9,7 +9,7 @@ export const Loading: FC<{}> = () => {
             <Backdrop
                 sx={{
                     color: "#fff",
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    zIndex: (theme) => theme.zIndex.drawer + 3,
                 }}
                 open={true}
             >
@@ -24,7 +24,7 @@ export const Loader: FC<{isLoading: boolean, children: ReactNode}> = observer(({
         {isLoading ? <Backdrop
             sx={{
                 color: "#fff",
-                zIndex: (theme) => theme.zIndex.drawer + 1,
+                zIndex: (theme) => theme.zIndex.drawer + 3,
             }}
             open={true}
         >

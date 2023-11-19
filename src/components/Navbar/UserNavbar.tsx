@@ -9,7 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Tooltip from "@mui/material/Tooltip";
 import { UserDrawer } from "src/components/user";
-import { APP_NAME, DRAWER_ITEMS, TRANSLATE_TERMS, USER_SETTINGS } from "src/utils";
+import { APP_NAME, DRAWER_ITEMS, theme, TRANSLATE_TERMS, USER_SETTINGS } from "src/utils";
 import { useStore } from "src/stores";
 import { observer } from "mobx-react-lite";
 import { Button, Grid } from "@mui/material";
@@ -19,6 +19,7 @@ import { DropdownSetting } from "src/components/Settings";
 import { blue } from "@mui/material/colors";
 import { NotificationMenu } from "src/components/NotificationWeb";
 import { UserAvatar } from "src/components/Navbar/UserAvatar";
+import { SearchInput } from "src/components/Navbar/SearchInput";
 
 
 const pages = DRAWER_ITEMS.slice(1);
@@ -44,6 +45,8 @@ const Root = styled("div")({
     },
     [`& .${classes.appbar}`]: {
         // width: "100vw"
+        paddingLeft: theme.spacing(1),
+        padingRight: theme.spacing(1)
     },
     [`& .${classes.toolbar}`]: {
         display: "flex",
@@ -51,7 +54,7 @@ const Root = styled("div")({
         alignItems: "center",
         width: "100%",
     },
-    [`& .${classes.linkItems}`]: { alignItems: "center", display: "flex" },
+    [`& .${classes.linkItems}`]: { alignItems: "center", display: "flex", minWidth: "150px" },
     [`& .${classes.notification}`]: { maxHeight: "50vh", minWidth: "30vw" },
 });
 
@@ -90,33 +93,41 @@ export const UserNavbar: FC = observer(() => {
                 >
                     <Toolbar disableGutters className={classes.toolbar}>
                         <UserDrawer />
-                        <Grid style={styles.gridRoot}>
+                        <Grid container style={styles.gridRoot} alignItems={"center"} justifyContent={"space-around"}>
                             {/*<img src={APP_LOGO_URL} width={64} alt="Logo"/>*/}
-                            <Link style={{ color: "black" }} to={"/"}>
-                                <Typography
-                                    variant="h4"
-                                    noWrap
-                                    component="div"
-                                    sx={{
-                                        mr: 2,
-                                        display: { xs: "none", md: "flex" },
-                                    }}
-                                >
-                                    <Typography sx={{ fontWeight: 900 }} variant="h4">
-                                        {APP_NAME.split(" ")[0]}
+                            <Grid item sm={12} md={4}>
+                                <Link
+                                    style={{ color: "black", width: "100%", display: "flex", justifyContent: "center" }}
+                                    to={"/"}>
+                                    <Typography
+                                        variant="h4"
+                                        noWrap
+                                        component="div"
+                                        sx={{
+                                            mr: 2,
+                                            display: "flex",
+                                            fontSize: { sm: 24 }
+                                        }}
+                                    >
+                                        <Typography sx={{ fontWeight: 900 }} variant="h4">
+                                            {APP_NAME.split(" ")[0]}
+                                        </Typography>
+                                        <Typography variant="h4" sx={{ fontWeight: 100, textDecoration: "underline" }}>
+                                            {APP_NAME.split(" ")[1]}
+                                        </Typography>
                                     </Typography>
-                                    <Typography variant="h4" sx={{ fontWeight: 100, textDecoration: "underline" }}>
-                                        {APP_NAME.split(" ")[1]}
-                                    </Typography>
-                                </Typography>
-                            </Link>
+                                </Link>
+                            </Grid>
+                            <Grid item sm={12} md={8}>
+                                <SearchInput />
+                            </Grid>
                         </Grid>
                         <Box
                             sx={{
                                 flexGrow: 1,
                                 display: {
                                     xs: "none",
-                                    md: "flex",
+                                    lg: "flex",
                                 },
                                 justifyContent: "end",
                             }}
@@ -144,7 +155,8 @@ export const UserNavbar: FC = observer(() => {
                                 <Tooltip title={TRANSLATE_TERMS.OPEN_SETTINGS}>
                                     <Button onClick={handleOpenUserMenu("user")}>
                                         <UserAvatar user={currentUser} />
-                                        <Typography color="black">{currentUser?.fullName}</Typography>
+                                        <Typography color="black"
+                                                    sx={{ display: { xs: "none", md: "block" } }}>{currentUser?.fullName}</Typography>
                                     </Button>
                                 </Tooltip>
                                 <Menu

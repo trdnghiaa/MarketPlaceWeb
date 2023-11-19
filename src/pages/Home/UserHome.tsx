@@ -17,7 +17,7 @@ export const UserHome: FC<{}> = observer(({}) => {
         })
     })
     return <Box>
-        <Grid container direction={"column"} spacing={2}>
+        <Grid container direction={"column"} spacing={3} sx={{ mb: 5 }}>
             <Grid item xs={12}>
                 <Explores />
             </Grid>

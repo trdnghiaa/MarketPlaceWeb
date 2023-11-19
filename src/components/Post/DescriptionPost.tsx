@@ -4,7 +4,7 @@ import { FC } from "react";
 import { observer } from "mobx-react-lite";
 
 export const DescriptionPost: FC<{description: string}> = observer(({ description }) => {
-    return <Paper elevation={2}>
+    return <Paper elevation={4}>
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <Typography variant={"h6"} fontWeight={700}>{TRANSLATE_TERMS.DESCRIPTION_POST_TEXT}</Typography>

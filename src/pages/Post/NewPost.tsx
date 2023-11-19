@@ -16,7 +16,7 @@ import { Attachment, Category } from "src/models";
 import { EDITOR_CONFIG } from "src/config";
 import { TreeViewSelector } from "src/components/TreeView/TreeViewSelector";
 import { RenderSchemaOption } from "src/components/Post/RenderSchemaOption";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { AddressSelect } from "src/components/AddressSelect";
 import { LabelRequired } from "src/components/Post/RequiredTextField";
 import { currency2Number, toCurrency } from "src/utils/currency";
@@ -47,6 +47,7 @@ export const NewPost: FC = observer(({}) => {
     let [searchParams, setSearchParams] = useSearchParams();
 
     const [syntheticFiles, setSyntheticFiles] = useState<ExtFile[]>([]);
+    const navigator = useNavigate();
 
     useEffect(() => {
         if (!isDone) return;
@@ -135,6 +136,7 @@ export const NewPost: FC = observer(({}) => {
                 sNewPost.set_file([]);
                 setSyntheticFiles([]);
                 setSubmitting(false);
+                navigator(`/posts/` + data.data._id);
             }).catch((err) => {
 
                 enqueueSnackbar(<div

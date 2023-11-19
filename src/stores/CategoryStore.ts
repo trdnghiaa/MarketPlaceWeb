@@ -5,15 +5,18 @@ export class CategoryStore {
     @observable categories: Category[] = [];
     @observable isLoading: boolean = false;
     @observable treeViewData: TreeViewData = new TreeViewData({
-        name: "ROOT",
+        name: "DANH MỤC",
         _id: "ROOT",
         description: "",
         parent: "",
         icon: "",
         children: [],
     });
+    @observable nodeMapped: {[name: string]: TreeViewData} = {};
 
     @observable CategorySelected: TreeViewData = new TreeViewData();
+
+    @observable maxHeightTree: number = 0;
 
     constructor() {
         makeObservable(this);
@@ -35,6 +38,14 @@ export class CategoryStore {
         this.set_isLoading(false);
     }
 
+    @action getChildrenById(_id: string) {
+        const data = this.nodeMapped[_id];
+        if (data) {
+            return data.children;
+        }
+        return [];
+    }
+
     @action mapped2TreeViewData() {
         const result: TreeViewData = this.treeViewData;
         result.children = [];
@@ -51,14 +62,25 @@ export class CategoryStore {
             if (e.parent && nodeMapped[e.parent]) {
                 const parent = nodeMapped[e.parent];
                 parent.addChild(e);
+                if (e.height > this.maxHeightTree) {
+                    this.maxHeightTree = e.height;
+                }
             } else {
                 result.addChild(e);
             }
 
             return result;
         }, result);
+        this.nodeMapped = nodeMapped;
     }
 
+    findById(_id: string) {
+        if (_id == "ROOT") {
+            return new Category({ _id, name: "Danh Mục" })
+        }
+        const category = new Category(this.categories.find(e => e._id == _id));
+        return category;
+    }
 
     @action
     set_categories(v: Category[]) {
@@ -68,5 +90,12 @@ export class CategoryStore {
     @action
     set_isLoading(v: boolean) {
         this.isLoading = v;
+    }
+
+    @action
+    async findByIdWithAdvance(_id: string) {
+        const [err, data] = await Category.getPublicById(_id);
+
+        return [err, data] as const
     }
 }

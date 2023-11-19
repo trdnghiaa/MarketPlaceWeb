@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect } from "react";
-import { AdvanceField, FieldType } from "src/models";
+import { AdvanceField, FieldType, Reference } from "src/models";
 import { observer } from "mobx-react-lite";
 import { reaction } from "mobx";
 import { FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch } from "@mui/material";
@@ -12,7 +12,7 @@ export const SelectorFieldsEditor: FC<{data: AdvanceField, fields: AdvanceField[
         data.option.set_isReference(checked);
         if (!checked) {
             data.option.set_referenceName("");
-            data.option.set_reference({});
+            data.option.set_reference([]);
         }
     };
 
@@ -21,9 +21,9 @@ export const SelectorFieldsEditor: FC<{data: AdvanceField, fields: AdvanceField[
         reaction(() => [data.option.referenceName, new AdvanceField(fields.find((e) => e.fieldName == data.option.referenceName)), field.option.Enum.length], (values) => {
             const referenceName: string = values[0] as string;
             const advanceField: AdvanceField = new AdvanceField(fields.find((e) => e.fieldName == data.option.referenceName));
-            const reference = {
-                [referenceName]: advanceField.option.Enum.reduce((r, e) => ({ ...r, [e]: data.option.reference[referenceName] ? data.option.reference[referenceName][e] || [] : [] }), {}),
-            };
+            const reference = advanceField.option.Enum.reduce((r, e) => {
+                return [...r, { name: [e], option: data.option.reference[e] ? data.option.reference[e] || [] : [] }] as Reference[];
+            }, [] as Reference[]);
             console.log(reference)
             data.option.set_reference(reference);
         });
@@ -33,7 +33,7 @@ export const SelectorFieldsEditor: FC<{data: AdvanceField, fields: AdvanceField[
         const { value } = event.target;
         if (value == "") {
             data.option.set_isReference(false);
-            data.option.set_reference({});
+            data.option.set_reference([]);
         }
         data.option.set_referenceName(value);
     }
@@ -64,9 +64,8 @@ export const SelectorFieldsEditor: FC<{data: AdvanceField, fields: AdvanceField[
 
             {data.option.referenceName &&
                 <Grid item xs={6} container direction="column" spacing={1} sx={{ mt: 2 }}>
-                    {Object.keys(data.option.reference[data.option.referenceName] || {})
-                        .map((e) => <ReferenceItem reference={data.option.reference[data.option.referenceName]}
-                                                   name={e} key={e} />)
+                    {data.option.reference.map((e) => <ReferenceItem
+                        reference={e} key={e.name} />)
                     }</Grid>}
 
         </>}

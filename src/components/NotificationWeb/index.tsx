@@ -56,7 +56,7 @@ export const NotificationMenu: FC = observer(({}) => {
 
     return <Box sx={{ flexGrow: 0 }}>
         <Tooltip title={TRANSLATE_TERMS.OPEN_NOTIFICATION}>
-            <ListItem sx={{ width: "fit-content" }}>
+            <ListItem sx={{ width: "fit-content", paddingLeft: 0 }}>
                 <IconButton onClick={handleOpenNotificationMenu}>
                     <Badge badgeContent={sNotificationWeb.count} color="error">
                         <NotificationsRounded color="action"
@@ -70,7 +70,7 @@ export const NotificationMenu: FC = observer(({}) => {
             sx={{ mt: "45px" }}
             slotProps={{
                 paper: {
-                    sx: { padding: 0, minWidth: "500px", sm: { minWidth: "200px" }, "ul": { paddingBottom: 0 }, }
+                    sx: { padding: 0, minWidth: "250px", sm: { minWidth: "200px" }, "ul": { paddingBottom: 0 }, }
                 },
                 root: {
                     sx: { padding: 0 }

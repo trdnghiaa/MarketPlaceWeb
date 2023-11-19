@@ -63,7 +63,7 @@ export const UserDrawer = () => {
         <Fragment key="left">
             <MenuIcon
                 onClick={toggleDrawer("left", true)}
-                style={{ cursor: "pointer", marginRight: "1rem" }}
+                sx={{ cursor: "pointer", display: { xs: "block", lg: "none" } }}
             ></MenuIcon>
 
             <Drawer

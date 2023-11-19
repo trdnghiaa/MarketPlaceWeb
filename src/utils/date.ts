@@ -67,5 +67,5 @@ export const formatSmartDay = (date: Date): string => {
         return TRANSLATE_TERMS.get("DAYS_POSTED", { days: Math.floor(before / DayInMonth) })
     }
 
-    return "";
+    return formatDDMMYYYY(date);
 }

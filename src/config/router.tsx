@@ -1,6 +1,7 @@
 import { Account, Categories, CategoryEditor, Home, Login, MyPost, NewAccount, NewPost, NotFound, NotificationPage, Order, PageMiddle, PostManager, PostPage, Profile, Register, RouteGuard, SavedPost, Voucher, } from "src/pages";
 import React from "react";
 import { UserRole } from "src/models";
+import { SearchPage } from "src/pages/Home/SearchPage";
 
 export interface RouteModel {
     path: string,
@@ -64,6 +65,7 @@ const routers: RouteModel[] = [
     { path: "/signup", component: <Register />, name: "Đăng ký tài khoản" },
     { path: "/notifications", component: <NotificationPage />, name: "Thông báo", isPrivate: true },
     { path: "/posts/:id/", component: <PostPage />, name: "Tin đăng" },
+    { path: "/search", component: <SearchPage />, name: "Tìm kiếm tin đăng" },
     { path: "*", component: <NotFound />, name: "Không tim thấy trang" },
 ];
 

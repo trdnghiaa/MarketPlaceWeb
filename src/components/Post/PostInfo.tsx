@@ -3,12 +3,13 @@ import { observer } from "mobx-react-lite";
 import { EPostStatus, Post } from "src/models";
 import { Grid, IconButton, Paper, Typography } from "@mui/material";
 import { toCurrency } from "src/utils/currency";
-import { AccessTime, Favorite, FavoriteBorder, LocationOn, Share, VerifiedUser } from "@mui/icons-material";
+import { AccessTime, LocationOn, Share, VerifiedUser } from "@mui/icons-material";
 import { formatSmartDay, setCurrentURL, TRANSLATE_TERMS } from "src/utils";
 import { Tooltip } from "@mui/material/";
 import { useSnackbar } from "notistack";
 import { useStore } from "src/stores";
 import { useNavigate } from "react-router-dom";
+import { FavoritePostButton } from "src/components/Post/FavoritePostButton";
 
 export const PostInfo: FC<{post: Post}> = observer(({ post }) => {
     const { enqueueSnackbar } = useSnackbar()
@@ -34,7 +35,7 @@ export const PostInfo: FC<{post: Post}> = observer(({ post }) => {
         }
     };
 
-    return <Paper elevation={2} sx={{ my: 1 }}>
+    return <Paper elevation={4} sx={{ my: 1 }}>
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <Typography variant={"h5"} fontWeight={700}>{post.title}</Typography>
@@ -49,10 +50,7 @@ export const PostInfo: FC<{post: Post}> = observer(({ post }) => {
                                 title={TRANSLATE_TERMS.SHARE_POST}>
                         <Share />
                     </IconButton>
-                    <IconButton onClick={favoriteToggle} color={"error"} component={Tooltip}
-                                title={post.favorite ? TRANSLATE_TERMS.UN_FAVORITE_TEXT : TRANSLATE_TERMS.FAVORITE_TEXT}>
-                        {post.favorite ? <Favorite /> : <FavoriteBorder />}
-                    </IconButton>
+                    <FavoritePostButton onClick={favoriteToggle} post={post} />
                 </Grid>
             </Grid>
             <Grid item xs={12} container alignItems={"center"} sx={{ color: "#777" }}>
@@ -62,7 +60,7 @@ export const PostInfo: FC<{post: Post}> = observer(({ post }) => {
             <Grid item xs={12} container alignItems={"center"} sx={{ color: "#777" }}>
                 <AccessTime />
                 <Typography variant={"subtitle2"} fontWeight={400}
-                            sx={{ ml: 1 }}>{formatSmartDay(post.created_at)} </Typography>
+                            sx={{ ml: 1 }}>{formatSmartDay(post.status == EPostStatus.APPROVED ? post.approvedDate : post.created_at)} </Typography>
             </Grid>
             {post.status == EPostStatus.APPROVED &&
                 <Grid item xs={12} container alignItems={"center"} sx={{ color: "#777" }}>

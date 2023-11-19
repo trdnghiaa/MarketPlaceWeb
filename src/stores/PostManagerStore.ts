@@ -1,5 +1,6 @@
 import { action, makeObservable, observable } from "mobx";
-import { Post } from "src/models";
+import { Category, Post } from "src/models";
+import { Store } from "src/stores/Store";
 
 export class PostManagerStore {
     @observable
@@ -7,6 +8,8 @@ export class PostManagerStore {
 
     @observable
     filterStatus: string = "";
+    @observable
+    filterCategory: Category = new Category();
     @observable
     search: string = "";
     @observable
@@ -17,8 +20,11 @@ export class PostManagerStore {
     totalPages: number = 0;
     @observable
     page: number = 1;
+    @observable
+    size: number = 12;
 
-    constructor() {
+
+    constructor(private store: Store) {
         makeObservable(this);
     }
 
@@ -26,6 +32,10 @@ export class PostManagerStore {
     async init() {
         if (this.isLoading) return;
         this.set_isLoading(true);
+        this.set_page(1);
+        this.set_count(0);
+        this.set_totalPages(0);
+
         const [err, data] = await this.load();
         if (err) {
             throw err;
@@ -34,7 +44,7 @@ export class PostManagerStore {
         this.set_count(data.count);
         this.set_posts(data.data.map(e => new Post(e)));
         this.set_totalPages(data.totalPages);
-        
+
         this.set_isLoading(false);
     }
 
@@ -61,11 +71,17 @@ export class PostManagerStore {
         }
 
         if (this.search) {
-            const regex = new RegExp(this.search, "i");
-            filter["$or"] = [{ title: { $regex: regex } }];
+            const $regex = { $regex: this.search }
+            filter["$or"] = [{ title: $regex }, { description: $regex }];
         }
 
-        const [err, data] = await Post.getPostWithFilter(filter, this.page);
+        if (this.filterCategory._id) {
+            const child = this.store.sCategories.getChildrenById(this.filterCategory._id);
+            filter["category"] = child.length ? child.map(e => e._id) : this.filterCategory._id;
+
+        }
+
+        const [err, data] = await Post.getPostWithFilter(filter, this.page, this.size);
         return [err, data] as const
     }
 
@@ -95,5 +111,13 @@ export class PostManagerStore {
 
     @action set_isLoading(v: boolean) {
         this.isLoading = v;
+    }
+
+    @action set_filterCategory(v: Category) {
+        this.filterCategory = v;
+    }
+
+    @action set_search(value: string) {
+        this.search = value;
     }
 }

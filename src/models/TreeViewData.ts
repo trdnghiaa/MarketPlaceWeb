@@ -11,6 +11,8 @@ export class TreeViewData {
     @observable isView: boolean;
     @observable isAddNew = false;
     @observable category = new Category();
+    @observable open: boolean = false;
+    @observable height: number = 0;
 
     constructor(data?: any) {
         this.name = "";
@@ -19,17 +21,19 @@ export class TreeViewData {
         this.parentNode = null;
         this.icon = "";
         this.children = [];
+        this.height = 0;
 
         this.isView = true;
 
         if (data) {
-            const { name, _id, parent, icon, children } = data;
+            const { name, _id, parent, icon, children, height } = data;
             this.category = new Category(data);
             this.name = name;
             this._id = _id;
             this.parent = parent;
             this.icon = icon;
             this.children = children || [];
+            this.height = height || 0;
         }
         makeObservable(this);
     }
@@ -60,6 +64,7 @@ export class TreeViewData {
 
     @action addChild(child: TreeViewData) {
         child.parentNode = this;
+        child.set_height(this.height + 1);
         this.children.push(child);
     }
 
@@ -87,5 +92,13 @@ export class TreeViewData {
     @action getNameOfChild(bold?: boolean): string {
         const data = this.children.flatMap(e => e.getNameNChild());
         return (bold ? data.map(e => `<b>${e}</b>`) : data).join(", ");
+    }
+
+    @action set_open(v: boolean) {
+        this.open = v;
+    }
+
+    @action set_height(v: number) {
+        this.height = v;
     }
 }

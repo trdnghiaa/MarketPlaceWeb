@@ -17,6 +17,8 @@ export class PostStore {
 
     @observable
     reason: string = "";
+    @observable
+    similar: Post[] = [];
 
     constructor(private store: Store) {
         makeObservable(this);
@@ -49,6 +51,9 @@ export class PostStore {
         if (this.isLoading) return;
         this.set_isLoading(true);
         this.set_isNotFound(false);
+
+        this.set_similar([]);
+
         const [err, data] = await (this.isUsePublic() ? Post.getPublicPost(id) : Post.getById(id));
 
 
@@ -60,8 +65,19 @@ export class PostStore {
         this.set_post(new Post(data));
 
         this.set_images(data.images.map(e => ({ original: HOST + e.realPath, thumbnail: HOST + e.realPath })) as ReactImageGalleryItem[]);
+        if (this.post.status == EPostStatus.APPROVED)
+            this.getSimilar();
 
         this.set_isLoading(false);
+    }
+
+    @action
+    async getSimilar() {
+        const [err, data] = await Post.getSimilarPost(this.post._id);
+
+        if (err) throw err;
+
+        this.set_similar(data);
     }
 
     @action set_reason(v: string) {
@@ -84,5 +100,9 @@ export class PostStore {
             this.post.status = EPostStatus.APPROVED;
         }
         return [err, data] as const;
+    }
+
+    @action set_similar(v: Post[]) {
+        this.similar = v;
     }
 }
