@@ -15,7 +15,7 @@ const Image = styled(Box)(() => ({
     }
 }));
 
-const ThumbnailContent = styled(Box)(({}) => ({
+const ThumbnailContent = styled(Box)(({ theme }) => ({
     "&": {
         position: "absolute",
         bottom: 0,
@@ -26,6 +26,9 @@ const ThumbnailContent = styled(Box)(({}) => ({
         alignItems: "center",
         justifyContent: "center",
         background: "#0c0c0c61",
+        padding: theme.spacing(2),
+        textAlign: "center",
+        textTransform: "capitalize",
         transition: "background 250ms ease-in-out"
     },
     "&:hover": {

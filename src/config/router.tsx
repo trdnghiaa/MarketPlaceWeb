@@ -1,4 +1,4 @@
-import { Account, Categories, CategoryEditor, Home, Login, MyPost, NewAccount, NewPost, NotFound, NotificationPage, Order, PageMiddle, PostManager, PostPage, Profile, Register, RouteGuard, SavedPost, Voucher, } from "src/pages";
+import { Account, Categories, CategoryEditor, Home, Login, MyPost, NewAccount, NotFound, NotificationPage, Order, PageMiddle, PostEditor, PostManager, PostPage, Profile, Register, RouteGuard, SavedPost, Voucher, } from "src/pages";
 import React from "react";
 import { UserRole } from "src/models";
 import { SearchPage } from "src/pages/Home/SearchPage";
@@ -59,13 +59,14 @@ const routers: RouteModel[] = [
     { path: "/orders", component: <Order />, isPrivate: true, name: "Danh sách đơn hàng" },
     { path: "/partnership", component: <Register />, name: "" },
     { path: "/profile/:mode", component: <Profile />, isPrivate: true, name: ":mode thông tin người dùng" },
-    { path: "/new-post", component: <NewPost />, name: "Tạo tin mới", isPrivate: true },
+    { path: "/new-post", component: <PostEditor />, name: "Tạo tin mới", isPrivate: true },
     { path: "/my-post", component: <MyPost />, name: "Tin đã đăng", isPrivate: true },
     { path: "/saved-post", component: <SavedPost />, name: "Tin đã lưu", isPrivate: true },
     { path: "/signup", component: <Register />, name: "Đăng ký tài khoản" },
     { path: "/notifications", component: <NotificationPage />, name: "Thông báo", isPrivate: true },
     { path: "/posts/:id/", component: <PostPage />, name: "Tin đăng" },
     { path: "/search", component: <SearchPage />, name: "Tìm kiếm tin đăng" },
+    { path: "/posts/:id/edit", component: <PostEditor />, name: "Chỉnh sửa tin đăng" },
     { path: "*", component: <NotFound />, name: "Không tim thấy trang" },
 ];
 

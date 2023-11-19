@@ -122,6 +122,11 @@ export class Post {
         delete body.view;
         delete body.expires;
 
+        if (body._id) {
+            const [err, data] = await FetchAPI<{message: string}>(Method.PUT, `/posts/` + body._id, body);
+            return [err, { ...data, data: this }] as const;
+        }
+
         const [err, data] = await FetchAPI<{data: Post, message: string}>(Method.POST, "/posts/", body);
         return [err, data] as const;
     }
@@ -137,7 +142,7 @@ export class Post {
 
     static async getById(id: string) {
         const [err, data] = await FetchAPI<Post>(Method.GET, `/posts/${id}?includes=images,createdBy,category`);
-        return [err, data] as const;
+        return [err, new Post(data)] as const;
     }
 
     static async deniedPost(_id: string, reason: string) {
@@ -202,5 +207,17 @@ export class Post {
     static async getSimilarPost(_id: string) {
         const [err, data] = await FetchAPI<Post[]>(Method.POST, `/public/posts/similar`, { _id });
         return [err, data] as const
+    }
+
+    static async getPostById(id: string) {
+        const [err, data] = await FetchAPI<Post>(Method.GET, `/`)
+    }
+
+    @action set_images(v: Attachment[]) {
+        this.images = v;
+    }
+
+    @action set_reason(v: string) {
+        this.reason = v;
     }
 }

@@ -13,7 +13,6 @@ export const RenderDropdownField: FC<{data: AdvanceField, values: AdvanceInfoVal
     }
 
     useEffect(() => {
-        console.log(data.option.isReference)
         if (data.option.isReference) {
             if (values[data.option.referenceName]) {
                 const value: string = (values[data.option.referenceName] as string) || "";
@@ -21,8 +20,8 @@ export const RenderDropdownField: FC<{data: AdvanceField, values: AdvanceInfoVal
                 const references = (data.option.reference.find(e => e.name == value));
 
                 if (references) {
-                    values[data.fieldName] = "";
-                    console.log(references)
+                    if (!references.option.includes(values[data.fieldName] + ""))
+                        values[data.fieldName] = "";
                     setOption(references.option || []);
                 }
 

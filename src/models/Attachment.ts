@@ -1,6 +1,7 @@
 import { User } from "./User";
 import { makeAutoObservable, observable } from "mobx";
-import { FetchAPI, Method } from "src/service/fetchAPI";
+import { FetchAPI, FetchFile, Method } from "src/service/fetchAPI";
+import { ExtFileInstance } from "@dropzone-ui/react";
 
 export class Attachment {
     @observable _id: string;
@@ -37,4 +38,26 @@ export class Attachment {
         return [err, data] as const;
     }
 
+    async toExtFile() {
+        const file = await this.getBlob();
+        const splitName = this.realPath.split("/");
+
+        return ExtFileInstance.toExtFile({
+            id: this._id,
+            // imageUrl: HOST + this.realPath,
+            file: file,
+            size: file?.size,
+            type: file?.type,
+            // downloadUrl: HOST + this.realPath,
+            uploadStatus: "success",
+            valid: true,
+            uploadMessage: "Tải file thành công!",
+            name: file?.name,
+        } as ExtFileInstance);
+    }
+
+    async getBlob() {
+        const file = await FetchFile(this.realPath, this._id);
+        return file;
+    }
 }

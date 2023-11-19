@@ -16,12 +16,12 @@ import { Attachment, Category } from "src/models";
 import { EDITOR_CONFIG } from "src/config";
 import { TreeViewSelector } from "src/components/TreeView/TreeViewSelector";
 import { RenderSchemaOption } from "src/components/Post/RenderSchemaOption";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { AddressSelect } from "src/components/AddressSelect";
 import { LabelRequired } from "src/components/Post/RequiredTextField";
 import { currency2Number, toCurrency } from "src/utils/currency";
 
-const PREFIX = "NewPost-";
+const PREFIX = "PostEditor-";
 
 const classes = {
     root: `${PREFIX}root`
@@ -39,19 +39,23 @@ const Root = styled("div")({
     }
 })
 
-export const NewPost: FC = observer(({}) => {
+export const PostEditor: FC = observer(({}) => {
     const [submitting, setSubmitting] = useState(false);
     const { sNewPost, sCategories, isDone, currentUser } = useStore();
     const { enqueueSnackbar } = useSnackbar();
     const isView = false;
     let [searchParams, setSearchParams] = useSearchParams();
+    const { id } = useParams();
 
     const [syntheticFiles, setSyntheticFiles] = useState<ExtFile[]>([]);
     const navigator = useNavigate();
 
     useEffect(() => {
         if (!isDone) return;
-        sNewPost.init();
+        sNewPost.init(id).then(() => {
+            setSyntheticFiles(sNewPost.file);
+        });
+
         setSyntheticFiles([]);
 
         const category_id = searchParams.get("category");
@@ -68,30 +72,48 @@ export const NewPost: FC = observer(({}) => {
         if (sNewPost.post.category._id) {
             sNewPost.getSchema();
         }
-    }, [sCategories.isLoading]);
+    }, [sCategories.isLoading, id, isDone]);
+
+    useEffect(() => {
+        console.log(sNewPost.file)
+    }, [sNewPost.file])
+
+    const updateFiles = (files: ExtFile[]) => {
+        setSyntheticFiles(files);
+        sNewPost.set_file(files);
+    };
 
     const handleDelete = (id: any) => {
         const file: ExtFile | undefined = sNewPost.file.find((x) => x.id == id);
 
-        if (!file?.xhr) return;
+        if (file) {
+            if (sNewPost.post._id) {
+                const files = sNewPost.file.filter((x) => x.id !== id);
 
-        const responseXHR = JSON.parse(file.xhr.responseText);
+                const attachment = sNewPost.post.images.find(e => e._id == file.id);
 
-        Attachment.dropFileTemp(responseXHR.payload._id).then(([err, data]) => {
-            if (err) {
-                return enqueueSnackbar(err, { variant: "error" });
+                sNewPost.dropTemp.push(new Attachment(attachment));
+
+                sNewPost.post.set_images(sNewPost.post.images.filter(e => e._id != file.id));
+                updateFiles(files);
+            } else {
+                Attachment.dropFileTemp(file.id + "").then(([err, data]) => {
+                    if (err) {
+                        return enqueueSnackbar(err, { variant: "error" });
+                    }
+
+                    const files = sNewPost.file.filter((x) => x.id !== id);
+                    sNewPost.post.set_images(sNewPost.post.images.filter(e => e._id != file.id));
+
+                    updateFiles(files);
+
+                    return enqueueSnackbar(MESSAGE_TERMS.FILE_TEMP_DELETED, { variant: "success" });
+                }).catch((err) => {
+                    enqueueSnackbar(err.message, { variant: "error" });
+                });
             }
 
-            sNewPost.set_file(sNewPost.file.filter((x) => x.id !== id));
-
-            return enqueueSnackbar(MESSAGE_TERMS.FILE_TEMP_DELETED, { variant: "success" });
-        }).catch((err) => {
-            enqueueSnackbar(err.message, { variant: "error" });
-        });
-    };
-
-    const updateFiles = (files: ExtFile[]) => {
-        sNewPost.set_file(files);
+        }
     };
 
     const fileValidation = (file: File) => {
@@ -133,8 +155,11 @@ export const NewPost: FC = observer(({}) => {
                     return enqueueSnackbar(<div
                         dangerouslySetInnerHTML={{ __html: MESSAGE_TERMS.get(err, arg) }} />, { variant: "error" });
                 }
-                sNewPost.set_file([]);
-                setSyntheticFiles([]);
+
+                sNewPost.dropTrash();
+
+                updateFiles([]);
+
                 setSubmitting(false);
                 navigator(`/posts/` + data.data._id);
             }).catch((err) => {
@@ -149,8 +174,6 @@ export const NewPost: FC = observer(({}) => {
             enqueueSnackbar(<div
                 dangerouslySetInnerHTML={{ __html: MESSAGE_TERMS.get(err, arg) }} />, { variant: "error" });
         }
-
-
     }
 
     const changeTitlePost = (event: ChangeEvent<HTMLInputElement>) => {
@@ -177,10 +200,11 @@ export const NewPost: FC = observer(({}) => {
                       alignItems={"stretch"}
                 >
                     <Grid item xs={4} mt={2}>
-                        <Dropzone onChange={updateFiles} value={sNewPost.file}
+                        <Dropzone onChange={updateFiles}
+                                  value={syntheticFiles}
                                   maxFiles={0 || sNewPost.post.category.imageInfo.max}
                                   min={0 || sNewPost.post.category.imageInfo.min}
-                                  disabled={syntheticFiles.length >= 6}
+                                  disabled={sNewPost.file.length >= sNewPost.post.category.imageInfo.max}
                                   accept="image/*, video/*"
                                   label={TRANSLATE_TERMS.get("DROPZONE_PLACEHOLDER", { ...sNewPost.post.category.imageInfo })}
                                   footer={false}
@@ -188,17 +212,17 @@ export const NewPost: FC = observer(({}) => {
                                   headerConfig={{
                                       deleteFiles: false
                                   }}
-                            // onUploadStart={(file) => {
-                            //     console.log(file);
-                            // }}
                                   onUploadFinish={(file) => {
                                       const images = sNewPost.post.images;
-                                      for (let e of file) {
-                                          images.push(new Attachment(e.serverResponse?.payload));
+                                      for (let i = 0; i < file.length; i++) {
+                                          images.push(new Attachment(file[i].serverResponse?.payload));
+                                          const id = file[i].serverResponse?.payload?._id;
+                                          // syntheticFiles[i].id = id;
+                                          sNewPost.file[i].id = id;
                                       }
                                   }}
                                   validator={fileValidation}
-                                  autoClean={true}
+                            // autoClean={true}
                                   uploadConfig={{
                                       preparingTime: 100,
                                       uploadingMessage: "Đang tải hình ảnh lên",

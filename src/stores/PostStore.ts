@@ -19,6 +19,10 @@ export class PostStore {
     reason: string = "";
     @observable
     similar: Post[] = [];
+    @observable
+    phone: string = "";
+    @observable
+    isLoadingPhone: boolean = false;
 
     constructor(private store: Store) {
         makeObservable(this);
@@ -51,7 +55,7 @@ export class PostStore {
         if (this.isLoading) return;
         this.set_isLoading(true);
         this.set_isNotFound(false);
-
+        this.set_phone("");
         this.set_similar([]);
 
         const [err, data] = await (this.isUsePublic() ? Post.getPublicPost(id) : Post.getById(id));
@@ -89,6 +93,7 @@ export class PostStore {
         const [err, data] = await Post.deniedPost(this.post._id, this.reason);
         if (!err) {
             this.post.status = EPostStatus.DENIED;
+            this.post.set_reason(this.reason);
         }
         return [err, data] as const;
     }
@@ -104,5 +109,27 @@ export class PostStore {
 
     @action set_similar(v: Post[]) {
         this.similar = v;
+    }
+
+    @action set_phone(v: string) {
+        this.phone = v;
+    }
+
+    @action
+    async showPhone() {
+        if (this.isLoadingPhone) return;
+
+        this.set_isLoadingPhone(true);
+        const [err, data] = await User.getPhone(this.post.createdBy._id);
+        if (err) {
+            this.set_isLoadingPhone(false);
+            throw err;
+        }
+        this.set_phone(data.phone);
+        this.set_isLoadingPhone(false);
+    }
+
+    @action set_isLoadingPhone(v: boolean) {
+        this.isLoadingPhone = v;
     }
 }

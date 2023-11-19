@@ -9,7 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Tooltip from "@mui/material/Tooltip";
 import { UserDrawer } from "src/components/user";
-import { APP_NAME, DRAWER_ITEMS, theme, TRANSLATE_TERMS, USER_SETTINGS } from "src/utils";
+import { APP_NAME, DRAWER_ITEMS, setCurrentURL, theme, TRANSLATE_TERMS, USER_SETTINGS } from "src/utils";
 import { useStore } from "src/stores";
 import { observer } from "mobx-react-lite";
 import { Button, Grid } from "@mui/material";
@@ -81,6 +81,10 @@ export const UserNavbar: FC = observer(() => {
             sNotificationWeb.init();
         }
     }, []);
+
+    const LoginHandle = () => {
+        setCurrentURL(window.location.href);
+    }
 
     return (
         <Root>
@@ -179,7 +183,7 @@ export const UserNavbar: FC = observer(() => {
                             </Box>
                         ) : (
                             <>
-                                <Link to="/Login">
+                                <Link to="/Login" onClick={LoginHandle}>
                                     <Button>{TRANSLATE_TERMS.LOGIN_TEXT}</Button>
                                 </Link>
                                 <Typography sx={{ m: 1 }}>/</Typography>

@@ -53,24 +53,9 @@ export const USER_SETTINGS: MenuItem[] = [
         icon: "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/e/e092465666a2dfe398407794a893cbcc.svg",
     },
     {
-        title: "Thẻ của tôi",
-        link: "/",
-        icon: "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/4/468b3a08ab94b440b4e09fb9130eee1e.svg",
-    },
-    {
         title: "Danh sách giao dịch",
         link: "/orders/history",
         icon: "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/0/0965a06a63e873adb97d5ed7d7b92dbe.svg",
-    },
-    {
-        title: "Đặt chỗ của tôi",
-        link: "/",
-        icon: "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/b/b0f87008a7a01d72ffb5eacf06870cba.svg",
-    },
-    {
-        title: "Thông báo giá vé máy bay",
-        link: "/",
-        icon: "https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/7/70100d4a2047ac955124953dbc3351db.svg",
     },
     {
         title: "Khuyến mãi",

@@ -74,3 +74,16 @@ export async function FetchAPI<T = any, TError = any>(
         return [undefined, null as any];
     }
 }
+
+export async function FetchFile(input: string, fileName: string) {
+    try {
+        const response = await fetch(HOST + input, {});
+
+        const blob = await response.blob();
+
+        return new File([blob], `${fileName}.jpg`, { type: "image/jpeg" });
+    } catch (err) {
+        console.warn(err);
+        return undefined;
+    }
+}

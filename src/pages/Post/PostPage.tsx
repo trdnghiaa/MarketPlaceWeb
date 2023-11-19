@@ -2,9 +2,9 @@ import { FC, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { BasicLayout } from "src/layouts/common";
 import { styled } from "@mui/system";
-import { Alert, AlertTitle, Box, Grid, Paper } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { useStore } from "src/stores";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { MESSAGE_TERMS, theme, TRANSLATE_TERMS } from "src/utils";
 import { NotFoundPost } from "src/components/Post/NotFoundPost";
@@ -19,6 +19,7 @@ import { Loader } from "src/components/Loading";
 import { EPostStatus, UserRole } from "src/models";
 import { VerifierBox } from "src/components/Post/VerifierBox";
 import { Similar } from "src/components/Similar";
+import { BorderColor, QueryBuilder } from "@mui/icons-material";
 
 const Root = styled(Box)(() => ({
     ".image-gallery-svg": {
@@ -28,6 +29,10 @@ const Root = styled(Box)(() => ({
         minHeight: "20vh"
     }
 }));
+
+function CheckIcon(props: {fontSize: string}) {
+    return null;
+}
 
 export const PostPage: FC<{}> = observer(({}) => {
     const { sPost, isDone, currentUser } = useStore();
@@ -60,6 +65,18 @@ export const PostPage: FC<{}> = observer(({}) => {
                                 <Alert severity="error" sx={{ my: 1 }} variant="filled" elevation={4}>
                                     <AlertTitle>{TRANSLATE_TERMS.DENIED}</AlertTitle>
                                     * {sPost.post.reason}
+                                    <Button to={`/posts/${sPost.post._id}/edit`} variant={"contained"} color={"warning"}
+                                            component={Link}
+                                            sx={{ display: "flex", alignItems: "center", mt: 2 }}><BorderColor /> {TRANSLATE_TERMS.EDIT_POST}
+                                    </Button>
+                                </Alert>}
+
+                            {sPost.post.status == EPostStatus.PENDING && currentUser?.role == UserRole.USER &&
+                                <Alert severity="warning" sx={{ my: 1 }} variant="filled" elevation={4}
+                                       icon={<QueryBuilder fontSize="inherit" />}>
+                                    <AlertTitle sx={{ fontWeight: 700 }}>{TRANSLATE_TERMS.AWAIT_APPROVED}</AlertTitle>
+                                    <Typography
+                                        dangerouslySetInnerHTML={{ __html: TRANSLATE_TERMS.AWAIT_APPROVED_CONTENT }} />
                                 </Alert>}
                             <PostInfo post={sPost.post} />
                             <DescriptionPost description={sPost.post.description} />

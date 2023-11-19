@@ -144,4 +144,9 @@ export class User {
     @action set_address(v: string) {
         this.address = v;
     }
+
+    static async getPhone(_id: string) {
+        const [err, data] = await FetchAPI<{phone: string}>(Method.POST, `/users/phone`, { _id });
+        return [err, data] as const;
+    }
 }

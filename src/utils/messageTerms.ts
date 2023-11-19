@@ -82,6 +82,7 @@ export const MESSAGE_TERMS = {
     MIN_PRICE_GREATER_THAN_MAX_PRICE: "Giá thấp nhất lớn hơn giá cao nhất",
     MIN_IMAGE_GREATER_THAN_MAX_IMAGE: "Số lượng hình ảnh chênh lệch",
     IMAGE_LESS: "Cần phải ít nhất <b>{min}</b> hình cho tin đăng thuộc doanh mục <b>{categoryName}</b>!",
+    SHOW_PHONE_REQUIRE_LOGGED: "Bạn cần phải đăng nhập để xem số điện thoại người bán!",
 
     get: function (err: string | unknown, arg?: object) {
         let message: string = "";
@@ -207,12 +208,12 @@ export const TRANSLATE_TERMS = {
     JUST_VISITED: "🟢 Vừa mới truy cập",
     HOURS_VISITED: "Truy cập {hours} giờ trước",
     MINUTES_VISITED: "Truy cập {munites} phút trước",
-    CHAT_WITH_SELLER: "Chat",
+    DISPLAY_PHONE_BUTTON: "Bấm để hiện số điện thoại",
     JUST_POSTED: "Vừa xong",
     HOURS_POSTED: "{hours} giờ trước",
     DAYS_POSTED: "{days} ngày trước",
     MINUTES_POSTED: "{minutes} phút trước",
-    VERIFIED_TEXT: "Tin đăng đã được kiểm duyệt",
+    VERIFIED_TEXT: "Tin đăng đã được kiểm duyệt.",
     SPECIFICATION_TEXT: "Thông số kỹ thuật",
     UNKNOWN_VALUE_FIELD: "Không rõ",
     FAVORITE_TEXT: "Lưu tin",
@@ -230,7 +231,12 @@ export const TRANSLATE_TERMS = {
     SEARCH_RESULT_POST_TEXT: "Tìm thấy <b>{count}</b> tin đăng.",
     NO_POSTS: "Không có tin đăng nào!",
     POST_MANAGER_TEXT: "Quản Lý Tin",
-    SEARCH_POST_PLACEHOLDER: `Tìm kiếm sản phẩm trên Amazin Place`, SIMILAR_TEXT: "Tin đăng tương tự", NO_SUGGESTION_RESULT: "không có kết quả nào!",
+    SEARCH_POST_PLACEHOLDER: `Tìm kiếm sản phẩm trên Amazin Place`,
+    SIMILAR_TEXT: "Tin đăng tương tự",
+    NO_SUGGESTION_RESULT: "không có kết quả nào!",
+    AWAIT_APPROVED: "Chờ Xét Duyệt",
+    AWAIT_APPROVED_CONTENT: "* Tin đăng trong quá trình xét duyêt trước khi xuất hiện trên <b>Amazin Place</b>. <br> * Quá trình này có thể mất đến 24h",
+    CALL_NOW: "Gọi Ngay {phone}", EDIT_POST: "Chỉnh sửa ngay",
 
 
     ADD_CATEGORY_PREFIX: (name: string) => `Thêm vào "${name}"`,

@@ -54,17 +54,17 @@ export const PostInfo: FC<{post: Post}> = observer(({ post }) => {
                 </Grid>
             </Grid>
             <Grid item xs={12} container alignItems={"center"} sx={{ color: "#777" }}>
-                <LocationOn />
+                <LocationOn color={"error"} />
                 <Typography variant={"subtitle2"} fontWeight={400} sx={{ ml: 1 }}>{post.address} </Typography>
             </Grid>
             <Grid item xs={12} container alignItems={"center"} sx={{ color: "#777" }}>
-                <AccessTime />
+                <AccessTime color={"warning"} />
                 <Typography variant={"subtitle2"} fontWeight={400}
                             sx={{ ml: 1 }}>{formatSmartDay(post.status == EPostStatus.APPROVED ? post.approvedDate : post.created_at)} </Typography>
             </Grid>
             {post.status == EPostStatus.APPROVED &&
                 <Grid item xs={12} container alignItems={"center"} sx={{ color: "#777" }}>
-                    <VerifiedUser />
+                    <VerifiedUser color={"success"} />
                     <Typography variant={"subtitle2"} fontWeight={400}
                                 sx={{ ml: 1 }}>{TRANSLATE_TERMS.VERIFIED_TEXT} </Typography>
                 </Grid>}

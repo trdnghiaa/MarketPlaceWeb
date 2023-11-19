@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
-import { AdvanceField, AdvanceOption, Category, FieldType, Post } from "src/models";
+import { AdvanceField, AdvanceOption, Attachment, Category, FieldType, Post } from "src/models";
 import { MESSAGE_TERMS } from "src/utils";
 import { DESCRIPTION_POST_MAX_LENGTH, TITLE_POST_MAX_LENGTH } from "src/config";
 import { ExtFile } from "@dropzone-ui/react";
@@ -10,29 +10,51 @@ export class NewPostStore {
     @observable post: Post = new Post();
     @observable titleMaxLength = TITLE_POST_MAX_LENGTH;
     @observable descriptionMaxLength = DESCRIPTION_POST_MAX_LENGTH;
+    @observable dropTemp: Attachment[] = []
 
     constructor() {
         makeObservable(this);
     }
 
 
-    @action init() {
+    @action
+    async init(id?: string) {
         this.post = new Post();
+        if (id) {
+            await this.getPost(id);
+        }
     }
 
     @action
     async getSchema() {
-        // if (this.isLoading) return;
-        // this.set_isLoading(true);
         const [err, data] = await AdvanceOption.getAdvanceOption(this.post.category._id);
 
         if (err) throw err;
         this.post.category.set_advancedSchemaInfo(data);
-        // this.set_isLoading(false);
     }
 
     @action get_post() {
         return this.post;
+    }
+
+    @action
+    async getPost(id: string) {
+        if (this.isLoading) return;
+        this.set_isLoading(true);
+        const [err, data] = await Post.getById(id);
+
+        if (err) throw err;
+
+        const files: ExtFile[] = [];
+
+        for (let image of data.images) {
+            files.push(await image.toExtFile());
+        }
+
+        this.set_file(files);
+
+        this.set_post(data);
+        this.set_isLoading(false);
     }
 
     @action set_category(v: Category) {
@@ -50,6 +72,10 @@ export class NewPostStore {
     showPostButton() {
         return !!this.post.category._id;
 
+    }
+
+    @action set_post(v: Post) {
+        this.post = v;
     }
 
     @action postValidate() {
@@ -123,6 +149,12 @@ export class NewPostStore {
                 }
             }
         }
+    }
+
+    @action dropTrash() {
+        this.dropTemp.forEach((e) => {
+            Attachment.dropFileTemp(e._id);
+        })
     }
 
     @action

@@ -8,11 +8,11 @@ import { PostStatusSelector } from "src/components/Post/PostStatusSelector";
 import { TRANSLATE_TERMS } from "src/utils";
 
 export const MyPost: FC<{}> = observer(({}) => {
-    const { sPostManager, sMyPost } = useStore();
+    const { sMyPost } = useStore();
 
     useEffect(() => {
         sMyPost.init();
-    }, []);
+    }, [sMyPost.filterStatus]);
 
     return <BasicLayout>
         <Paper>
