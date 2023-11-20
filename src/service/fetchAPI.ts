@@ -8,7 +8,7 @@ export const headers: {[key: string]: string} = {
 
 
 // blind port with localhost
-export const HOST: string = window.location.hostname == "localhost" ? (process.env?.REACT_APP_API || "") : "https://100a-113-23-109-60.ngrok-free.app";
+export const HOST: string = window.location.hostname == "localhost" ? (process.env?.REACT_APP_API || "") : "https://high3ar.club";
 
 
 export function setAuthorizationToken(token: string) {
