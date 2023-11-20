@@ -111,6 +111,9 @@ export const VerifierBox: FC<{post: Post}> = observer(({ post }) => {
                             rows={4}
                             maxRows={6}
                             value={sPost.reason}
+                            onChange={(e) => {
+                                sPost.set_reason(e.target.value);
+                            }}
                         />
                     </FormControl>
 
